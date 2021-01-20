@@ -1,0 +1,16 @@
+{
+
+  "permissions": {
+    "admin": [
+      "manager",
+      "admin"
+    ],
+    "manager": [
+      "manager"
+    ]
+  },
+  "expiration": {
+    "refreshTokenExpiresMs": "300000",
+    "accessTokenExpiresMs": "604800000"
+  }
+ }

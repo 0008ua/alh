@@ -1,0 +1,43 @@
+{
+  "name": "msh",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "csurf": "^1.11.0",
+    "date-fns": "^2.16.1",
+    "date-fns-tz": "^1.0.12",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.4",
+    "morgan": "~1.9.1",
+    "nconf": "^0.10.0",
+    "node-mailjet": "^3.3.1",
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "pug": "2.0.0-beta11",
+    "winston": "^3.3.3"
+  },
+  "main": "./server/bin/www",
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "eslint-config-google": "^0.14.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "engines": {
+    "node": "12.18.3",
+    "npm": "6.14.8"
+  }
+}

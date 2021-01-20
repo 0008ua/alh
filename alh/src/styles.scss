@@ -1,0 +1,23 @@
+.input-error {
+  font-size: 12px;
+  padding-left: 16px;
+}
+
+.date-label {
+  width: 100%;
+  display: flex !important;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin-top: var(--padding-bottom);
+  &__item {
+    flex: 1 1 auto;
+  }
+}
+
+.active-link {
+  color: var(--ion-color-secondary) !important;
+}
+
+// .color-danger {
+//   color: var(--ion-color-primary);
+// }

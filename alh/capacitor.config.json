@@ -1,0 +1,13 @@
+{
+  "appId": "com.alittlehotel",
+  "appName": "alh",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "../public",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

@@ -1,0 +1,169 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Operator
+      <ng-container *ngIf="loading$ | async as loadiong"> Loading..</ng-container>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button contentId="main-content"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="8" offset-md="2">
+        <h2 class="ion-text-center">{{company?.companyName}}</h2>
+
+        <ion-list>
+          <ion-list-header>
+            <ion-label>
+              <h2>Users</h2>
+            </ion-label>
+            <ion-button (click)="add()">New operator</ion-button>
+          </ion-list-header>
+
+          <ng-container *ngFor="let operator of operators">
+            <ion-item-sliding *ngIf="operator._id !== user._id">
+              <ion-item>
+                <ion-label>
+                  <ion-row>
+
+                    <ion-col class="ion-no-padding" size="4">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <h4>Login:</h4>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="ion-no-padding" size="8">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <ion-text color="primary">
+                            <p>
+                              {{operator.login}}
+                            </p>
+                          </ion-text>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col class="ion-no-padding" size="4">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <h4>Email:</h4>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="ion-no-padding" size="8">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <ion-text color="primary">
+                            <p>
+                              {{operator.email}}
+                            </p>
+                          </ion-text>
+                        </ion-label>
+                        <ion-button (click)="update(operator._id, 'email')">
+                          Update
+                        </ion-button>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col class="ion-no-padding" size="4">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <h4>Role:</h4>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="ion-no-padding" size="8">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <ion-text color="primary">
+                            <p>
+                              {{operator.role}}
+                            </p>
+                          </ion-text>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col class="ion-no-padding" size="4">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <h4>Blocked:</h4>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="ion-no-padding" size="8">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <ion-text color="primary">
+                            <p>
+                              {{!!operator.blocked}}
+                            </p>
+                          </ion-text>
+                        </ion-label>
+                        <ion-button (click)="blockUser(operator._id, !operator.blocked)">
+                          {{!!operator.blocked? 'Unblock' : 'Block'}}
+                        </ion-button>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col class="ion-no-padding" size="4">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <h4>Activated:</h4>
+                        </ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="ion-no-padding" size="8">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-label>
+                          <ion-text color="primary">
+                            <p>
+                              {{!!operator.activated}}
+                            </p>
+                          </ion-text>
+                        </ion-label>
+                        <ion-note slot="end">
+                          slide to delete
+                        </ion-note>
+                      </ion-item>
+                    </ion-col>
+                    <!--   <ion-col class="ion-no-padding" size="2">
+                      <ion-item class="ion-no-padding" lines="none">
+                        <ion-note slot="end">
+                          slide to delete
+                        </ion-note>
+                      </ion-item>
+                    </ion-col> -->
+                  </ion-row>
+                </ion-label>
+                <!-- <ion-note slot="end">
+                  slide to delete
+                </ion-note> -->
+              </ion-item>
+
+              <ion-item-options side="end">
+                <ion-item-option color="danger" (click)="presentAlert(operator._id, operator.login)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-item-option>
+              </ion-item-options>
+
+            </ion-item-sliding>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

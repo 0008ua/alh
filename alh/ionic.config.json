@@ -1,0 +1,7 @@
+{
+  "name": "alh",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

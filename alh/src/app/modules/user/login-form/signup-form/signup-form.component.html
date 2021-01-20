@@ -1,0 +1,93 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="signupForm" *ngIf="signupForm" #signupFormDirective="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="6" offset-md="3">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title class="ion-text-center">Signup</ion-card-title>
+              <ion-card-subtitle class="ion-text-center">
+                <a button color="primary" routerLink="/user/login">or Login</a>
+              </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-list>
+                <ion-item>
+                  <ion-icon class="ion-align-self-center" name="podium-outline" slot="start"></ion-icon>
+                  <ion-label position="floating">Company name</ion-label>
+                  <ion-input type="text" autocomplete autocorrect formControlName="companyName"></ion-input>
+                </ion-item>
+                <ion-text
+                  *ngIf="signupForm.get('companyName').touched && signupForm.get('companyName').errors && !signupForm.get('companyName').errors['unique']"
+                  class="input-error" color="danger">
+                  {{signupForm.get('companyName').errors | json}}
+                </ion-text>
+                <ion-item>
+                  <ion-icon class="ion-align-self-center" name="person-outline" slot="start"></ion-icon>
+                  <ion-label position="floating">Login</ion-label>
+                  <ion-input type="text" autocomplete autocorrect formControlName="login"></ion-input>
+                </ion-item>
+                <ion-text *ngIf="signupForm.get('login').touched && signupForm.get('login').errors" class="input-error"
+                  color="danger">
+                  {{signupForm.get('login').errors | json}}
+                </ion-text>
+                <ion-item>
+                  <ion-icon class="ion-align-self-center" name="mail-outline" slot="start"></ion-icon>
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input type="email" autocomplete autocorrect formControlName="email"></ion-input>
+                </ion-item>
+                <ion-text *ngIf="signupForm.get('email').touched && signupForm.get('email').errors" class="input-error"
+                  color="danger">
+                  {{signupForm.get('email').errors | json}}
+                </ion-text>
+                <ion-item lines="none">
+                  <ion-icon class="ion-align-self-center" name="lock-closed-outline" slot="start"></ion-icon>
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input [type]="inputType" autocomplete autocorrect formControlName="password"></ion-input>
+                  <ion-icon class="ion-align-self-center"
+                    [name]="inputType === 'password' ? 'eye-outline' : 'eye-off-outline'" slot="end"
+                    (click)=switchInputType()></ion-icon>
+                </ion-item>
+                <ion-text *ngIf="signupForm.get('password').touched && signupForm.get('password').errors"
+                  class="input-error" color="danger">
+                  {{signupForm.get('password').errors | json}}
+                </ion-text>
+                <ion-item lines="none">
+                  <ion-icon class="ion-align-self-center" name="reorder-two-outline" slot="start"></ion-icon>
+
+                  <ion-label position="floating">Password Confirm</ion-label>
+                  <ion-input [type]="inputType" autocomplete autocorrect formControlName="passwordConfirm"></ion-input>
+                  <ion-icon
+                    *ngIf="signupForm.get('passwordConfirm').status === 'VALID'"
+                    class="ion-align-self-center" [name]="'checkmark-done-outline'" color="primary" slot="end">
+                  </ion-icon>
+                </ion-item>
+                <ion-text *ngIf="signupForm.get('passwordConfirm').touched && signupForm.get('passwordConfirm').errors"
+                  class="input-error" color="danger">
+                  {{signupForm.get('passwordConfirm').errors | json}}
+                </ion-text>
+              </ion-list>
+            </ion-card-content>
+
+          </ion-card>
+
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" [disabled]="signupForm.status === 'INVALID' || signupForm.status === 'PENDING'"
+                (click)="formSubmitSubject$.next()">
+                Signup
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

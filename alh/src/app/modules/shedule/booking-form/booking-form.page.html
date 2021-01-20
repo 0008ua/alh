@@ -1,0 +1,286 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="mode === 'new' ? '/shedule': '/shedule/discover' + booking?._id">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>booking-form</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="bookingForm" #bookingFormDirective="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="6" offset-md="3">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{room?.name}}</ion-card-title>
+              <ion-card-subtitle>
+                <ion-text></ion-text>
+                <ion-text [color]="calculatedData?.balance >= 0 ? 'success': 'danger'">Balance:
+                  {{calculatedData?.balance}}</ion-text>
+
+
+
+                <!-- з {{bookingForm.get('dates').get('from').value | date: 'dd MMM'}} по
+                {{bookingForm.get('dates').get('to').value | date: 'dd MMM'}} -->
+              </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Price per night:</ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="primary">{{room?.price}}</ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Nights reserved:</ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="primary">{{calculatedData?.days}}</ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Status:</ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text [ngClass]="'status_' + calculatedData?.bookingStep">{{bookingSteps.get(calculatedData?.bookingStep)}}</ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Total price:</ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="primary">{{calculatedData?.bookingPrice}}</ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Discount:</ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="primary">{{bookingForm?.get('discount').value}}</ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Total paid:</ion-text>
+                </ion-col>
+                <ion-col>
+                  <ion-text color="primary">{{calculatedData?.totalPaid}}</ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+
+          <!-- <ion-item lines="none">
+                                              <ion-label class="date-label">
+
+                                                <ion-text class="date-label__item">
+                                                  From: {{bookingForm.get('dates').get('from').value | date: 'dd MMMM yyyy'}}
+                                                </ion-text>
+                                                <ion-text color="secondary" class="date-label__item">
+                                                  Available to: {{availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits' }}
+                                                </ion-text>
+                                              </ion-label>
+                                            </ion-item> -->
+          <ion-list lines="none" class="date-label">
+            <ion-item class="date-label__item">
+              <ion-label position="stacked">
+                From:
+              </ion-label>
+              {{bookingForm.get('dates').get('from').value | date: 'dd MMMM yyyy'}}
+            </ion-item>
+            <ion-item class="date-label__item">
+              <ion-label position="stacked">
+                Available to:
+              </ion-label>
+              <ion-text>
+                {{availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits' }}
+
+              </ion-text>
+            </ion-item>
+          </ion-list>
+
+          <ion-list lines="none" class="date-label">
+
+            <ion-item class="date-label__item" formGroupName="dates">
+              <ion-label position="stacked" color="primary">
+                To:
+              </ion-label>
+              <ion-datetime pickerFormat="DD-MMMM-YYYY" [min]="fromPlusOneDay" [max]="availableTo"
+                displayFormat="DD MMMM YYYY" placeholder="Select end date" formControlName="to"></ion-datetime>
+              <ion-text *ngIf="bookingForm.get('dates').get('to').errors" class="input-error" color="danger">
+                {{bookingForm.get('dates').get('to').errors | json}}
+              </ion-text>
+            </ion-item>
+
+            <ion-item class="date-label__item">
+              <ion-label>
+                <ion-button fill="outline" color="danger" (click)="presentAlert()">
+                  Cancel reservation
+                </ion-button>
+              </ion-label>
+            </ion-item>
+
+
+          </ion-list>
+
+
+
+
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating" color="primary">
+                Guest name
+              </ion-label>
+
+              <ion-input type="text" autocomplete autocorrect formControlName="guestName"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="bookingForm.get('guestName').errors" class="input-error" color="danger">
+              {{bookingForm.get('guestName').errors | json}}
+            </ion-text>
+
+            <ion-item>
+              <ion-label position="floating" color="primary">Guest phone</ion-label>
+              <ion-input type="text" autocomplete autocorrect formControlName="guestPhone"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="bookingForm.get('guestPhone').errors" class="input-error" color="danger">
+              {{bookingForm.get('guestPhone').errors | json}}
+            </ion-text>
+
+            <ion-item>
+              <ion-label position="floating" color="primary">Guest email</ion-label>
+              <ion-input type="email" autocomplete autocorrect formControlName="guestEmail"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="bookingForm.get('guestEmail').errors" class="input-error" color="danger">
+              {{bookingForm.get('guestEmail').errors | json}}
+            </ion-text>
+
+            <!-- <ion-item>
+                  <ion-label position="floating">Price</ion-label>
+                  <ion-input type="text" autocomplete autocorrect formControlName="price"></ion-input>
+                </ion-item>
+                <ion-text *ngIf="bookingForm.get('price').errors" class="input-error" color="danger">
+                  {{bookingForm.get('price').errors | json}}
+                </ion-text> -->
+
+
+
+            <!-- <ion-item>
+                  <ion-label position="stacked" color="primary">Booking step</ion-label>
+                  <ion-select placeholder="Select One" interface="popover" formControlName="bookingStep">
+                    <ion-select-option *ngFor="let bookingStep of bookingSteps">{{bookingStep}}</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-text *ngIf="bookingForm.get('bookingStep').errors" class="input-error" color="danger">
+                  {{bookingForm.get('bookingStep').errors | json}}
+                </ion-text> -->
+
+
+            <ion-item>
+              <ion-label position="floating" color="primary">Discount</ion-label>
+              <ion-input type="text" autocomplete autocorrect formControlName="discount"></ion-input>
+            </ion-item>
+            <ion-text *ngIf="bookingForm.get('discount').errors" class="input-error" color="danger">
+              {{bookingForm.get('discount').errors | json}}
+            </ion-text>
+          </ion-list>
+
+          <ion-list lines="none">
+            <ion-list-header>
+              <ion-label>Payments</ion-label>
+              <ion-button *ngIf="editPayment === null" (click)="addPaymentsArrayControlToBegin(); editPayments(0);">
+                Add</ion-button>
+              <ion-button *ngIf="editPayment !== null" [disabled]="bookingForm.get('payments').status === 'INVALID'"
+                (click)="editPayments(null)">Ok</ion-button>
+            </ion-list-header>
+            <ng-container *ngFor="let paymentsControl of bookingForm.get('payments')['controls']; let i= index"
+              formArrayName="payments">
+              <ng-container [formGroupName]="i">
+                <ion-item-sliding *ngIf="editPayment === null || editPayment !== i">
+                  <ion-item>
+                    <ion-label>
+                      <h2>Amount: <ion-text color="secondary">{{getPaymentsArrayControlAt(i).get('amount').value}}
+                        </ion-text>
+                      </h2>
+                      <p>Payment date: <ion-text color="secondary">
+                          {{getPaymentsArrayControlAt(i).get('date').value | date: 'dd MMM' }}</ion-text>
+                      </p>
+                      <p>Payment type: <ion-text color="secondary">
+                          {{getPaymentsArrayControlAt(i).get('paymentMethod').value}}</ion-text>
+                      </p>
+                    </ion-label>
+                    <ion-note slot="end">
+                      slide for options
+                    </ion-note>
+                  </ion-item>
+
+                  <ion-item-options side="start">
+                    <ion-item-option (click)="editPayments(i)">
+                      <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                  <ion-item-options side="end">
+                    <ion-item-option color="danger" (click)="removeArrayControl('payments', i)">
+                      <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+
+                <ion-list *ngIf="editPayment === i">
+
+                  <ion-item>
+                    <ion-label position="stacked" color="primary">Choose date</ion-label>
+                    <ion-datetime pickerFormat="DD-MMMM-YYYY" displayFormat="DD MMMM YYYY" placeholder="Select Month"
+                      formControlName="date"></ion-datetime>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label position="floating" color="primary">Amount</ion-label>
+                    <ion-input type="text" autocomplete autocorrect formControlName="amount"></ion-input>
+                  </ion-item>
+                  <ion-text *ngIf="getPaymentsArrayControlAt(i).get('amount').errors" class="input-error"
+                    color="danger">
+                    {{getPaymentsArrayControlAt(i).get('amount').errors | json}}
+                  </ion-text>
+
+                  <ion-item>
+                    <ion-label position="stacked" color="primary">Payment method</ion-label>
+                    <ion-select placeholder="Select One" interface="popover" formControlName="paymentMethod">
+                      <ion-select-option *ngFor="let paymentMethod of paymentMethods | keyvalue" [value]="paymentMethod.key">
+                        <span>{{paymentMethod.value}}</span>
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                  <ion-text *ngIf="getPaymentsArrayControlAt(i).get('paymentMethod').errors" class="input-error"
+                    color="danger">{{getPaymentsArrayControlAt(i).get('paymentMethod').errors | json}}
+                  </ion-text>
+                </ion-list>
+              </ng-container>
+            </ng-container>
+          </ion-list>
+          <ion-row>
+            <ion-col size="8">
+              <ion-button expand="block" fill="outline" (click)="onFormCancel()">
+                Cancel
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" [disabled]="bookingForm.status === 'INVALID'" (click)="onFormSubmit()">
+                Submit {{bookingForm.errors}}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

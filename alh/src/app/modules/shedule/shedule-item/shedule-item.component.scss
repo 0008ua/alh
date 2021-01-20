@@ -1,0 +1,47 @@
+ion-button {
+  --padding-start: 0px;
+  --padding-end: 0px;
+  // max-width: 70%;
+}
+
+.shedule-item {
+  height: 100%;
+  display: flex;
+  flex-flow: nowrap row;
+  align-items: center;
+
+  &__info {
+    height: 1.5em;
+    font-size: 13px;
+    font-weight: 500;
+    flex: 1 1 auto;
+
+    &_start {
+      border-radius: 10px 0 0 10px;
+      border-right: 0.5px lightgray solid;
+    }
+    &_ahead {
+      border-right: 0.5px lightgray solid;
+    }
+    &_end {
+      border-radius: 0 10px 10px 0;
+    }
+    &_preorder {
+      background-color: var(--ion-color-warning);
+    }
+    &_paid {
+      background-color: var(--ion-color-success);
+    }
+    &_reserved {
+      background-color: var(--ion-color-primary);
+    }
+    &_cancelled {
+      background-color: var(--ion-color-warning);
+    }
+  }
+  &__date {
+    position: absolute;
+    left: 2px;
+    top: 2px;
+  }
+}

@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+            <ion-back-button [defaultHref]="'/shedule'">
+            </ion-back-button>
+      <!-- <ion-button routerLink="/shedule">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button> -->
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button [routerLink]="'/shedule/edit/' + booking?._id">
+        <ion-icon name="pencil-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>booking-details {{booking?.guestName}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>{{booking | json}}</div>
+</ion-content>

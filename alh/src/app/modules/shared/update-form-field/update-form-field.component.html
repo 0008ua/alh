@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{data.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="updateFormField" *ngIf="updateFormField" #updateFormFieldDirective="ngForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="6" offset-md="3">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title class="ion-text-center">{{data.subTitle}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list>
+                <ion-item lines="none">
+                  <ion-icon class="ion-align-self-center" [name]="data.iconName" slot="start"></ion-icon>
+                  <ion-label position="floating">{{data.inputLable}}</ion-label>
+                  <ion-input [type]="data.inputType || 'text'" autocomplete autocorrect formControlName="formControlName"></ion-input>
+                </ion-item>
+                <ng-container *ngIf="updateFormField.get('formControlName').touched && updateFormField.get('formControlName').errors">
+                  <ion-text *ngFor="let error of errorMapping(updateFormField.get('formControlName').errors)" class="input-error" color="danger">
+                    {{error}}
+                  </ion-text>
+                </ng-container>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+          <ion-row>
+            <ion-col size="8">
+              <ion-button expand="block"
+                [disabled]="updateFormField.status === 'INVALID' || updateFormField.status === 'PENDING'"
+                (click)="formSubmitSubject$.next()">
+                Ok
+              </ion-button>
+            </ion-col>
+            <ion-col size="4">
+              <ion-button expand="block" (click)="dismiss()">
+                Cancel
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

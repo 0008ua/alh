@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button contentId="main-content"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <h2 class="ion-text-center">Profile</h2>
+        <ion-list>
+          <ion-row>
+            <ion-col class="ion-no-padding" size="4">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <h4>Login:</h4>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-no-padding" size="8">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <ion-text color="primary">
+                    <p>
+                      {{user.login}}
+                    </p>
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="ion-no-padding" size="4">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <h4>Email:</h4>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-no-padding" size="8">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <ion-text color="primary">
+                    <p>
+                      {{user.email}}
+                    </p>
+                  </ion-text>
+                </ion-label>
+                <ion-button (click)="updateEmail()">
+                  Update email
+                </ion-button>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="ion-no-padding" size="4">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <h4>Role:</h4>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-no-padding" size="8">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <ion-text color="primary">
+                    <p>
+                      {{user.role}}
+                    </p>
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="ion-no-padding" size="4">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <h4>Blocked:</h4>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-no-padding" size="8">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <ion-text color="primary">
+                    <p>
+                      {{!!user.blocked}}
+                    </p>
+                  </ion-text>
+                </ion-label>
+
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col class="ion-no-padding" size="4">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <h4>Activated:</h4>
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-no-padding" size="8">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <ion-text color="primary">
+                    <p>
+                      {{!!user.activated}}
+                    </p>
+                  </ion-text>
+                </ion-label>
+                <ion-button *ngIf="!user.activated" (click)="activate()">
+                  Activate
+                </ion-button>
+                <!-- <ion-input color="primary" [placeholder]="user.activated">
+                                    </ion-input>
+                                    <ion-button slot="end" (click)="add()">
+                                      <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+                                    </ion-button> -->
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+
+
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
