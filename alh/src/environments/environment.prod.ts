@@ -5,7 +5,7 @@ import {
 } from 'src/app/interface';
 
 export const environment = {
-  host: 'https://localhost:8084/',
+  host: 'https://alittlehotel.herokuapp.com/',
   production: true,
   paymentMethodsMap: new Map<PaymentMethods, string>(paymentMethods),
   bookingStepsMap: new Map<BookingSteps, string>(bookingSteps),
