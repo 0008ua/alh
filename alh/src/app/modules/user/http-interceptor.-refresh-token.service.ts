@@ -39,10 +39,10 @@ export class HttpInterceptorRefreshTokenService implements HttpInterceptor {
         }),
         catchError((err: HttpErrorResponse) => {
           // catched - some error
-          // console.log('some error catched', err);
+          console.log('some error catched', err);
           if (err.status === 401 && !this.refreshInProgress) {
             // catched access token error
-            // console.log('access token error - catched', err);
+            console.log('access token error - catched', err);
             this.refreshInProgress = true;
             return this.userService.deviceInfo().pipe(
                 switchMap((deviceInfo) => {

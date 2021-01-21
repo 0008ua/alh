@@ -27,7 +27,16 @@ router.get('/:entityName', storeController.getWithQuery);
 router.put('/:entityName/:_id',
   passport.authenticate('jwt', { session: false }),
   attachCompany_idMiddleware,
-  authorization('admin'),
-  storeController.update);
+  (req, res, next) => {
+    const entityName = req.params.entityName;
+    if (entityName === 'room') {
+      next();
+    } else {
+      return authorization('admin')(req, res, next);
+    }
+  },
+  // authorization('admin'),
+  storeController.update,
+  );
 
 module.exports.storeRoutes = router;

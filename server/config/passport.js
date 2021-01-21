@@ -100,7 +100,7 @@ passport.use('jwt-refresh',
         })
         .catch((err) => done(err, false));
     },
-  ),);
+  ));
 
 
 // login user after creation or change credentials

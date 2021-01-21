@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { State } from './store/reducers';
 import { GetUser, Logout } from './store/actions/user.actions';
+import { User } from './interface';
+import { getUser } from './store/reducers/user.reducer';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,8 @@ import { GetUser, Logout } from './store/actions/user.actions';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  user: User;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -37,6 +41,10 @@ export class AppComponent implements OnInit {
         ); */
 
     this.store.dispatch(new GetUser());
+    this.store.select(getUser)
+        .subscribe((user) => {
+          this.user = user;
+        });
   }
 
   initializeApp() {

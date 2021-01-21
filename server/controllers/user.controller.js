@@ -172,16 +172,17 @@ const login = (req, res, next) => {
     // res.locals.accessToken = accessToken;
     const cookieOptions = {
       httpOnly: true,
+      secure: true,
       maxAge: config.get('expiration').accessTokenExpiresMs,
       sameSite: 'Strict',
-      domain: config.get('DOMAIN'),
+      // domain: config.get('DOMAIN'),
       path: '/api/user/auth',
     };
-    // res.cookie(
-    //   'RT',
-    //   refreshToken,
-    //   cookieOptions,
-    // );
+    res.cookie(
+      'RT',
+      refreshToken,
+      cookieOptions,
+    );
     return res.status(200).json(accessToken);
   }
   return next(new ClientError({ message: 'Помилка авторизації', status: 401 }));
@@ -200,8 +201,10 @@ const logout = (req, res, next) => {
       req.logout();
       const cookieOptions = {
         httpOnly: true,
+        secure: true,
+
         sameSite: 'Strict',
-        domain: config.get('DOMAIN'),
+        // domain: config.get('DOMAIN'),
         path: '/api/user/auth',
       };
       res.clearCookie('RT', cookieOptions);

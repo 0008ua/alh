@@ -139,7 +139,8 @@ const update = (req, res, next) => {
     )
       // .then((updatedUser) => updateUserVersion(updatedUser))
       // .then((user) => res.status(200).json(normalizeUserObject(user)))
-      .then((user) => res.status(200).json())
+      .then((updatedUser) => updateUserVersion(updatedUser))
+      .then((_) => res.status(200).json())
       .catch((err) => next(err));
     break;
   case 'room':
