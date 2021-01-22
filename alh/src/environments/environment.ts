@@ -7,7 +7,7 @@ import { BookingStepExprs, bookingStepExprs, bookingSteps, BookingSteps,
   SortFields, sortOrders, SortOrders } from 'src/app/interface';
 
 export const environment = {
-  host: 'https://localhost:8084/',
+  host: '/',
   // host: 'https://10.0.2.2:8084/',
   production: false,
   paymentMethodsMap: new Map<PaymentMethods, string>(paymentMethods),
