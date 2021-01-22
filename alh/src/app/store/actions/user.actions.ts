@@ -2,16 +2,15 @@ import { Action } from '@ngrx/store';
 import { Company, User } from '../../interface';
 
 export enum UserActionTypes {
-  getUser = '[User] Get user',
-  getCompanyByUser = '[User] Get company by user',
-  logout = '[User] Logout',
-  logoutOnFront = '[User] LogoutOnFront',
-  login = '[User] Login',
-  companyAuthenticated = '[User] Company Authenticated',
-  authenticated = '[User] Authenticated',
-  notAuthenticated = '[User] Not Authenticated',
-  redirection = '[User] Redirection',
-  authError = '[User] Error',
+  GetUser = '[User] Get user',
+  GetCompanyByUser = '[User] Get company by user',
+  LogoutOnFront = '[User] LogoutOnFront',
+
+  CompanyAuthenticated = '[User] Company Authenticated',
+  Authenticated = '[User] Authenticated',
+  NotAuthenticated = '[User] Not Authenticated',
+  Redirection = '[User] Redirection',
+  AuthError = '[User] Error',
 
   UpdateUser = '[User] Update user',
   UpdateUserSuccess = '[User] Update user success',
@@ -19,59 +18,67 @@ export enum UserActionTypes {
 
   ActivateUser = '[User] Activate user',
 
+  Login = '[User] Login',
+  LoginSuccess = '[User] Login Success',
+  LoginFail = '[User] Login Fail',
+
+  Logout = '[User] Logout',
 }
 
 // Get User AuthState
 export class GetUser implements Action {
-  readonly type = UserActionTypes.getUser;
+  readonly type = UserActionTypes.GetUser;
   constructor(public payload?: string ) { }
 }
 
 export class GetCompanyByUser implements Action {
-  readonly type = UserActionTypes.getCompanyByUser;
+  readonly type = UserActionTypes.GetCompanyByUser;
 }
 
 export class CompanyAuthenticated implements Action {
-  readonly type = UserActionTypes.companyAuthenticated;
+  readonly type = UserActionTypes.CompanyAuthenticated;
   constructor(public payload: { company: Company }) { }
 }
 
 export class Authenticated implements Action {
-  readonly type = UserActionTypes.authenticated;
+  readonly type = UserActionTypes.Authenticated;
   constructor(public payload: { user: User }) { }
 }
 
 export class NotAuthenticated implements Action {
-  readonly type = UserActionTypes.notAuthenticated;
-  // constructor(public payload: { redirectionUrl: string }) { }
+  readonly type = UserActionTypes.NotAuthenticated;
 }
 
 export class Redirection implements Action {
-  readonly type = UserActionTypes.redirection;
+  readonly type = UserActionTypes.Redirection;
   constructor(public payload?: { redirectionUrl: string }) { }
 }
 
 export class AuthError implements Action {
-  readonly type = UserActionTypes.authError;
-  // constructor(public payload?: any) { }
+  readonly type = UserActionTypes.AuthError;
 }
 
-// // Google Login Actions
-// export class GoogleLogin implements Action {
-//   readonly type = UserActionTypes.googleLogin;
-//   constructor(public payload?: any) { }
-// }
 export class Login implements Action {
-  readonly type = UserActionTypes.login;
+  readonly type = UserActionTypes.Login;
+  constructor(public payload: { user: User }) { }
+}
+
+export class LoginSuccess implements Action {
+  readonly type = UserActionTypes.LoginSuccess;
   constructor(public payload: { token: string, redirectionUrl?: string }) { }
 }
 
+export class LoginFail implements Action {
+  readonly type = UserActionTypes.LoginFail;
+  constructor(public payload?: any) { }
+}
+
 export class Logout implements Action {
-  readonly type = UserActionTypes.logout;
+  readonly type = UserActionTypes.Logout;
 }
 
 export class LogoutOnFront implements Action {
-  readonly type = UserActionTypes.logoutOnFront;
+  readonly type = UserActionTypes.LogoutOnFront;
 }
 
 export class ActivateUser implements Action {
@@ -83,14 +90,9 @@ export class UpdateUser implements Action {
   readonly type = UserActionTypes.UpdateUser;
   constructor(public payload: Partial<User> & Required<{_id: string}>) { }
 }
-
-export class UpdateUserSuccess implements Action {
-  readonly type = UserActionTypes.UpdateUserSuccess;
-  // constructor(public payload: User) { }
-}
-
 export class UpdateUserFail implements Action {
   readonly type = UserActionTypes.UpdateUserFail;
+  constructor(public payload?: any) { }
 }
 
 export type UserActions
@@ -104,6 +106,7 @@ export type UserActions
   | Logout
   | LogoutOnFront
   | Login
+  | LoginSuccess
+  | LoginFail
   | UpdateUser
-  | UpdateUserSuccess
   | UpdateUserFail;

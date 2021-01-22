@@ -16,11 +16,6 @@ export const initialState: UserState = {
   company: null,
   loading: false,
   redirectionUrl: null,
-  // {
-  //   login: null,
-  //   email: null,
-  //   loading: false,
-  // },
 };
 
 export function reducer(state = initialState, action: UserActions): UserState {
@@ -29,39 +24,26 @@ export function reducer(state = initialState, action: UserActions): UserState {
   switch (action.type) {
     // fires and then effect fires on same action to fetch data
     // here is only for set loading to true (e. g. to show spinner)
-    case UserActionTypes.getUser:
+    case UserActionTypes.GetUser:
       return { ...state, loading: true };
 
-    case UserActionTypes.getCompanyByUser:
+    case UserActionTypes.GetCompanyByUser:
       return { ...state };
 
-    case UserActionTypes.companyAuthenticated:
+    case UserActionTypes.CompanyAuthenticated:
       return { ...state, company: action.payload.company, loading: false };
 
-    case UserActionTypes.authenticated:
+    case UserActionTypes.Authenticated:
       return { ...state, user: { ...action.payload.user }, redirectionUrl: null, loading: false };
 
-    case UserActionTypes.notAuthenticated:
+    case UserActionTypes.NotAuthenticated:
       return { ...state, user: initialState.user, company: initialState.company, redirectionUrl: '/user/login', loading: false };
 
-    case UserActionTypes.redirection:
+    case UserActionTypes.Redirection:
       return { ...state, redirectionUrl: action.payload.redirectionUrl };
 
-      // case UserActionTypes.googleLogin:
-      //   return { ...state, user: { ...state.user, loading: true } };
-
-    case UserActionTypes.authError:
+    case UserActionTypes.AuthError:
       return { ...state, user: initialState.user, company: initialState.company, redirectionUrl: '/user/login', loading: false };
-
-    case UserActionTypes.UpdateUserSuccess:
-      return { ...state };
-
-    case UserActionTypes.UpdateUserFail:
-      return { ...state };
-
-
-      // case UserActionTypes.logout:
-      //   return { ...state, user: { ...state.user, loading: true } };
 
     default:
       return state;

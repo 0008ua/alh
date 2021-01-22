@@ -24,11 +24,13 @@ router.get('/get-available-date-to',
 
 router.put('/upsert-booking',
   passport.authenticate('jwt', { session: false }),
+  helpers.denyBlockedUsers,
   helpers.checkBookingBelongsToCompanyMiddleware,
   reservationController.upsertBooking);
 
 router.delete('/delete-booking/:_id',
   passport.authenticate('jwt', { session: false }),
+  helpers.denyBlockedUsers,
   reservationController.remove);
 
 // router.get('/create-reservations', reservationController.createCompanies);

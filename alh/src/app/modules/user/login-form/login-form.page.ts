@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { User } from 'src/app/interface';
+import { Login } from 'src/app/store/actions/user.actions';
+import { State } from 'src/app/store/reducers';
 import { UserService } from '../user.service';
 
 @Component({
@@ -17,6 +20,7 @@ export class LoginFormPage implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
+    private store: Store<State>,
   ) { }
 
   ngOnInit() {
@@ -59,11 +63,14 @@ export class LoginFormPage implements OnInit {
       login: this.loginForm.get('login').value,
       password: this.loginForm.get('password').value,
     };
-    this.userService.login(user)
-        .subscribe(
-            (_) => this.resetForm(),
-            (err) => console.log('login Error', err),
-        );
+
+    this.store.dispatch(new Login({user}));
+    this.resetForm();
+    // this.userService.login(user)
+    //     .subscribe(
+    //         (_) => this.resetForm(),
+    //         (err) => console.log('login Error', err),
+    //     );
   }
 
   resetForm() {

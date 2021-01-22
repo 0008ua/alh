@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
 import { State } from '../../store/reducers';
 import { UserService } from './user.service';
 import { environment } from 'src/environments/environment';
-import { Login, Logout, LogoutOnFront } from 'src/app/store/actions/user.actions';
+import { Login, LoginSuccess, Logout, LogoutOnFront } from 'src/app/store/actions/user.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -39,10 +39,10 @@ export class HttpInterceptorRefreshTokenService implements HttpInterceptor {
         }),
         catchError((err: HttpErrorResponse) => {
           // catched - some error
-          console.log('some error catched', err);
+          // console.log('some error catched', err);
           if (err.status === 401 && !this.refreshInProgress) {
             // catched access token error
-            console.log('access token error - catched', err);
+            // console.log('access token error - catched', err);
             this.refreshInProgress = true;
             return this.userService.deviceInfo().pipe(
                 switchMap((deviceInfo) => {
@@ -53,7 +53,7 @@ export class HttpInterceptorRefreshTokenService implements HttpInterceptor {
                     observe: 'response' as 'response',
                   };
                     // try to get tokens pair using refresh token
-                  console.log('try get tokens pair using refresh token');
+                  // console.log('try get tokens pair using refresh token');
                   return this.http.post<string>(
                       this.host + 'api/user/auth/generate-tokens',
                       {deviceInfo},
@@ -62,7 +62,7 @@ export class HttpInterceptorRefreshTokenService implements HttpInterceptor {
                       catchError((err: HttpErrorResponse) => {
                       // can't get new pair using refresh token
                       // logout and throw error
-                        console.log('error - wrong refresh token', err);
+                        // console.log('error - wrong refresh token', err);
                         this.refreshInProgress = false;
                         this.store.dispatch(new LogoutOnFront());
                         return throwError(err);
@@ -73,13 +73,13 @@ export class HttpInterceptorRefreshTokenService implements HttpInterceptor {
 
                 switchMap((refreshResult: HttpResponse<string>) => {
                   // got new access token result
-                  console.log('got new access token result');
+                  // console.log('got new access token result');
                   if (refreshResult.status === 200) {
                     // access token result status is 200,
                     // got new access token, try to connect protected with new access token
                     const token = refreshResult.body;
-                    this.store.dispatch(new Login({ token }));
-                    console.log('status 200, got access token, try to connect protected with new access token');
+                    this.store.dispatch(new LoginSuccess({ token }));
+                    // console.log('status 200, got access token, try to connect protected with new access token');
                     req = req.clone({
                       headers: req.headers.set('Authorization', refreshResult.body),
                     });
@@ -99,7 +99,7 @@ export class HttpInterceptorRefreshTokenService implements HttpInterceptor {
                     this.refreshInProgress = false;
                     // access token result status is not 200
                     // throw custom error, logout
-                    console.log('status is not 200 then throw custom error');
+                    // console.log('status is not 200 then throw custom error');
                     this.store.dispatch(new LogoutOnFront());
                     return throwError(new Error('get new tokens pair error, status not 200'));
                   }

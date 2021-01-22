@@ -3,7 +3,7 @@ const router = express.Router();
 const passport = require('../config/passport');
 const { userController } = require('../controllers');
 const { attachCompany_idMiddleware, attachCompanyLiteMiddleware,
-  authentication, authorization, generateTokens } = require('../helpers');
+  authentication, authorization, denyBlockedUsers } = require('../helpers');
 
 const midleware = (req, res, next) => {
   console.log('req.body midleware', req.body);
@@ -28,6 +28,7 @@ router.post('/create-company-user',
 
 router.put('/updateUser/:_id',
   passport.authenticate('jwt', { session: false }),
+  denyBlockedUsers,
   userController.updateUser,
 );
 

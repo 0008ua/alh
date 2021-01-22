@@ -26,18 +26,18 @@ ion-button {
     &_end {
       border-radius: 0 10px 10px 0;
     }
-    &_preorder {
-      background-color: var(--ion-color-warning);
-    }
-    &_paid {
-      background-color: var(--ion-color-success);
-    }
-    &_reserved {
-      background-color: var(--ion-color-primary);
-    }
-    &_cancelled {
-      background-color: var(--ion-color-warning);
-    }
+    // &_preorder {
+    //   background-color: var(--ion-color-warning);
+    // }
+    // &_paid {
+    //   background-color: var(--ion-color-success);
+    // }
+    // &_reserved {
+    //   background-color: var(--ion-color-primary);
+    // }
+    // &_cancelled {
+    //   background-color: var(--ion-color-warning);
+    // }
   }
   &__date {
     position: absolute;

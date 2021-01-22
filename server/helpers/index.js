@@ -17,6 +17,7 @@ const authentication = (req, res, next) => {
 const authorization = (restrictedRole) => {
   return (req, res, next) => {
     const usersRole = req.user._doc.role;
+    console.log('usersRole', usersRole);
     const permissions = config.get('permissions');
     if (usersRole in permissions) {
       if (permissions[usersRole].indexOf(restrictedRole) >= 0) {
@@ -29,6 +30,24 @@ const authorization = (restrictedRole) => {
     }
   };
 };
+
+const denyBlockedUsers = (req, res, next) => {
+  const blocked = req.user._doc.blocked;
+  if (req.user && !blocked) {
+    return next();
+  } else {
+    return next(new ClientError({ message: 'notAuthorized', status: 401 }));
+  }
+};
+
+const denySomeEntitiesForManager = (req, res, next) => {
+  const entityName = req.params.entityName;
+  if (entityName === 'room') {
+    next();
+  } else {
+    return authorization('admin')(req, res, next);
+  }
+}
 
 const attachCompany_idMiddleware = (req, res, next) => {
   // if (req.isAuthenticated()) {
@@ -383,6 +402,8 @@ const normalizeBookingObject = (booking) => {
 module.exports = {
   authentication,
   authorization,
+  denyBlockedUsers,
+  denySomeEntitiesForManager,
   attachCompany_idMiddleware,
   attachCompanyMiddleware,
   attachCompanyLiteMiddleware,

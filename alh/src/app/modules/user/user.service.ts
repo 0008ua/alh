@@ -16,7 +16,7 @@ import { Store } from '@ngrx/store';
 
 import { Company, CompanySignup, User } from '../../interface';
 import { State } from '../../store/reducers';
-import { Login, Logout, Redirection } from '../../store/actions/user.actions';
+import { Login, LoginSuccess, Logout, Redirection } from '../../store/actions/user.actions';
 import { redirectionUrl } from '../../store/reducers/user.reducer';
 import { environment } from 'src/environments/environment';
 
@@ -149,7 +149,7 @@ export class UserService {
     );
   }
 
-  login(user: User): Observable<void> {
+  login(user: User): Observable<string> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ export class UserService {
             {...user, deviceInfo},
             httpOptions,
         )),
-        map((token) => this.store.dispatch(new Login({token, redirectionUrl: '/'}))),
+        // map((token) => this.store.dispatch(new Login({token, redirectionUrl: '/'}))),
     );
   }
 
@@ -177,10 +177,11 @@ export class UserService {
         companySignup,
         httpOptions,
     ).pipe(
-        map((token) => this.store.dispatch(new Login({ token, redirectionUrl: '/' }))),
+        map((token) => this.store.dispatch(new LoginSuccess({ token, redirectionUrl: '/' }))),
     );
   }
 
+  
   createCompanyUser(user: User): Observable<void> {
     return this.getToken()
         .pipe(

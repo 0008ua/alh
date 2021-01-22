@@ -28,10 +28,12 @@ export class EntityToastService {
         );
 
     actions$
-        .pipe(ofType(UserActionTypes.UpdateUserSuccess, UserActionTypes.UpdateUserFail))
-        .subscribe((action: any) =>
-          this.presentToast(`Update user ${action.type}`),
-        );
+        .pipe(ofType(UserActionTypes.LoginFail))
+        .subscribe((action: any) => this.presentToast(`Wrong credentials`));
+
+    actions$
+        .pipe(ofType(UserActionTypes.UpdateUserFail))
+        .subscribe((action: any) => this.presentToast(`Update error`));
   }
 
   async presentToast(message: string) {

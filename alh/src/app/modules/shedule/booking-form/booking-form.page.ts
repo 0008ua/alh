@@ -4,10 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Booking, Room, UpdateOn } from 'src/app/interface';
+import { Booking, Room, UpdateOn, User } from 'src/app/interface';
 import { environment } from 'src/environments/environment';
 import { SheduleService } from '../../shedule/shedule.service';
 import * as fns from 'date-fns';
+import { Store } from '@ngrx/store';
+import { State } from 'src/app/store/reducers';
+import { getUser } from 'src/app/store/reducers/user.reducer';
 
 @Component({
   selector: 'app-booking-form',
@@ -15,6 +18,7 @@ import * as fns from 'date-fns';
   styleUrls: ['./booking-form.page.scss'],
 })
 export class BookingFormPage implements OnInit {
+  user: User;
   room: Room;
   booking: Booking;
   date: string;
@@ -28,6 +32,7 @@ export class BookingFormPage implements OnInit {
     bookingStep?: string;
   } = {};
   isCancelled = false;
+
 
   // oneDay = environment.constants.oneDay;
   bookingSteps = environment.bookingStepsMap;
@@ -44,6 +49,7 @@ export class BookingFormPage implements OnInit {
     private navController: NavController,
     private router: Router,
     private alertController: AlertController,
+    private store: Store<State>,
   ) { }
 
 
@@ -180,6 +186,11 @@ export class BookingFormPage implements OnInit {
     ).subscribe((_) => this.calcData(),
         (err) => console.log('error', err),
     );
+
+    this.store.select(getUser)
+        .subscribe((user) => {
+          this.user = user;
+        });
   }
 
   calcData() {
@@ -345,13 +356,13 @@ export class BookingFormPage implements OnInit {
         .subscribe((result) => {
           this.resetForm();
           // const url = booking._id ? '/shedule/discover/' + booking._id : '/shedule/discover/' + result.upserted[0]._id;
-          if (booking._id) {
+          // if (booking._id) {
           // edit
-            this.navController.back();
-          } else {
-            // new
-            this.router.navigateByUrl('/shedule/discover/' + result.upserted[0]._id);
-          }
+          this.navController.back();
+          // } else {
+          // new
+          //   this.router.navigateByUrl('/shedule/discover/' + result.upserted[0]._id);
+          // }
         },
         (err) => console.log('error', err.error));
   }

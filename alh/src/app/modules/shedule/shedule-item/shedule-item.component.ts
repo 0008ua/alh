@@ -20,7 +20,8 @@ export class SheduleItemComponent implements OnInit {
 
   bookingInfo(booking?: Booking) {
     if (booking) {
-      this.router.navigate(['/', 'shedule', 'discover', booking._id]);
+      // discover
+      this.router.navigate(['/', 'shedule', 'edit', booking._id]);
     } else {
       this.router.navigate(['/', 'shedule', 'new', this.room_id, this.date]);
     }

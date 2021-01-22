@@ -16,7 +16,7 @@ import { UserService } from '../../modules/user/user.service';
 export class UserEffects {
   @Effect()
   getUser: Observable<Action | Action[]> = this.actions$.pipe(
-      ofType(fromUserActions.UserActionTypes.getUser),
+      ofType(fromUserActions.UserActionTypes.GetUser),
       map((action: fromUserActions.GetUser) => action.payload),
       switchMap((payload) => this.userService.getUser().pipe(
           switchMap((user) => {
@@ -38,29 +38,8 @@ export class UserEffects {
   );
 
   @Effect()
-  activateUser: Observable<Action | Action[]> = this.actions$.pipe(
-      ofType(fromUserActions.UserActionTypes.ActivateUser),
-      map((action: fromUserActions.ActivateUser) => action.payload),
-      switchMap((payload) => this.userService.activateUser(payload).pipe(
-          mergeMap((token) => [new fromUserActions.Login({ token }), new fromUserActions.UpdateUserSuccess()]),
-          catchError((err) => of(new fromUserActions.UpdateUserFail())),
-      )),
-
-  );
-
-  @Effect()
-  updateUser: Observable<Action | Action[]> = this.actions$.pipe(
-      ofType(fromUserActions.UserActionTypes.UpdateUser),
-      map((action: fromUserActions.UpdateUser) => action.payload),
-      switchMap((payload) => this.userService.updateUser(payload).pipe(
-          mergeMap((token) => [new fromUserActions.Login({ token }), new fromUserActions.UpdateUserSuccess()]),
-          catchError((err) => of(new fromUserActions.UpdateUserFail())),
-      )),
-  );
-
-  @Effect()
   getCompanyByUser: Observable<Action | Action[]> = this.actions$.pipe(
-      ofType(fromUserActions.UserActionTypes.getCompanyByUser),
+      ofType(fromUserActions.UserActionTypes.GetCompanyByUser),
       switchMap((payload) => this.userService.getCompanyByUser().pipe(
           map((company) => {
             if (company) {
@@ -74,18 +53,50 @@ export class UserEffects {
       )),
   );
 
-  // @Effect()
-  // logout: Observable<Action | Action[]> = this.actions$.pipe(
-  //     ofType(fromUserActions.UserActionTypes.logout),
-  //     switchMap(() => this.userService.removeToken().pipe(
-  //         map((_) => new fromUserActions.GetUser('/user/login')),
-  //         catchError((err) => of(new fromUserActions.AuthError())),
-  //     )),
-  // );
+  @Effect()
+  activateUser: Observable<Action | Action[]> = this.actions$.pipe(
+      ofType(fromUserActions.UserActionTypes.ActivateUser),
+      map((action: fromUserActions.ActivateUser) => action.payload),
+      switchMap((payload) => this.userService.activateUser(payload).pipe(
+          map((token) => new fromUserActions.LoginSuccess({ token })),
+          catchError((err) => of(new fromUserActions.UpdateUserFail(err))),
+      )),
+  );
+
+  @Effect()
+  login: Observable<Action | Action[]> = this.actions$.pipe(
+      ofType(fromUserActions.UserActionTypes.Login),
+      map((action: fromUserActions.Login) => action.payload),
+      switchMap((payload) => this.userService.login(payload.user).pipe(
+          map((token) => new fromUserActions.LoginSuccess({ token, redirectionUrl: '/' })),
+          catchError((err) => of(new fromUserActions.LoginFail(err))),
+      )),
+  );
+
+  @Effect()
+  updateUser: Observable<Action | Action[]> = this.actions$.pipe(
+      ofType(fromUserActions.UserActionTypes.UpdateUser),
+      map((action: fromUserActions.UpdateUser) => action.payload),
+      switchMap((payload) => this.userService.updateUser(payload).pipe(
+          map((token) => new fromUserActions.LoginSuccess({ token })),
+          catchError((err) => of(new fromUserActions.UpdateUserFail(err))),
+
+      )),
+  );
+
+  @Effect()
+  loginSuccess: Observable<Action | Action[]> = this.actions$.pipe(
+      ofType(fromUserActions.UserActionTypes.LoginSuccess),
+      map((action: fromUserActions.LoginSuccess) => action.payload),
+      switchMap((payload) => this.userService.setToken(payload.token).pipe(
+          map((_) => new fromUserActions.GetUser(payload.redirectionUrl ? payload.redirectionUrl : null)),
+          catchError((err) => of(new fromUserActions.AuthError())),
+      )),
+  );
 
   @Effect()
   logout: Observable<Action | Action[]> = this.actions$.pipe(
-      ofType(fromUserActions.UserActionTypes.logout),
+      ofType(fromUserActions.UserActionTypes.Logout),
       switchMap(() => this.userService.logout().pipe(
           switchMap(() => this.userService.removeToken()),
           map((_) => new fromUserActions.GetUser('/user/login')),
@@ -95,35 +106,13 @@ export class UserEffects {
 
   @Effect()
   logoutOnFront: Observable<Action | Action[]> = this.actions$.pipe(
-    ofType(fromUserActions.UserActionTypes.logoutOnFront),
+      ofType(fromUserActions.UserActionTypes.LogoutOnFront),
       switchMap(() => this.userService.removeToken().pipe(
           map((_) => new fromUserActions.GetUser('/user/login')),
           catchError((err) => of(new fromUserActions.AuthError())),
       )),
   );
 
-  @Effect()
-  login: Observable<Action | Action[]> = this.actions$.pipe(
-      ofType(fromUserActions.UserActionTypes.login),
-      map((action: fromUserActions.Login) => action.payload),
-      switchMap((payload) => this.userService.setToken(payload.token).pipe(
-          map((_) => new fromUserActions.GetUser(payload.redirectionUrl ? payload.redirectionUrl : null)),
-          catchError((err) => of(new fromUserActions.AuthError())),
-      )),
-  );
-
-  // // companyUsers entity
-  // @Effect()
-  // getCompanyUsers: Observable<Action | Action[]> = this.actions$.pipe(
-  //     ofType(CompanyUserActionTypes.GetCompanyUsers),
-  //     map((action: GetCompanyUsers) => action.payload),
-  //     switchMap((payload) => this.userService.getCompanyUsers(payload.companyUsers_id).pipe(
-  //         map((users) => {
-  //           return new LoadCompanyUsers({ companyUsers: users });
-  //         }),
-  //     )),
-  //     catchError((err) => of(new CompanyUsersError(err))),
-  // );
 
   constructor(
     private actions$: Actions,

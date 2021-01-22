@@ -4,7 +4,7 @@ const { Types } = require('mongoose');
 const config = require('../config');
 const { ClientError, DbError, ServerError } = require('../errors');
 const { isCompanyNameUniqueHelper, createUserHelper, isLoginUniqueHelper,
-  isEmailUniqueHelper, checkDbResOkOne, checkDbResNModified, checkDbResDeleteCount,
+  isEmailUniqueHelper, checkDbResOkOne,
   normalizeUserObject, createJWT, updateUserVersion } = require('../helpers');
 const { CompanyModel, UserModel } = require('../models');
 

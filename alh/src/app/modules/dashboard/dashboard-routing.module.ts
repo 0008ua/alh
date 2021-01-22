@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthAdminGuard } from '../user/auth-admin.guard';
+import { AuthBlockedGuard } from '../user/auth-blocked.guard';
 
 import { AuthGuard } from '../user/auth.guard';
 
@@ -21,15 +22,10 @@ const routes: Routes = [
   {
     path: 'room',
     loadChildren: () => import('./room/room.module').then((m) => m.RoomPageModule),
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
+    canLoad: [AuthGuard, AuthBlockedGuard],
+    canActivate: [AuthGuard, AuthBlockedGuard],
   },
-  {
-    path: 'management',
-    loadChildren: () => import('./management/management.module').then((m) => m.ManagementPageModule),
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
-  },
+
   {
     path: '**',
     redirectTo: '',
