@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Booking, BookingQuery, RangeLimits, Room, User } from 'src/app/interface';
 import { Store } from '@ngrx/store';
 import * as fns from 'date-fns';
-import { SheduleService } from '../shedule/shedule.service';
+import { SheduleService } from '../../shedule/shedule.service';
 import { State } from 'src/app/store/reducers';
 // import { GetRoomsByDateRange } from 'src/app/store/actions/shedule.actions';
 import { Observable } from 'rxjs';

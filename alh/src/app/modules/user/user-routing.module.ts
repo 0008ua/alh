@@ -6,20 +6,12 @@ import { AuthGuard } from '../user/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'profile',
+    redirectTo: 'login',
     pathMatch: 'full',
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
   },
   {
     path: 'login',
     loadChildren: () => import('./login-form/login-form.module').then((m) => m.LoginFormPageModule),
-  },
-  {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( (m) => m.ProfilePageModule),
-    canLoad: [AuthGuard],
-    canActivate: [AuthGuard],
   },
   {
     path: '**',

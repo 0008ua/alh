@@ -25,7 +25,12 @@ const routes: Routes = [
     canLoad: [AuthGuard, AuthBlockedGuard],
     canActivate: [AuthGuard, AuthBlockedGuard],
   },
-
+  {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then((m) => m.ProfilePageModule),
+    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
   {
     path: '**',
     redirectTo: '',

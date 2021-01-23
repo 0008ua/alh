@@ -1,5 +1,5 @@
 <ion-app>
-  <ion-menu side="end" contentId="main-content">
+  <ion-menu side="end" contentId="dashboard-content">
     <ion-header>
       <ion-toolbar color="secondary">
         <ion-title>
@@ -9,20 +9,20 @@
     </ion-header>
     <ion-content>
       <ion-list lines="none">
-        <ion-menu-toggle contentId="main-content">
-          <ion-item button routerLink="/user/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+        <ion-menu-toggle contentId="dashboard-content">
+          <ion-item button routerLink="/dashboard/profile" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
             <ion-icon name="person-circle-outline" slot="start"></ion-icon>
             <ion-label>Profile</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-menu-toggle *ngIf="user?.role === 'admin'" contentId="main-content">
+        <ion-menu-toggle *ngIf="user?.role === 'admin'" contentId="dashboard-content">
           <ion-item button routerLink="/dashboard/operator" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{exact: true}">
             <ion-icon name="people-outline" slot="start"></ion-icon>
             <ion-label>Operator</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        <ion-menu-toggle *ngIf="!user?.blocked" contentId="main-content">
+        <ion-menu-toggle *ngIf="!user?.blocked" contentId="dashboard-content">
           <ion-item button routerLink="/dashboard/room" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
             <ion-icon name="business-outline" slot="start"></ion-icon>
             <ion-label>Room</ion-label>
@@ -34,7 +34,7 @@
             <ion-label>Management</ion-label>
           </ion-item>
         </ion-menu-toggle> -->
-        <ion-menu-toggle contentId="main-content">
+        <ion-menu-toggle contentId="dashboard-content">
           <ion-item button (click)="onLogout()">
             <ion-icon name="exit" slot="start"></ion-icon>
             <ion-label>Logout</ion-label>
@@ -43,5 +43,5 @@
       </ion-list>
     </ion-content>
   </ion-menu>
-  <ion-router-outlet id="main-content"></ion-router-outlet>
+  <ion-router-outlet id="dashboard-content"></ion-router-outlet>
 </ion-app>
