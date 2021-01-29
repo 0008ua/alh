@@ -84,12 +84,12 @@ const getAvailableDateTo = (req, res, next) => {
       '$match': {
         'users': new Types.ObjectId(user_id),
       },
-      // }, {
-      //   '$unwind': '$rooms',
-      // }, {
-      //   '$match': {
-      //     'rooms._id': new Types.ObjectId(room_id),
-      //   },
+    }, {
+      '$unwind': '$rooms',
+    }, {
+      '$match': {
+        'rooms._id': new Types.ObjectId(room_id),
+      },
     }, {
       '$lookup': {
         'from': 'bookings',
@@ -142,6 +142,7 @@ const getAvailableDateTo = (req, res, next) => {
       },
     },
   ]).then((result) => {
+    console.log('result', result);
     return res.status(200).json(result.length ? result[0].to : null);
   })
     .catch((err) => next(new DbError({ message: 'Помилка завантаження вільної дати to' })));
@@ -150,7 +151,6 @@ const getAvailableDateTo = (req, res, next) => {
 const getPayments = (req, res, next) => {
   const paymentQuery = JSON.parse(req.query.paymentQuery);
   const user_id = req.user._id + '';
-  console.log('paymentQuery', paymentQuery);
   const pipeline = new Pipeline();
   const pipelineOuter = new Pipeline();
   // room filter
@@ -269,7 +269,6 @@ const getPayments = (req, res, next) => {
   ])
 
     .then((result) => {
-      console.log('result', result);
       return res.status(200).json(result);
     })
     .catch((err) => {

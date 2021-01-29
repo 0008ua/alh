@@ -15,7 +15,7 @@
 }
 
 .active-link {
-  color: var(--ion-color-secondary) !important;
+  border-left: 8px solid var(--ion-color-secondary);
 }
 
 .status-color {

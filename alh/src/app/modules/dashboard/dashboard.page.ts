@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/interface';
 import { Logout } from 'src/app/store/actions/user.actions';
@@ -12,9 +13,11 @@ import { getUser } from 'src/app/store/reducers/user.reducer';
 })
 export class DashboardPage implements OnInit {
   user: User;
+  paneEnabled = false;
 
   constructor(
     private store: Store<State>,
+    private menuController: MenuController,
   ) { }
 
   ngOnInit() {
@@ -23,8 +26,16 @@ export class DashboardPage implements OnInit {
           this.user = user;
         });
   }
+  ionViewWillEnter() {
+    this.paneEnabled = true;
+    this.menuController.enable(true, 'dashboard-menu');
+  }
 
   onLogout() {
     this.store.dispatch(new Logout());
+  }
+
+  ionViewWillLeave() {
+    this.paneEnabled = false;
   }
 }
