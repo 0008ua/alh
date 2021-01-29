@@ -43,7 +43,7 @@ export interface DateRange {
   upper: number;
 }
 
-export interface RangeLimits {
+export interface DateRangeLimits {
   lower: string;
   upper: string;
 }
@@ -51,6 +51,20 @@ export interface RangeLimits {
 export interface Knobs {
   lower: number;
   upper: number;
+}
+
+export interface Payment {
+  _id: string;
+  date: string;
+  amount: number;
+  paymentMethod: PaymentMethods;
+  room_id?: string;
+}
+
+export interface PaymentQuery {
+  dateRangeLimits: DateRangeLimits | null;
+  room_id?: string | null;
+  paymentMethod?: string | null;
 }
 
 export interface Booking {
@@ -66,20 +80,14 @@ export interface Booking {
     from: string;
     to: string;
   };
-  payments:
-  {
-    _id: string;
-    date: string;
-    amount: number;
-    paymentMethod: PaymentMethods;
-  }[];
+  payments: Payment[];
   info?: string;
   totalPaid?: number; // virtuals
   balance?: number; // virtuals
 }
 
 export interface BookingQuery {
-  dateRange: RangeLimits | null;
+  dateRangeLimits: DateRangeLimits | null;
   room_id?: string | null;
   bookingStep?: {
     expr: string;
@@ -104,12 +112,12 @@ export interface Company {
   rooms: Room[];
 }
 
-export interface CompanyWithBookings {
-  _id: string;
-  companyName: string;
-  rooms: Room;
-  bookings: Booking[];
-}
+// export interface CompanyWithBookings {
+//   _id: string;
+//   companyName: string;
+//   rooms: Room;
+//   bookings: Booking[];
+// }
 
 export interface User {
   _id?: string;

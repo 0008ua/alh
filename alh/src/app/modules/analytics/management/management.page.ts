@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Booking, BookingQuery, RangeLimits, Room, User } from 'src/app/interface';
+import { Booking, BookingQuery, DateRangeLimits, Room, User } from 'src/app/interface';
 import { Store } from '@ngrx/store';
 import * as fns from 'date-fns';
 import { SheduleService } from '../../shedule/shedule.service';
@@ -106,7 +106,7 @@ export class ManagementPage implements OnInit {
 
   createBookingQuery(): BookingQuery {
     return <BookingQuery>{
-      dateRange: this.createRangeLimits(this.sheduleService.convertShortToDate(this.date)),
+      dateRangeLimits: this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.date)),
       room_id: this.room._id,
       bookingStep: this.bookingStep? {
         val: this.bookingStep,
@@ -154,16 +154,6 @@ export class ManagementPage implements OnInit {
               });
         }),
     );
-  }
-
-  createRangeLimits(date: Date): RangeLimits {
-    const daysInMonth = fns.getDaysInMonth(date);
-    const startOfMonth = fns.startOfMonth(date);
-    const endOfMonth = fns.add(startOfMonth, { days: daysInMonth - 1 });
-    return {
-      lower: this.sheduleService.convertDateToShort(startOfMonth),
-      upper: this.sheduleService.convertDateToShort(endOfMonth),
-    };
   }
 
   viewBooking(booking_id: string) {

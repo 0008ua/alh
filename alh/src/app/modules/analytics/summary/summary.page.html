@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Summary</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button contentId="analytics-content"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size-md="6" offset-md="3">
+          <ion-item lines="none">
+            <ion-label>Choose period</ion-label>
+            <ion-datetime pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxDate" placeholder="Select Month"
+              [(ngModel)]="date" (ionChange)="filter()"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-toggle slot="start" color="primary" #totalSold checked></ion-toggle>
+            <ion-label><h2>Total sold</h2></ion-label>
+            <ion-text slot="end" color="primary">{{calculatedData.rooms[0]?.analytics?.totalSold}}</ion-text>
+          </ion-item-divider>
+          <ng-container *ngIf="totalSold.checked">
+            <ion-item *ngFor="let room of calculatedData.rooms | slice:1" lines="none">
+              <ion-label><p>{{room.name}}</p></ion-label>
+              <ion-text slot="end" color="primary">{{room.analytics.totalSold}}</ion-text>
+            </ion-item>
+          </ng-container>
+        </ion-item-group>
+
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-toggle slot="start" color="primary" #totalPaid></ion-toggle>
+            <ion-label lines="none"><h2>Total paid</h2></ion-label>
+            <ion-text slot="end" color="primary">{{calculatedData.rooms[0]?.analytics?.totalPayments}}</ion-text>
+          </ion-item-divider>
+          <ng-container *ngIf="totalPaid.checked">
+            <ion-item *ngFor="let room of calculatedData.rooms | slice:1" lines="none">
+              <ion-label><p>{{room.name}}</p></ion-label>
+              <ion-text slot="end" color="primary">{{room.analytics.totalPayments}}</ion-text>
+            </ion-item>
+          </ng-container>
+        </ion-item-group>
+
+        <!-- <ion-item-group>
+          <ion-item-divider>
+            <ion-toggle slot="start" color="primary" #expectedPayments></ion-toggle>
+            <ion-label lines="none">Expected payments</ion-label>
+            <ion-text slot="end" color="primary">Value</ion-text>
+          </ion-item-divider>
+          <ng-container *ngIf="expectedPayments.checked">
+            <ion-item *ngFor="let room of calculatedData.rooms | slice:1" lines="none">
+              <ion-label>{{room.name}}</ion-label>
+              <ion-text slot="end" color="primary">{{room.analytics.totalSold}}</ion-text>
+            </ion-item>
+          </ng-container>
+        </ion-item-group> -->
+
+        <ion-item-group>
+          <ion-item-divider>
+            <ion-toggle slot="start" color="primary" #occupancy></ion-toggle>
+            <ion-label lines="none"><h2>Occupancy</h2>
+              <ion-progress-bar color="primary"
+                [value]="calculatedData.rooms[0]?.analytics?.totalRoomDays / calculatedData.rooms[0]?.analytics?.daysInMonth">
+              </ion-progress-bar>
+            </ion-label>
+            <ion-text slot="end" color="primary">
+              {{calculatedData.rooms[0]?.analytics?.totalRoomDays / calculatedData.rooms[0]?.analytics?.daysInMonth |
+              percent: '2.0-0'}}
+            </ion-text>
+
+
+          </ion-item-divider>
+          <ng-container *ngIf="occupancy.checked">
+            <ion-item *ngFor="let room of calculatedData.rooms | slice:1" lines="none">
+              <ion-label><p>{{room.name}}</p>
+                <ion-progress-bar color="primary" [value]="room.analytics.totalRoomDays / room.analytics.daysInMonth">
+                </ion-progress-bar>
+              </ion-label>
+
+              <ion-text slot="end" color="primary">{{room.analytics.totalRoomDays / room.analytics.daysInMonth |
+                percent: '2.0-0'}}
+              </ion-text>
+            </ion-item>
+          </ng-container>
+        </ion-item-group>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

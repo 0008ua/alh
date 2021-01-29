@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private store: Store<State>,
-
+    private renderer: Renderer2,
   ) {
     this.initializeApp();
   }
@@ -39,6 +39,9 @@ export class AppComponent implements OnInit {
             (protectedResult) => console.log('protectedResult', protectedResult),
             (err) => console.log('protectedError', err),
         ); */
+
+    // Manualy set light theme mode
+    this.renderer.setAttribute(document.body, 'color-theme', 'light');
 
     this.store.dispatch(new GetUser());
     this.store.select(getUser)
@@ -52,15 +55,5 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
-
-  onLogout() {
-    this.store.dispatch(new Logout());
-
-    // this.userService.logout()
-    //     .subscribe(
-    //         (_) => console.log('logout', _),
-    //         (err) => console.log('logout Error', err),
-    //     );
   }
 }

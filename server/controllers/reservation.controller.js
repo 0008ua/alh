@@ -84,17 +84,27 @@ const getAvailableDateTo = (req, res, next) => {
       '$match': {
         'users': new Types.ObjectId(user_id),
       },
-    }, {
-      '$unwind': '$rooms',
-    }, {
-      '$match': {
-        'rooms._id': new Types.ObjectId(room_id),
-      },
+      // }, {
+      //   '$unwind': '$rooms',
+      // }, {
+      //   '$match': {
+      //     'rooms._id': new Types.ObjectId(room_id),
+      //   },
     }, {
       '$lookup': {
         'from': 'bookings',
-        'let': {},
+        'let': { 'rooms': '$rooms' },
         'pipeline': [
+          {
+            '$match': {
+              '$expr': {
+                '$eq': [
+                  '$room_id',
+                  '$$rooms._id',
+                ],
+              },
+            },
+          },
           {
             '$match': {
               '$expr': {
@@ -131,8 +141,141 @@ const getAvailableDateTo = (req, res, next) => {
         '_id': 0,
       },
     },
-  ]).then((result) => res.status(200).json(result.length ? result[0].to : null))
+  ]).then((result) => {
+    return res.status(200).json(result.length ? result[0].to : null);
+  })
     .catch((err) => next(new DbError({ message: 'Помилка завантаження вільної дати to' })));
+};
+
+const getPayments = (req, res, next) => {
+  const paymentQuery = JSON.parse(req.query.paymentQuery);
+  const user_id = req.user._id + '';
+  console.log('paymentQuery', paymentQuery);
+  const pipeline = new Pipeline();
+  const pipelineOuter = new Pipeline();
+  // room filter
+  if (paymentQuery.room_id) {
+    // only selected room
+    pipeline
+      .addExprEq('$room_id', new Types.ObjectId(paymentQuery.room_id));
+    pipelineOuter
+      .addStage({
+        '$match': {
+          'room_id': new Types.ObjectId(paymentQuery.room_id),
+        },
+      });
+  } else {
+    // all company rooms
+    pipeline
+      .addExprIn('$room_id', '$$rooms._id');
+  }
+
+  // booking step filter
+  pipeline
+    .addExpr({ '$ne': ['$bookingStep', 'cancelled'] });
+
+  // unwind payments
+  pipeline
+    .addStage({
+      '$unwind': {
+        'path': '$payments',
+      },
+    });
+
+  pipelineOuter
+    .addStage({
+      '$unwind': {
+        'path': '$payments',
+      },
+    });
+
+  // date range filter
+  pipeline
+    .addExpr({
+      '$and': [
+        { '$gte': ['$payments.date', new Date(paymentQuery.dateRangeLimits.lower)] },
+        { '$lte': ['$payments.date', new Date(paymentQuery.dateRangeLimits.upper)] },
+      ],
+    });
+
+  pipelineOuter
+    .addExpr({
+      '$and': [
+        { '$gte': ['$payments.date', new Date(paymentQuery.dateRangeLimits.lower)] },
+        { '$lte': ['$payments.date', new Date(paymentQuery.dateRangeLimits.upper)] },
+      ],
+    });
+
+
+  pipelineOuter
+    .addStage({
+      '$addFields': { 'payments.room_id': '$room_id' },
+    });
+
+  pipelineOuter
+    .addStage({
+      '$project': {
+        '_id': 0,
+        'payments': 1,
+      },
+    });
+  pipelineOuter
+    .addStage( {
+      '$replaceRoot': {
+        'newRoot': '$payments',
+      },
+    });
+
+  return CompanyModel.aggregate([
+    {
+      '$match': {
+        'users': new Types.ObjectId(user_id),
+      },
+    },
+    {
+      '$lookup': {
+        'from': 'bookings',
+        'let': {
+          'rooms': '$rooms',
+        },
+        'pipeline': [
+          ...pipeline.value,
+        ],
+        'as': 'bookings',
+      },
+    },
+    {
+      '$unwind': {
+        'path': '$bookings',
+      },
+    },
+    {
+      '$replaceRoot': {
+        'newRoot': '$bookings',
+      },
+    },
+
+    ...pipelineOuter.value,
+
+    {
+      '$sort': { [paymentQuery.sort ? paymentQuery.sort.field : 'dates.from']: paymentQuery.sort ? paymentQuery.sort.order : 1 },
+    },
+    {
+      '$skip': paymentQuery.skip | 0,
+    },
+    {
+      '$limit': paymentQuery.limit ? paymentQuery.limit : Number.MAX_SAFE_INTEGER,
+    },
+  ])
+
+    .then((result) => {
+      console.log('result', result);
+      return res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log('err', err);
+      return next(new DbError({ message: 'Помилка завантаження резервувань' }));
+    });
 };
 
 const getBookings = (req, res, next) => {
@@ -170,14 +313,14 @@ const getBookings = (req, res, next) => {
       '$or': [
         {
           '$and': [
-            { '$gte': ['$dates.from', new Date(bookingQuery.dateRange.lower)] },
-            { '$lte': ['$dates.from', new Date(bookingQuery.dateRange.upper)] },
+            { '$gte': ['$dates.from', new Date(bookingQuery.dateRangeLimits.lower)] },
+            { '$lte': ['$dates.from', new Date(bookingQuery.dateRangeLimits.upper)] },
           ],
         },
         {
           '$and': [
-            { '$gte': ['$dates.to', new Date(bookingQuery.dateRange.lower)] },
-            { '$lte': ['$dates.to', new Date(bookingQuery.dateRange.upper)] },
+            { '$gte': ['$dates.to', new Date(bookingQuery.dateRangeLimits.lower)] },
+            { '$lte': ['$dates.to', new Date(bookingQuery.dateRangeLimits.upper)] },
           ],
         },
       ],
@@ -189,6 +332,11 @@ const getBookings = (req, res, next) => {
         'users': new Types.ObjectId(user_id),
       },
     },
+    // {
+    //   '$unwind': {
+    //     'path': '$rooms',
+    //   },
+    // },
     {
       '$lookup': {
         'from': 'bookings',
@@ -212,19 +360,117 @@ const getBookings = (req, res, next) => {
       },
     },
     {
-      '$sort': { [bookingQuery.sort? bookingQuery.sort.field : 'dates.from']: bookingQuery.sort? bookingQuery.sort.order: 1 },
+      '$sort': { [bookingQuery.sort ? bookingQuery.sort.field : 'dates.from']: bookingQuery.sort ? bookingQuery.sort.order : 1 },
     },
     {
       '$skip': bookingQuery.skip | 0,
     },
     {
-      '$limit': bookingQuery.limit ? bookingQuery.limit: Number.MAX_SAFE_INTEGER,
+      '$limit': bookingQuery.limit ? bookingQuery.limit : Number.MAX_SAFE_INTEGER,
     },
   ])
 
-    .then((result) => res.status(200).json(result))
+    .then((result) => {
+      return res.status(200).json(result);
+    })
     .catch((err) => next(new DbError({ message: 'Помилка завантаження резервувань' })));
 };
+
+// const getBookingsInRooms = (req, res, next) => {
+//   // dates - {date: {lower, upper}}
+//   // room_id - {room_id}
+//   // bookingStep - {bookingStep: {expr, val}}
+//   // sort
+//   // skip
+//   // limit
+//   const bookingQuery = JSON.parse(req.query.bookingQuery);
+//   const user_id = req.user._id + '';
+
+//   const pipeline = new Pipeline();
+
+//   // // room filter
+//   // if (bookingQuery.room_id) {
+//   //   // only selected room
+//   //   pipeline
+//   //     .addExprEq('$room_id', new Types.ObjectId(bookingQuery.room_id));
+//   // } else {
+//   // all company rooms
+//   pipeline
+//     .addExprEq('$room_id', '$$rooms._id');
+//   // }
+
+//   // booking step filter
+//   if (bookingQuery.bookingStep) {
+//     pipeline
+//       .addExpr({ [bookingQuery.bookingStep.expr]: ['$bookingStep', bookingQuery.bookingStep.val] });
+//   }
+
+//   // date range filter
+//   pipeline
+//     .addExpr({
+//       '$or': [
+//         {
+//           '$and': [
+//             { '$gte': ['$dates.from', new Date(bookingQuery.dateRangeLimits.lower)] },
+//             { '$lte': ['$dates.from', new Date(bookingQuery.dateRangeLimits.upper)] },
+//           ],
+//         },
+//         {
+//           '$and': [
+//             { '$gte': ['$dates.to', new Date(bookingQuery.dateRangeLimits.lower)] },
+//             { '$lte': ['$dates.to', new Date(bookingQuery.dateRangeLimits.upper)] },
+//           ],
+//         },
+//       ],
+//     });
+
+//   return CompanyModel.aggregate([
+//     {
+//       '$match': {
+//         'users': new Types.ObjectId(user_id),
+//       },
+//     },
+//     {
+//       '$unwind': {
+//         'path': '$rooms',
+//       },
+//     },
+//     {
+//       '$lookup': {
+//         'from': 'bookings',
+//         'let': {
+//           'rooms': '$rooms',
+//         },
+//         'pipeline': [
+//           ...pipeline.value,
+//         ],
+//         'as': 'bookings',
+//       },
+//     },
+//     {
+//       '$project': {
+//         _id: 0,
+//         bookings: 1,
+//         room: '$rooms',
+//       },
+//     },
+//     {
+//       '$sort': { [bookingQuery.sort ? bookingQuery.sort.field : 'dates.from']: bookingQuery.sort ? bookingQuery.sort.order : 1 },
+//     },
+//     {
+//       '$skip': bookingQuery.skip | 0,
+//     },
+//     {
+//       '$limit': bookingQuery.limit ? bookingQuery.limit : Number.MAX_SAFE_INTEGER,
+//     },
+//   ])
+
+//     .then((result) => {
+//       console.log('result', result);
+//       return res.status(200).json(result);
+//     })
+//     .catch((err) => next(new DbError({ message: 'Помилка завантаження резервувань' })));
+// };
 
 class Pipeline {
   constructor() {
@@ -239,6 +485,15 @@ class Pipeline {
         },
       },
     );
+  }
+
+  _addStage(stage) {
+    this.pipeline.push(stage);
+  }
+
+  addStage(stage) {
+    this._addStage(stage);
+    return this;
   }
 
   addExpr(expr) {
@@ -286,77 +541,11 @@ class Pipeline {
   }
 }
 
-// const getRoomsByDateRange = (req, res, next) => {
-//   const lower = req.query.lower;
-//   const upper = req.query.upper;
-//   const user_id = req.user._id + '';
-
-//   const pipeline = new Pipeline();
-//   pipeline
-//     .addExprEq('$room_id', '$$rooms_id');
-
-//   if (req.query.query) {
-//     const query = JSON.parse(req.query.query);
-//     pipeline
-//       .addExpr({ [query.filter.expr]: ['$' + query.field, query.filter.val] });
-//   }
-
-//   pipeline
-//     .addExpr({
-//       '$or': [
-//         {
-//           '$and': [
-//             { '$gte': ['$dates.from', new Date(lower)] },
-//             { '$lte': ['$dates.from', new Date(upper)] },
-//           ],
-//         },
-//         {
-//           '$and': [
-//             { '$gte': ['$dates.to', new Date(lower)] },
-//             { '$lte': ['$dates.to', new Date(upper)] },
-//           ],
-//         },
-//       ],
-//     });
-
-//   return CompanyModel.aggregate([
-//     {
-//       '$match': {
-//         'users': new Types.ObjectId(user_id),
-//       },
-//     }, {
-//       '$unwind': {
-//         'path': '$rooms',
-//       },
-//     },
-//     {
-//       '$lookup': {
-//         'from': 'bookings',
-//         'let': {
-//           'rooms_id': '$rooms._id',
-//         },
-//         'pipeline': [
-//           ...pipeline.value,
-//         ],
-//         'as': 'bookings',
-//       },
-//     },
-//     {
-//       '$project': {
-//         'users': 0,
-//       },
-//     },
-//   ])
-
-//     .then((result) => res.status(200).json(result))
-//     .catch((err) => next(new DbError({ message: 'Помилка завантаження резервувань' })));
-// };
-
 const upsertBooking = (req, res, next) => {
   const booking = helpers.normalizeBookingObject(req.body);
 
   BookingModel.updateOne(
-    { _id: booking._id, bookingStep: {'$ne': 'cancelled'} },
+    { _id: booking._id, bookingStep: { '$ne': 'cancelled' } },
     booking,
     { upsert: true },
   )
@@ -622,5 +811,7 @@ module.exports.reservationController = {
   getAvailableDateTo,
   upsertBooking,
   getBookings,
+  getPayments,
+  // getBookingsInRooms,
   remove,
 };

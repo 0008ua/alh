@@ -1,3 +1,30 @@
-<p>
-  analitycs
-</p>
+<ion-menu side="end" contentId="analytics-content">
+  <ion-header>
+    <ion-toolbar color="secondary">
+      <ion-title>
+        <h2>Analytics</h2>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list lines="none">
+      <ion-menu-toggle contentId="analytics-content">
+        <ion-item button routerLink="/analytics/summary" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">
+          <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+          <ion-label>Summary</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
+      <ion-menu-toggle contentId="analytics-content">
+        <ion-item button routerLink="/analytics/management" routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{exact: true}">
+          <ion-icon name="business-outline" slot="start"></ion-icon>
+          <ion-label>Management</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="analytics-content"></ion-router-outlet>

@@ -18,6 +18,16 @@ router.get('/get-bookings',
   // helpers.attachCompanyMiddleware,
   reservationController.getBookings);
 
+router.get('/get-payments',
+  passport.authenticate('jwt', { session: false }),
+  // helpers.attachCompanyMiddleware,
+  reservationController.getPayments);
+
+// router.get('/get-bookings-in-rooms',
+//   passport.authenticate('jwt', { session: false }),
+//   // helpers.attachCompanyMiddleware,
+//   reservationController.getBookingsInRooms);
+
 router.get('/get-available-date-to',
   passport.authenticate('jwt', { session: false }),
   reservationController.getAvailableDateTo);

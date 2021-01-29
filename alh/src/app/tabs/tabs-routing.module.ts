@@ -28,7 +28,7 @@ const routes: Routes = [
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('../modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
+        loadChildren: () => import('../modules/dashboard/dashboard.module').then((m) => m.DashboardPageModule),
         canLoad: [AuthGuard],
         canActivate: [AuthGuard],
       },

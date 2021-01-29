@@ -8,7 +8,7 @@ import { State } from 'src/app/store/reducers';
 import { getBookings } from 'src/app/store/reducers/shedule.reducer';
 import { getCompany } from 'src/app/store/reducers/user.reducer';
 
-import { Knobs, Room, RangeLimits, Booking } from '../../interface';
+import { Knobs, Room, DateRangeLimits, Booking } from '../../interface';
 import { SheduleService } from '../shedule/shedule.service';
 
 @Component({
@@ -82,7 +82,7 @@ export class ShedulePage implements OnInit {
     //   query: new Map([['bookingStep', { expr: '$ne', val: 'cancelled' }]]),
     // }));
     this.store.dispatch(new GetBookings({
-      dateRange: this.createRangeLimits(),
+      dateRangeLimits: this.createRangeLimits(),
       // room_id: '5fe1c0b762da9e35244e4db4',
       bookingStep: {
         expr: '$ne',
@@ -170,7 +170,7 @@ export class ShedulePage implements OnInit {
     // }));
 
     this.store.dispatch(new GetBookings({
-      dateRange: this.createRangeLimits(),
+      dateRangeLimits: this.createRangeLimits(),
       // room_id: '5fe1c0b762da9e35244e4db4',
       bookingStep: {
         expr: '$ne',
@@ -234,7 +234,7 @@ export class ShedulePage implements OnInit {
     this.knobChangedProgrammatically = true;
   }
 
-  createRangeLimits(): RangeLimits {
+  createRangeLimits(): DateRangeLimits {
     return {
       lower: this.range[0],
       upper: this.range[this.range.length - 1],
