@@ -69,7 +69,7 @@
                   <ion-label position="floating">Password Confirm</ion-label>
                   <ion-input [type]="inputType" autocomplete autocorrect formControlName="passwordConfirm"></ion-input>
                   <ion-icon
-                    *ngIf="signupForm.get('passwordConfirm').status === 'VALID'"
+                    *ngIf="signupForm.get('passwordConfirm').touched && signupForm.get('passwordConfirm').status === 'VALID'"
                     class="ion-align-self-center" [name]="'checkmark-done-outline'" color="primary" slot="end">
                   </ion-icon>
                 </ion-item>
