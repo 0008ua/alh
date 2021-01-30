@@ -4,6 +4,7 @@ import * as fns from 'date-fns';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GetBookings } from 'src/app/store/actions/shedule.actions';
+import { GetUser } from 'src/app/store/actions/user.actions';
 import { State } from 'src/app/store/reducers';
 import { getBookings } from 'src/app/store/reducers/shedule.reducer';
 import { getCompany } from 'src/app/store/reducers/user.reducer';
@@ -81,6 +82,8 @@ export class ShedulePage implements OnInit {
     //   dateRange: this.createRangeLimits(),
     //   query: new Map([['bookingStep', { expr: '$ne', val: 'cancelled' }]]),
     // }));
+    this.store.dispatch(new GetUser());
+
     this.store.dispatch(new GetBookings({
       dateRangeLimits: this.createRangeLimits(),
       // room_id: '5fe1c0b762da9e35244e4db4',
