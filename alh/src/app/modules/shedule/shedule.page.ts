@@ -46,15 +46,6 @@ export class ShedulePage implements OnInit {
     this.createRange(date);
     this.createSelectedRange(this.knobs);
 
-    // this.store.select(getBookings)
-    //     .subscribe(
-    //         (bookings) => {
-    //           this.bookings = bookings;
-    //           console.log('bookings', bookings);
-    //         },
-    //         (err) => console.log('load rooms err', err),
-    //     );
-
     this.store.select(getCompany)
         .subscribe(
             (company) => {
@@ -65,23 +56,9 @@ export class ShedulePage implements OnInit {
             },
             (err) => console.log('load rooms err', err),
         );
-
-    // this.store.select('shedule')
-    //     .subscribe(
-    //         (payload) => {
-    //           this.companyWithBookings = payload.companyWithBookings;
-    //           console.log('this.companyWithBookings', this.companyWithBookings);
-    //           // this.rooms = this.companyWithBookings.map((el) => el.rooms);
-    //         },
-    //         (err) => console.log('load rooms err', err),
-    //     );
   }
 
   ionViewWillEnter() {
-    // this.store.dispatch(new GetRoomsByDateRange({
-    //   dateRange: this.createRangeLimits(),
-    //   query: new Map([['bookingStep', { expr: '$ne', val: 'cancelled' }]]),
-    // }));
     this.store.dispatch(new GetUser());
 
     this.store.dispatch(new GetBookings({
@@ -130,47 +107,10 @@ export class ShedulePage implements OnInit {
     );
   }
 
-  // getBookings(room_id: string, date: string): Observable<Booking[]> {
-  //   return this.store.select('shedule').pipe(
-  //       map((payload) => {
-  //         return payload.companyWithBookings
-  //             .find((item) => {
-  //               return item.rooms._id === room_id;
-  //             })
-  //             ?.bookings
-  //             ?.map((booking: Booking) => {
-  //               if (fns.isEqual(new Date(date), new Date(booking.dates.from))) {
-  //                 return { ...booking, info: 'start' };
-  //               } else if (fns.isEqual(new Date(date), new Date(booking.dates.to))) {
-  //                 return { ...booking, info: 'end' };
-  //               } else if (
-  //                 fns.isAfter(new Date(date), new Date(booking.dates.from)) &&
-  //                 fns.isBefore(new Date(date), new Date(booking.dates.to))
-  //               ) {
-  //                 return { ...booking, info: 'ahead' };
-  //               } else {
-  //                 return;
-  //               }
-  //             })
-  //             .filter((booking) => booking)
-  //             .sort((a, b) => {
-  //               return new Date(a.dates.from).getTime() - new Date(b.dates.from).getTime();
-  //             })
-  //             .map((booking) => {
-  //               return booking;
-  //             });
-  //       }),
-  //   );
-  // }
-
   onMonthChange() {
     const date = new Date(this.pickedMonth);
     this.createRange(date);
     this.createSelectedRange({ lower: 0, upper: 9 });
-    // this.store.dispatch(new GetRoomsByDateRange({
-    //   dateRange: this.createRangeLimits(),
-    //   query: new Map([['bookingStep', {expr: '$ne', val: 'cancelled'}]]),
-    // }));
 
     this.store.dispatch(new GetBookings({
       dateRangeLimits: this.createRangeLimits(),

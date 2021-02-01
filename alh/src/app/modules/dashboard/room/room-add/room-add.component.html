@@ -43,11 +43,14 @@
           </ion-card>
 
           <ion-row>
-            <ion-col>
+            <ion-col size="8">
+              <ion-button (click)="dismiss()" expand="block" fill="outline">Cancel</ion-button>
+            </ion-col>
+            <ion-col size="4">
               <ion-button expand="block"
                 [disabled]="addRoomForm.status === 'INVALID' || addRoomForm.status === 'PENDING'"
                 (click)="this.onSignup()">
-                Signup
+                Add
               </ion-button>
             </ion-col>
           </ion-row>

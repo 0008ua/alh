@@ -100,20 +100,22 @@ export class SummaryPage implements OnInit, OnChanges {
         return;
       }
       this.calculatedData.rooms.push(room);
+
       const position = this.calculatedData.rooms.length - 1;
+      console.log('position', position);
       let totalSold = 0;
       let totalRoomDays = 0;
       let totalPayments = 0;
 
       this.payments.forEach((payment) => {
-        if (room._id === payment.room_id) {
+        if (room._id !== payment.room_id) {
           return;
         }
         totalPayments += payment.amount;
       });
 
       this.bookings.forEach((booking) => {
-        if (room._id === booking.room_id) {
+        if (room._id !== booking.room_id) {
           return;
         }
         const bookingTotalDays = fns.differenceInCalendarDays(
@@ -176,6 +178,7 @@ export class SummaryPage implements OnInit, OnChanges {
           daysInMonth,
           totalPayments,
         }};
+      console.log('this.calculatedData.rooms[position]', this.calculatedData.rooms[position]);
       totalSoldAll += totalSold;
       totalRoomDaysAll += totalRoomDays;
       totalPaymentsAll += totalPayments;

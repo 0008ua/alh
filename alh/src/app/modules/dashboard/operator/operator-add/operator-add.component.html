@@ -45,8 +45,7 @@
                     [name]="inputType === 'password' ? 'eye-outline' : 'eye-off-outline'" slot="end"
                     (click)=switchInputType()></ion-icon>
                 </ion-item>
-                <ion-text
-                  *ngIf="addOperatorForm.get('password').touched && addOperatorForm.get('password').errors"
+                <ion-text *ngIf="addOperatorForm.get('password').touched && addOperatorForm.get('password').errors"
                   class="input-error" color="danger">
                   {{addOperatorForm.get('password').errors | json}}
                 </ion-text>
@@ -70,13 +69,17 @@
           </ion-card>
 
           <ion-row>
-            <ion-col>
+            <ion-col size="8">
+              <ion-button (click)="dismiss()" expand="block" fill="outline">Cancel</ion-button>
+            </ion-col>
+            <ion-col size="4">
               <ion-button expand="block"
                 [disabled]="addOperatorForm.status === 'INVALID' || addOperatorForm.status === 'PENDING'"
                 (click)="formSubmitSubject$.next()">
-                Signup
+                Add
               </ion-button>
             </ion-col>
+
           </ion-row>
         </ion-col>
       </ion-row>
