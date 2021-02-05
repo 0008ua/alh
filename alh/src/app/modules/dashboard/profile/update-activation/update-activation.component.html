@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Activate email</ion-title>
+    <ion-title>{{'elements.button.activate' | translate}} email</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss(null)">close</ion-button>
+      <ion-button (click)="dismiss(null)">{{'elements.button.close' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -14,14 +14,15 @@
         <ion-col size-md="6" offset-md="3">
           <ion-card>
             <ion-card-header>
-              <ion-card-title class="ion-text-center">Activate email</ion-card-title>
-              <ion-card-subtitle class="ion-text-center">Please enter activation code from email</ion-card-subtitle>
+              <ion-card-title class="ion-text-center">{{'elements.button.activate' | translate}} email</ion-card-title>
+              <ion-card-subtitle class="ion-text-center">{{'modules.dashboard.profile.activationText' | translate}}
+              </ion-card-subtitle>
             </ion-card-header>
             <ion-card-content>
               <ion-list>
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="mail-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Code</ion-label>
+                  <ion-label position="floating">{{'modules.dashboard.profile.code' | translate}}</ion-label>
                   <ion-input type="number" autocomplete autocorrect formControlName="code"></ion-input>
                 </ion-item>
                 <ion-text *ngIf="activateEmailCodeForm.get('code').touched && activateEmailCodeForm.get('code').errors"
@@ -36,7 +37,7 @@
               <ion-button expand="block"
                 [disabled]="activateEmailCodeForm.status === 'INVALID' || activateEmailCodeForm.status === 'PENDING'"
                 (click)="activate()">
-                Activate
+                {{'elements.button.update' | translate}}
               </ion-button>
             </ion-col>
             <ion-col size="4">

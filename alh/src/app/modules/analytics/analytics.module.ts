@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AnalyticsPageRoutingModule } from './analytics-routing.module';
 
 import { AnalyticsPage } from './analytics.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,9 @@ import { AnalyticsPage } from './analytics.page';
     FormsModule,
     IonicModule,
     AnalyticsPageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
 
   declarations: [AnalyticsPage],

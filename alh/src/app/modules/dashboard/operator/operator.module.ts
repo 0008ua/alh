@@ -9,6 +9,7 @@ import { OperatorPageRoutingModule } from './operator-routing.module';
 import { OperatorPage } from './operator.page';
 import { OperatorAddComponent } from './operator-add/operator-add.component';
 import { SharedModule } from '../../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import { SharedModule } from '../../shared/shared.module';
     ReactiveFormsModule,
     OperatorPageRoutingModule,
     SharedModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
   declarations: [OperatorPage, OperatorAddComponent],
 })

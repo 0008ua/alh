@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Profile</ion-title>
+    <ion-title>{{'modules.dashboard.profile.title' | translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button menu="dashboard-menu"></ion-menu-button>
     </ion-buttons>
@@ -11,13 +11,13 @@
   <ion-grid>
     <ion-row>
       <ion-col size-md="6" offset-md="3">
-        <h2 class="ion-text-center">Profile</h2>
+        <h2 class="ion-text-center">{{company.companyName}}</h2>
         <ion-list>
           <ion-row>
             <ion-col class="ion-no-padding" size="4">
               <ion-item class="ion-no-padding" lines="none">
                 <ion-label>
-                  <h4>Login:</h4>
+                  <h4>{{'modules.dashboard.profile.login' | translate}}</h4>
                 </ion-label>
               </ion-item>
             </ion-col>
@@ -38,7 +38,7 @@
             <ion-col class="ion-no-padding" size="4">
               <ion-item class="ion-no-padding" lines="none">
                 <ion-label>
-                  <h4>Email:</h4>
+                  <h4>{{'modules.dashboard.profile.email' | translate}}</h4>
                 </ion-label>
               </ion-item>
             </ion-col>
@@ -52,7 +52,7 @@
                   </ion-text>
                 </ion-label>
                 <ion-button (click)="updateEmail()">
-                  Update email
+                  {{'elements.button.update' | translate}}
                 </ion-button>
               </ion-item>
             </ion-col>
@@ -62,7 +62,7 @@
             <ion-col class="ion-no-padding" size="4">
               <ion-item class="ion-no-padding" lines="none">
                 <ion-label>
-                  <h4>Role:</h4>
+                  <h4>{{'modules.dashboard.profile.role' | translate}}</h4>
                 </ion-label>
               </ion-item>
             </ion-col>
@@ -83,7 +83,7 @@
             <ion-col class="ion-no-padding" size="4">
               <ion-item class="ion-no-padding" lines="none">
                 <ion-label>
-                  <h4>Blocked:</h4>
+                  <h4>{{'modules.dashboard.profile.blocked' | translate}}</h4>
                 </ion-label>
               </ion-item>
             </ion-col>
@@ -92,7 +92,7 @@
                 <ion-label>
                   <ion-text color="primary">
                     <p>
-                      {{!!user.blocked}}
+                      {{'common.logic.' + !!user.blocked | translate}}
                     </p>
                   </ion-text>
                 </ion-label>
@@ -105,7 +105,7 @@
             <ion-col class="ion-no-padding" size="4">
               <ion-item class="ion-no-padding" lines="none">
                 <ion-label>
-                  <h4>Activated:</h4>
+                  <h4>{{'modules.dashboard.profile.activated' | translate}}</h4>
                 </ion-label>
               </ion-item>
             </ion-col>
@@ -114,12 +114,12 @@
                 <ion-label>
                   <ion-text color="primary">
                     <p>
-                      {{!!user.activated}}
+                      {{'common.logic.' + !!user.activated | translate}}
                     </p>
                   </ion-text>
                 </ion-label>
                 <ion-button *ngIf="!user.activated" (click)="activate()">
-                  Activate
+                  {{'elements.button.activate' | translate}}
                 </ion-button>
                 <!-- <ion-input color="primary" [placeholder]="user.activated">
                                     </ion-input>

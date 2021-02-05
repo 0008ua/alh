@@ -9,6 +9,8 @@ export interface UserState {
   company: Company | null,
   loading: boolean;
   redirectionUrl: string | null;
+  lang: string;
+  defaultLang: string;
 }
 
 export const initialState: UserState = {
@@ -16,12 +18,16 @@ export const initialState: UserState = {
   company: null,
   loading: false,
   redirectionUrl: null,
+  lang: 'en',
+  defaultLang: 'uk',
 };
 
 export function reducer(state = initialState, action: UserActions): UserState {
   // console.log('screen reducer');
 
   switch (action.type) {
+    case UserActionTypes.LoadLangSuccess:
+      return { ...state, lang: action.payload };
     // fires and then effect fires on same action to fetch data
     // here is only for set loading to true (e. g. to show spinner)
     case UserActionTypes.GetUser:
@@ -55,3 +61,4 @@ const featureSelector = createFeatureSelector<UserState>(userFeatureKey);
 export const getCompany = createSelector(featureSelector, (state) => state.company);
 export const getUser = createSelector(featureSelector, (state) => state.user);
 export const redirectionUrl = createSelector(featureSelector, (state) => state.redirectionUrl);
+export const getLang = createSelector(featureSelector, (state) => state.lang);

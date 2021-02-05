@@ -1,16 +1,17 @@
 <ion-tabs>
   <ion-tab-bar *ngIf="user" slot="bottom">
     <ion-tab-button tab="shedule">
-      <ion-label>Shedule</ion-label>
+      <ion-label>{{'modules.shedule.title' | translate}}</ion-label>
       <ion-icon name="calendar-outline"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="analytics">
-      <ion-label>Analytics</ion-label>
+      <ion-label>{{'modules.analytics.title' | translate}}</ion-label>
       <ion-icon name="analytics-outline"></ion-icon>
     </ion-tab-button>
     <ion-tab-button tab="dashboard">
-      <ion-label>Dashboard</ion-label>
+      <ion-label>{{'modules.dashboard.title' | translate}}</ion-label>
       <ion-icon name="file-tray-full-outline"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>
+<!-- {{'language' | translate}} -->
 </ion-tabs>

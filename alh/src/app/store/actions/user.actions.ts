@@ -2,6 +2,10 @@ import { Action } from '@ngrx/store';
 import { Company, User } from '../../interface';
 
 export enum UserActionTypes {
+  LoadLang = '[User] Load language',
+  LoadLangSuccess = '[User] Load language success',
+  LoadLangFail = '[User] Load language fail',
+
   GetUser = '[User] Get user',
   GetCompanyByUser = '[User] Get company by user',
   LogoutOnFront = '[User] LogoutOnFront',
@@ -23,6 +27,21 @@ export enum UserActionTypes {
   LoginFail = '[User] Login Fail',
 
   Logout = '[User] Logout',
+}
+
+export class LoadLang implements Action {
+  readonly type = UserActionTypes.LoadLang;
+  // constructor(public payload: { lang: string }) { }
+}
+
+export class LoadLangSuccess implements Action {
+  readonly type = UserActionTypes.LoadLangSuccess;
+  constructor(public payload: string) { }
+}
+
+export class LoadLangFail implements Action {
+  readonly type = UserActionTypes.LoadLangFail;
+  constructor(public payload?: any) { }
 }
 
 // Get User AuthState
@@ -96,7 +115,10 @@ export class UpdateUserFail implements Action {
 }
 
 export type UserActions
-  = GetUser
+  = LoadLang
+  | LoadLangSuccess
+  | LoadLangFail
+  | GetUser
   | GetCompanyByUser
   | CompanyAuthenticated
   | Authenticated

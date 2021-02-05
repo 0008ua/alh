@@ -8,6 +8,7 @@ import { ShedulePageRoutingModule } from './shedule-routing.module';
 
 import { ShedulePage } from './shedule.page';
 import { SheduleItemComponent } from './shedule-item/shedule-item.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { SheduleItemComponent } from './shedule-item/shedule-item.component';
     FormsModule,
     IonicModule,
     ShedulePageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
   declarations: [
     ShedulePage,

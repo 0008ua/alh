@@ -5,12 +5,15 @@ import { AlertController, NavController } from '@ionic/angular';
 import { Observable, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Booking, Room, UpdateOn, User } from 'src/app/interface';
+import * as fromInterface from 'src/app/interface';
+
 import { environment } from 'src/environments/environment';
 import { SheduleService } from '../../shedule/shedule.service';
 import * as fns from 'date-fns';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
 import { getUser } from 'src/app/store/reducers/user.reducer';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-booking-form',
@@ -33,10 +36,11 @@ export class BookingFormPage implements OnInit {
   } = {};
   isCancelled = false;
 
-
+  updated = true;
+  monthNames: any;
   // oneDay = environment.constants.oneDay;
-  bookingSteps = environment.bookingStepsMap;
-  paymentMethods = environment.paymentMethodsMap;
+  bookingSteps = fromInterface.bookingSteps;
+  paymentMethods = fromInterface.paymentMethods;
   editPayment: null | number = null;
   availableTo: null | string = null;
   fromPlusOneDay: string;
@@ -50,6 +54,7 @@ export class BookingFormPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private store: Store<State>,
+    private translate: TranslateService,
   ) { }
 
 
@@ -191,6 +196,19 @@ export class BookingFormPage implements OnInit {
         .subscribe((user) => {
           this.user = user;
         });
+
+    this.translate.stream('elements.datePicker.monthNames')
+        .subscribe((monthNames) => {
+        // reload select translation
+          this.updated = false;
+          this.monthNames = monthNames;
+          setTimeout(() => this.updated = true, 1);
+        });
+  }
+
+  ionViewWillEnter() {
+    this.updated = false;
+    setTimeout(() => this.updated = true, 1);
   }
 
   calcData() {

@@ -8,6 +8,7 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { RoomAddComponent } from './room-add/room-add.component';
 import { Observable } from 'rxjs';
 import { UpdateFormFieldComponent } from '../../shared/update-form-field/update-form-field.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room',
@@ -25,6 +26,7 @@ export class RoomPage implements OnInit {
     private store: Store<State>,
     public modalController: ModalController,
     public alertController: AlertController,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -51,9 +53,9 @@ export class RoomPage implements OnInit {
   async presentAlert(_id: string, name: string) {
     const alert = await this.alertController.create({
       // cssClass: 'my-custom-class',
-      header: 'Delete',
-      subHeader: 'room: ' + name,
-      message: 'Are you shure?',
+      header: this.translate.instant('elements.button.delete'),
+      subHeader: this.translate.instant('dif.room') + ': ' + name,
+      message: this.translate.instant('dif.sure'),
       buttons: [{
         text: 'Cancel',
         role: 'cancel',

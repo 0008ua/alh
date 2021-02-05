@@ -2,40 +2,29 @@ import { Type } from '@angular/core';
 import { AbstractControlOptions, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
-export const paymentMethods = [
-  ['cash', 'Cash'],
-  ['card', 'Card'],
-] as const;
-export type PaymentMethods = typeof paymentMethods[number][0];
+export const paymentMethods = ['cash', 'card'] as const;
+export type PaymentMethods = typeof paymentMethods[number];
 
-export const bookingSteps = [
-  [null, 'All'],
-  ['preorder', 'Preorder'],
-  ['reserved', 'Reserved'],
-  ['paid', 'Paid'],
-  ['cancelled', 'Cancelled'],
-] as const;
-export type BookingSteps = typeof bookingSteps[number][0];
+// export const bookingSteps = [
+//   [null, 'All'],
+//   ['preorder', 'Preorder'],
+//   ['reserved', 'Reserved'],
+//   ['paid', 'Paid'],
+//   ['cancelled', 'Cancelled'],
+// ] as const;
+// export type BookingSteps = typeof bookingSteps[number][0];
 
-export const bookingStepExprs = [
-  ['$eq', 'Equal'],
-  ['$ne', 'Not Equal'],
-] as const;
-export type BookingStepExprs = typeof bookingStepExprs[number][0];
+export const bookingSteps = [null, 'preorder', 'reserved', 'paid', 'cancelled'] as const;
+export type BookingSteps = typeof bookingSteps[number];
 
-export const sortOrders = [
-  [1, 'Ascending'],
-  [-1, 'Descending'],
-] as const;
-export type SortOrders = typeof sortOrders[number][0];
+export const bookingStepExprs = ['$eq', '$ne'] as const;
+export type BookingStepExprs = typeof bookingStepExprs[number];
 
-export const sortFields = [
-  ['bookingStep', 'Booking Step'],
-  ['dates.from', 'Date from'],
-  ['dates.to', 'Date to'],
-  ['price', 'Price'],
-] as const;
-export type SortFields = typeof sortFields[number][0];
+export const sortOrders = [1, -1] as const;
+export type SortOrders = typeof sortOrders[number];
+
+export const sortFields = ['bookingStep', 'dates.from', 'dates.to', 'price'] as const;
+export type SortFields = typeof sortFields[number];
 
 
 export interface DateRange {
@@ -112,13 +101,6 @@ export interface Company {
   rooms: Room[];
 }
 
-// export interface CompanyWithBookings {
-//   _id: string;
-//   companyName: string;
-//   rooms: Room;
-//   bookings: Booking[];
-// }
-
 export interface User {
   _id?: string;
   login: string;
@@ -130,6 +112,7 @@ export interface User {
   blocked?: boolean;
   uniqueId?: any;
   v?: number;
+  lang?: string;
 }
 
 export interface CompanySignup {

@@ -1,9 +1,9 @@
-<ion-split-pane contentId="analytics-content" [disabled]="!paneEnabled">
+<!-- <ion-split-pane contentId="analytics-content" [disabled]="!paneEnabled"> -->
   <ion-menu menuId="analytics-menu" side="end" contentId="analytics-content">
     <ion-header>
       <ion-toolbar color="secondary">
         <ion-title>
-          <h2>Analytics</h2>
+          <h2>{{'modules.analytics.title' | translate}}</h2>
         </ion-title>
       </ion-toolbar>
       <ion-toolbar color="secondary" class="ion-padding-bottom"></ion-toolbar>
@@ -14,7 +14,7 @@
           <ion-item button routerLink="/analytics/summary" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{exact: true}">
             <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-            <ion-label>Summary</ion-label>
+            <ion-label>{{'modules.analytics.summary.title' | translate}}</ion-label>
           </ion-item>
           <!-- </ion-menu-toggle>
 
@@ -22,7 +22,7 @@
           <ion-item button routerLink="/analytics/management" routerLinkActive="active-link"
             [routerLinkActiveOptions]="{exact: true}">
             <ion-icon name="business-outline" slot="start"></ion-icon>
-            <ion-label>Management</ion-label>
+            <ion-label>{{'modules.analytics.management.title' | translate}}</ion-label>
           </ion-item>
         </ion-menu-toggle>
 

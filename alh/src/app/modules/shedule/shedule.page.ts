@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import * as fns from 'date-fns';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -7,7 +8,7 @@ import { GetBookings } from 'src/app/store/actions/shedule.actions';
 import { GetUser } from 'src/app/store/actions/user.actions';
 import { State } from 'src/app/store/reducers';
 import { getBookings } from 'src/app/store/reducers/shedule.reducer';
-import { getCompany } from 'src/app/store/reducers/user.reducer';
+import { getCompany, getLang } from 'src/app/store/reducers/user.reducer';
 
 import { Knobs, Room, DateRangeLimits, Booking } from '../../interface';
 import { SheduleService } from '../shedule/shedule.service';
@@ -24,6 +25,9 @@ export class ShedulePage implements OnInit {
   selectedRange: string[] = [];
   selectedRangeKnobs: Knobs;
   rangeKnobs: Knobs;
+  lang: string;
+  updated = true;
+  monthNames: any;
 
   daysInSelectedArray = 10;
   knobs: Knobs = {
@@ -39,6 +43,8 @@ export class ShedulePage implements OnInit {
   constructor(
     public store: Store<State>,
     private sheduleService: SheduleService,
+    public translate: TranslateService,
+
   ) { }
 
   ngOnInit() {
@@ -46,16 +52,29 @@ export class ShedulePage implements OnInit {
     this.createRange(date);
     this.createSelectedRange(this.knobs);
 
+    this.translate.stream('elements.datePicker.monthNames')
+        .subscribe((monthNames) => {
+          // reload ion-datetime translation
+          this.updated = false;
+          this.monthNames = monthNames;
+          setTimeout(() => this.updated = true, 1);
+        });
+
     this.store.select(getCompany)
         .subscribe(
             (company) => {
               if (company) {
                 this.rooms = company.rooms;
               }
-              console.log('rooms', this.rooms);
             },
             (err) => console.log('load rooms err', err),
         );
+
+    this.lang = this.translate.currentLang;
+    // this.store.select(getLang)
+    //     .subscribe((lang) => {
+    //       this.lang = lang;
+    //     });
   }
 
   ionViewWillEnter() {
@@ -72,6 +91,10 @@ export class ShedulePage implements OnInit {
       // skip: 1,
       // limit: 10,
     }));
+
+    // reload ion-datetime translation
+    this.updated = false;
+    setTimeout(() => this.updated = true, 1);
   }
 
   getBookings(room_id: string, date: string): Observable<Booking[]> {
@@ -133,11 +156,10 @@ export class ShedulePage implements OnInit {
       this.knobChangedProgrammatically = false;
       return;
     }
-    const lower = this.range[this.knobs.lower];
-    const upper = this.range[this.knobs.upper];
+    // const lower = this.range[this.knobs.lower];
+    // const upper = this.range[this.knobs.upper];
 
     if (this.knobs.lower !== this.selectedRangeKnobs.lower) {
-      console.log('take lower', lower);
       if (this.knobs.lower < 0) {
         this.knobs = {
           lower: 0,
@@ -155,7 +177,6 @@ export class ShedulePage implements OnInit {
         };
       }
     } else {
-      console.log('take upper', upper);
       if (this.knobs.upper > this.rangeKnobs.upper) {
         this.knobs = {
           lower: this.rangeKnobs.upper - this.daysInSelectedArray - 1,
@@ -206,6 +227,11 @@ export class ShedulePage implements OnInit {
       lower: knobs.lower,
       upper: knobs.upper,
     };
+  }
+
+  switchLanguage() {
+    this.lang === 'en' ? this.lang = 'uk' : this.lang = 'en';
+    this.translate.use(this.lang);
   }
 }
 

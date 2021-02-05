@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UpdateFormFieldComponent } from './update-form-field.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -11,6 +12,9 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     ReactiveFormsModule,
     IonicModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
 })
 export class UpdateFormFieldModule { }

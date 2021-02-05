@@ -93,18 +93,18 @@ export class OperatorPage implements OnInit {
         (err) => console.log('update error', err));
   }
 
-  async update(_id: string, field: OperatorFormFields) {
-    const { data } = await this.presentModal(UpdateFormFieldComponent, { data: this.operatorService.formFieldOptions(field) });
-    if (data) {
-      this.operatorService.update({
-        _id,
-        [field]: data,
-      }).subscribe(
-          (result) => console.log('update result', result),
-          (err) => console.log('update error', err),
-      );
-    }
-  }
+  // async update(_id: string, field: OperatorFormFields) {
+  //   const { data } = await this.presentModal(UpdateFormFieldComponent, { data: this.operatorService.formFieldOptions(field) });
+  //   if (data) {
+  //     this.operatorService.update({
+  //       _id,
+  //       [field]: data,
+  //     }).subscribe(
+  //         (result) => console.log('update result', result),
+  //         (err) => console.log('update error', err),
+  //     );
+  //   }
+  // }
 
   async add() {
     const { data } = await this.presentModal(OperatorAddComponent, { company: this.company });

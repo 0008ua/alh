@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add room</ion-title>
+    <ion-title>{{'elements.button.add' | translate}} {{'dif.room' | translate | lowercase}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">close</ion-button>
+      <ion-button (click)="dismiss()">{{'elements.button.close' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -14,23 +14,23 @@
         <ion-col size-md="6" offset-md="3">
           <ion-card>
             <ion-card-header>
-              <ion-card-title class="ion-text-center">Add room</ion-card-title>
+              <ion-card-title class="ion-text-center">{{'elements.button.add' | translate}} {{'dif.room' | translate | lowercase}}</ion-card-title>
               <ion-progress-bar *ngIf="loading$ | async" type="indeterminate" color="primary"></ion-progress-bar>
             </ion-card-header>
             <ion-card-content>
               <ion-list>
                 <ion-item>
                   <ion-icon class="ion-align-self-center" name="business-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Name</ion-label>
+                  <ion-label position="floating">{{'dif.name' | translate}}</ion-label>
                   <ion-input type="text" autocomplete autocorrect formControlName="name"></ion-input>
                 </ion-item>
                 <ion-text *ngIf="addRoomForm.get('name').touched && addRoomForm.get('name').errors" class="input-error"
                   color="danger">
                   {{addRoomForm.get('name').errors | json}}
                 </ion-text>
-                <ion-item>
+                <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="cash-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Price</ion-label>
+                  <ion-label position="floating">{{'dif.price' | translate}}</ion-label>
                   <ion-input autocomplete autocorrect formControlName="price"></ion-input>
                 </ion-item>
                 <ion-text *ngIf="addRoomForm.get('price').touched && addRoomForm.get('price').errors"
@@ -50,7 +50,7 @@
               <ion-button expand="block"
                 [disabled]="addRoomForm.status === 'INVALID' || addRoomForm.status === 'PENDING'"
                 (click)="this.onSignup()">
-                Add
+                {{'elements.button.add' | translate}}
               </ion-button>
             </ion-col>
           </ion-row>

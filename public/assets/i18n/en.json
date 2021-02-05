@@ -1,0 +1,142 @@
+{
+  "language": "Перейти на Українську",
+  "modules": {
+    "shedule": {
+      "title": "Shedule",
+      "bookingForm": {
+        "title": "Booking",
+        "balance": "Balance",
+        "pricePerNight": "Price per night",
+        "reservedNights": "Reserved nights",
+        "bookingStep": "Status",
+        "bookingPrice": "Booking Price",
+        "discount": "Discount",
+        "totalPaid": "Total paid",
+        "from": "From",
+        "to": "To",
+        "availableTo": "Available to",
+        "cancelReservation": "Cancel reservation",
+        "guestName": "Guest name",
+        "guestPhone": "Phone number",
+        "guestEmail": "Guest email",
+        "payments": "Payments"
+      }
+    },
+    "analytics": {
+      "title": "Analytics",
+      "summary": {
+        "title": "Summary",
+        "totalSold": "Total reserved",
+        "totalPaid": "Total paid",
+        "occupancy": "Occupancy"
+      },
+      "management": {
+        "title": "Bookings management"
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "profile": {
+        "title": "Profile",
+        "login": "Login",
+        "email": "Email",
+        "role": "Role",
+        "blocked": "Blocked",
+        "activated": "Activated",
+        "activationText": "Please enter activation code from email",
+        "code": "Code"
+      },
+      "operator": {
+        "title": "Edit users",
+        "block": "Block",
+        "unblock": "Unblock"
+      },
+      "room": {
+        "title": "Edit rooms"
+      }
+    },
+    "user": {
+      "signin": "Sign in",
+      "signup": "Sign up",
+      "logout": "Logout"
+    },
+    "shared": {
+      "formField": {
+        "updatePrice": "Update price",
+        "inputPrice": "Input price",
+        "updateName": "Update name",
+        "inputName": "Input name"
+      }
+    }
+  },
+  "elements": {
+    "button": {
+      "send": "Send",
+      "add": "Add",
+      "update": "Update",
+      "slideToDelete": "Slide to delete",
+      "slideForOptions": "Slide for options",
+      "submit": "Submit",
+      "activate": "Activate",
+      "close": "Close",
+      "delete": "Delete"
+    },
+    "datePicker": {
+      "chooseMonth": "Choose Month",
+      "chooseDate": "Choose Date",
+      "monthNames": "January, February, March, April, May, June, July, August, September, October, November, December"
+    }
+  },
+  "common": {
+    "logic": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "bookingSteps": {
+      "title": "Booking status",
+      "null": "All",
+      "preorder": "Preordered",
+      "reserved": "Reserved",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    },
+    "bookingStepExprs": {
+      "title": "Booking status",
+      "$eq": "Equal",
+      "$ne": "Not equal"
+    },
+    "sortOrders": {
+      "title": "Sort order",
+      "1": "Ascending",
+      "-1": "Descending"
+    },
+    "sortFields": {
+      "title": "Sort field",
+      "bookingStep": "Booking status",
+      "dates.from": "Dates from",
+      "dates.to": "Dates to",
+      "price": "Price"
+    },
+    "paymentMethods": {
+      "title": "Payment method",
+      "cash": "Cash",
+      "card": "Card"
+    }
+  },
+  "dif": {
+    "name": "Name",
+    "room": "Room",
+    "all": "All",
+    "date": "Date",
+    "amount": "Amount",
+    "price": "Price",
+    "sure": "Are you sure?"
+  },
+  "errors": {
+    "form": {
+      "length": "Length should be from {{minLength}} to {{maxLength}} characters",
+      "required": "Please input "
+    },
+    "notFound": "Page not found - 404"
+  }
+}

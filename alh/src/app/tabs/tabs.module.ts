@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,10 @@ import { TabsPage } from './tabs.page';
     FormsModule,
     IonicModule,
     TabsPageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
+
   ],
   declarations: [TabsPage],
 })

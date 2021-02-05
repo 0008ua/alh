@@ -8,9 +8,10 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { State } from './store/reducers';
-import { GetUser, Logout } from './store/actions/user.actions';
+import { GetUser, LoadLang, Logout } from './store/actions/user.actions';
 import { User } from './interface';
-import { getUser } from './store/reducers/user.reducer';
+import { getLang, getUser } from './store/reducers/user.reducer';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ import { getUser } from './store/reducers/user.reducer';
 })
 export class AppComponent implements OnInit {
   user: User;
+  lang: string;
 
   constructor(
     private platform: Platform,
@@ -28,8 +30,24 @@ export class AppComponent implements OnInit {
     private router: Router,
     private store: Store<State>,
     private renderer: Renderer2,
+    private translate: TranslateService,
+
   ) {
     this.initializeApp();
+    // static translation initialization
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('en');
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    // this.lang = 'en';
+    // for automatic lang detection
+    const browserLang = translate.getBrowserLang();
+    console.log('browserLang', browserLang);
+    this.lang = browserLang.match(/uk|ru/) ? 'uk' : 'en';
+    translate.use(this.lang);
+
+    // set to store static translation language
+    this.store.dispatch(new LoadLang());
   }
 
   ngOnInit() {

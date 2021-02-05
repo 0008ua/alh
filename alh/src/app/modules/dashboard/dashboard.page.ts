@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/interface';
 import { Logout } from 'src/app/store/actions/user.actions';
 import { State } from 'src/app/store/reducers';
@@ -13,11 +14,13 @@ import { getUser } from 'src/app/store/reducers/user.reducer';
 })
 export class DashboardPage implements OnInit {
   user: User;
-  paneEnabled = false;
+  // paneEnabled = false;
+  lang: string;
 
   constructor(
     private store: Store<State>,
     private menuController: MenuController,
+    public translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -25,9 +28,11 @@ export class DashboardPage implements OnInit {
         .subscribe((user) => {
           this.user = user;
         });
+
+    this.lang = this.translate.currentLang;
   }
   ionViewWillEnter() {
-    this.paneEnabled = true;
+    // this.paneEnabled = true;
     this.menuController.enable(true, 'dashboard-menu');
   }
 
@@ -36,6 +41,11 @@ export class DashboardPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    this.paneEnabled = false;
+    // this.paneEnabled = false;
+  }
+
+  switchLanguage() {
+    this.lang === 'en' ? this.lang = 'uk' : this.lang = 'en';
+    this.translate.use(this.lang);
   }
 }

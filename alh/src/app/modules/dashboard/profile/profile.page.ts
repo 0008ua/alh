@@ -5,9 +5,9 @@ import { from, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { ActivateUser, UpdateUser } from 'src/app/store/actions/user.actions';
 
-import { User } from '../../../interface';
+import { Company, User } from '../../../interface';
 import { State } from '../../../store/reducers';
-import { getUser } from '../../../store/reducers/user.reducer';
+import { getCompany, getUser } from '../../../store/reducers/user.reducer';
 import { UserService } from '../../user/user.service';
 import { UpdateActivationComponent } from './update-activation/update-activation.component';
 import { UpdateEmailComponent } from './update-email/update-email.component';
@@ -19,6 +19,8 @@ import { UpdateEmailComponent } from './update-email/update-email.component';
 })
 export class ProfilePage implements OnInit {
   user: User | null = null;
+  company: Company;
+
   constructor(
     private store: Store<State>,
     public modalController: ModalController,
@@ -26,6 +28,11 @@ export class ProfilePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.store.select(getCompany)
+        .subscribe((company) => {
+          this.company = company;
+        });
+
     this.store.select(getUser)
         .subscribe((user) => {
           this.user = user;
@@ -51,7 +58,7 @@ export class ProfilePage implements OnInit {
         .subscribe((res) => {
           this.store.dispatch(new ActivateUser({
             _id: this.user._id,
-            code: res.data.code,
+            code: res.data?.code,
           }));
         },
         (err) => console.log('err activate', err),

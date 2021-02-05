@@ -53,7 +53,6 @@ export class UpdateActivationComponent implements OnInit {
   }
 
   dismiss(data?: any): void {
-    console.log('code data', data);
     this.modalController.dismiss(data);
   }
 

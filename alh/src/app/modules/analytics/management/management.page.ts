@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Booking, BookingQuery, DateRangeLimits, Room, User } from 'src/app/interface';
+import { Booking, BookingQuery, Room, User } from 'src/app/interface';
 import { Store } from '@ngrx/store';
 import * as fns from 'date-fns';
+import * as fromInterface from 'src/app/interface';
 import { SheduleService } from '../../shedule/shedule.service';
 import { State } from 'src/app/store/reducers';
 // import { GetRoomsByDateRange } from 'src/app/store/actions/shedule.actions';
@@ -11,8 +12,9 @@ import { getBookings } from 'src/app/store/reducers/shedule.reducer';
 import { GetBookings } from 'src/app/store/actions/shedule.actions';
 import { getCompany, getUser } from 'src/app/store/reducers/user.reducer';
 import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-management',
@@ -25,32 +27,38 @@ export class ManagementPage implements OnInit {
   room: Partial<Room>;
   rooms: Partial<Room>[];
 
-  bookingSteps = environment.bookingStepsMap;
+
+  bookingSteps = fromInterface.bookingSteps;
   bookingStep = 'cancelled';
-  bookingStepExprs = environment.bookingStepExprsMap;
+  bookingStepExprs = fromInterface.bookingStepExprs;
   bookingStepExpr = '$eq';
-  sortFields = environment.sortFieldsMap;
+  sortFields = fromInterface.sortFields;
   sortField = 'dates.from';
-  sortOrders = environment.sortOrdersMap;
+  sortOrders = fromInterface.sortOrders;
   sortOrder = 1;
 
   date = this.sheduleService.convertDateToShort(new Date());
   maxDate = this.sheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
 
+  updated = true;
+  monthNames: any;
+
   constructor(
     private sheduleService: SheduleService,
     public store: Store<State>,
     private router: Router,
+    private route: ActivatedRoute,
     private alertController: AlertController,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
     this.store.select(getCompany)
         .subscribe(
             (company) => {
+              const all = this.translate.instant('dif.all');
               this.rooms = [...company.rooms];
-              this.rooms.unshift({_id: null, name: 'All'});
-              console.log('rooms', this.rooms);
+              this.rooms.unshift({_id: null, name: all});
               this.room = this.rooms[0];
             },
             (err) => console.log('load rooms err', err),
@@ -65,18 +73,29 @@ export class ManagementPage implements OnInit {
           this.bookings = bookings;
         });
 
+    this.translate.stream('elements.datePicker.monthNames')
+        .subscribe((monthNames) => {
+          // reload select translation
+          this.updated = false;
+          this.monthNames = monthNames;
+          setTimeout(() => this.updated = true, 1);
+        });
 
-    // this.filterForm = new FormGroup({
-    //   date: new FormControl(),
-    //   room: new FormControl(),
-    //   bookingStep: new FormControl(),
-    //   sort: new FormControl(),
-    // });
+    // returning from another tab doesn't emit ionViewWillEnter() on child routes
+    // ionViewWillEnter() emitted on parent component
+    this.route.url
+        .subscribe((_) => {
+          this.filter();
+          // reload select translation
+          this.updated = false;
+          const all = this.translate.instant('dif.all');
+          this.rooms[0].name = all;
+          setTimeout(() => this.updated = true, 1);
+        });
   }
 
+
   ionViewWillEnter() {
-    const bookingQuery: BookingQuery = this.createBookingQuery();
-    this.store.dispatch(new GetBookings(bookingQuery));
   }
 
   async presentAlert(_id: string) {

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ManagementPageRoutingModule } from './management-routing.module';
 
 import { ManagementPage } from './management.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,8 +15,11 @@ import { ManagementPage } from './management.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ManagementPageRoutingModule
+    ManagementPageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
-  declarations: [ManagementPage]
+  declarations: [ManagementPage],
 })
 export class ManagementPageModule {}

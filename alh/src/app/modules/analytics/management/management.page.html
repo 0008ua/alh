@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Management</ion-title>
+    <ion-title>{{'management' | translate}}</ion-title>
     <ion-buttons slot="end">
       <ion-menu-button menu="analytics-menu"></ion-menu-button>
     </ion-buttons>
@@ -14,27 +14,28 @@
               <ion-row>
                 <ion-col>
                   <ion-item>
-                    <ion-label>Choose period</ion-label>
-                    <ion-datetime pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxDate"
-                      placeholder="Select Month" [(ngModel)]="date" (ionChange)="filter()"></ion-datetime>
+                    <ion-label>{{'elements.datePicker.chooseMonth' | translate}}</ion-label>
+                    <ion-datetime *ngIf="updated" pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxDate"
+                      monthNames="{{monthNames}}" placeholder="Select Month" [(ngModel)]="date" (ionChange)="filter()">
+                    </ion-datetime>
                   </ion-item>
                 </ion-col>
                 <ion-col>
                   <ion-item>
-                    <ion-label>Sort</ion-label>
-                    <ion-select placeholder="Select One" [(ngModel)]="sortField" (ionChange)="filter()">
-                      <ion-select-option *ngFor="let sortField of sortFields | keyvalue" [value]="sortField.key">
-                        {{sortField.value}}
+                    <ion-label>{{'common.sortFields.title' | translate}}</ion-label>
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="sortField" (ionChange)="filter()">
+                      <ion-select-option *ngFor="let sortField of sortFields" [value]="sortField">
+                        {{'common.sortFields.' + sortField | translate}}
                       </ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
                 <ion-col>
                   <ion-item>
-                    <ion-label>Sort order</ion-label>
-                    <ion-select placeholder="Select One" [(ngModel)]="sortOrder" (ionChange)="filter()">
-                      <ion-select-option *ngFor="let sortOrder of sortOrders | keyvalue" [value]="sortOrder.key">
-                        {{sortOrder.value}}
+                    <ion-label>{{'common.sortOrders.title' | translate}}</ion-label>
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="sortOrder" (ionChange)="filter()">
+                      <ion-select-option *ngFor="let sortOrder of sortOrders" [value]="sortOrder">
+                        {{'common.sortOrders.' + sortOrder | translate}}
                       </ion-select-option>
                     </ion-select>
                   </ion-item>
@@ -44,7 +45,7 @@
                 <ion-col>
                   <ion-item>
                     <ion-label>Room</ion-label>
-                    <ion-select placeholder="Select One" [(ngModel)]="room" (ionChange)="filter()">
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="room" (ionChange)="filter()">
                       <ion-select-option *ngFor="let room of rooms" [value]="room">{{room.name}}
                       </ion-select-option>
                     </ion-select>
@@ -52,21 +53,26 @@
                 </ion-col>
                 <ion-col>
                   <ion-item>
-                    <ion-label>Booking Step</ion-label>
-                    <ion-select placeholder="Select One" [(ngModel)]="bookingStep" (ionChange)="filter()">
+                    <ion-label>{{'common.bookingSteps.title' | translate}}</ion-label>
+                    <!-- <ion-select placeholder="Select One" [(ngModel)]="bookingStep" (ionChange)="filter()">
                       <ion-select-option *ngFor="let bookingStep of bookingSteps | keyvalue" [value]="bookingStep.key">
                         {{bookingStep.value}}
+                      </ion-select-option>
+                    </ion-select> -->
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="bookingStep" (ionChange)="filter()">
+                      <ion-select-option *ngFor="let bookingStep of bookingSteps" [value]="bookingStep">
+                        {{'common.bookingSteps.' + bookingStep | translate}}
                       </ion-select-option>
                     </ion-select>
                   </ion-item>
                 </ion-col>
                 <ion-col>
                   <ion-item>
-                    <ion-label>Booking Step Equals</ion-label>
-                    <ion-select placeholder="Select One" [(ngModel)]="bookingStepExpr" [disabled]="!bookingStep"
+                    <ion-label>{{'common.bookingStepExprs.title' | translate}}</ion-label>
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="bookingStepExpr" [disabled]="!bookingStep"
                       (ionChange)="filter()">
-                      <ion-select-option *ngFor="let bookingStepExpr of bookingStepExprs | keyvalue"
-                        [value]="bookingStepExpr.key">{{bookingStepExpr.value}}
+                      <ion-select-option *ngFor="let bookingStepExpr of bookingStepExprs" [value]="bookingStepExpr">
+                        {{'common.bookingStepExprs.' + bookingStepExpr | translate}}
                       </ion-select-option>
                     </ion-select>
                   </ion-item>
@@ -93,21 +99,23 @@
                     <ion-col class="ion-no-padding" size="3">
                       <ion-item class="ion-no-padding" lines="none">
                         <ion-label class="ion-text-center">
-                          Step
+                          {{'common.bookingSteps.title' | translate}}
                         </ion-label>
                       </ion-item>
                     </ion-col>
                     <ion-col class="ion-no-padding" size="3">
                       <ion-item class="ion-no-padding" lines="none">
                         <ion-label class="ion-text-center">
-                          Date form
+                          {{'common.sortFields.dates.from' | translate}}
+
                         </ion-label>
                       </ion-item>
                     </ion-col>
                     <ion-col class="ion-no-padding" size="3">
                       <ion-item class="ion-no-padding" lines="none">
                         <ion-label class="ion-text-center">
-                          Date to
+                          {{'common.sortFields.dates.to' | translate}}
+
                         </ion-label>
                       </ion-item>
                     </ion-col>
@@ -115,7 +123,8 @@
                       <ion-item class="ion-no-padding" lines="none">
                         <ion-label class="ion-text-center">
                           <ion-text color="tertiary">
-                            Price
+                            {{'common.sortFields.price' | translate}}
+
                           </ion-text>
                         </ion-label>
                       </ion-item>
@@ -134,7 +143,9 @@
                       <ion-item class="ion-no-padding" lines="none">
                         <ion-label class="ion-text-center">
                           <ion-button [ngClass]="'status-color_' + booking.bookingStep"
-                            (click)="viewBooking(booking._id)" fill="clear">{{booking.bookingStep}}</ion-button>
+                            (click)="viewBooking(booking._id)" fill="clear">{{'common.bookingSteps.' +
+                            booking.bookingStep |
+                            translate}}</ion-button>
                         </ion-label>
                       </ion-item>
                     </ion-col>

@@ -1,0 +1,142 @@
+{
+  "language": "Switch to English",
+  "modules": {
+    "shedule": {
+      "title": "Розклад",
+      "bookingForm": {
+        "title": "Бронювання",
+        "balance": "Баланс",
+        "pricePerNight": "Ціна за добу",
+        "reservedNights": "Зарезевовано діб",
+        "bookingStep": "Статус",
+        "bookingPrice": "Ціна",
+        "discount": "Знижка",
+        "totalPaid": "Всього оплачено",
+        "from": "З",
+        "to": "По",
+        "availableTo": "Доступно до",
+        "cancelReservation": "Скасувати бронювання",
+        "guestName": "Ім'я гостя",
+        "guestPhone": "Номер телефону",
+        "guestEmail": "Email",
+        "payments": "Платежі"
+      }
+    },
+    "analytics": {
+      "title": "Аналітика",
+      "summary": {
+        "title": "Підсумки",
+        "totalSold": "Всього заброньовано",
+        "totalPaid": "Всього оплачено",
+        "occupancy": "Заповненість номерів"
+      },
+      "management": {
+        "title": "Керування бронюваннями"
+      }
+    },
+    "dashboard": {
+      "title": "Налаштування",
+      "profile": {
+        "title": "Профіль",
+        "login": "Логін",
+        "email": "Email",
+        "role": "Права",
+        "blocked": "Заблокований",
+        "activated": "Активований",
+        "activationText": "Введіть код, що прийшов на email",
+        "code": "Код"
+      },
+      "operator": {
+        "title": "Редагувати користувачів",
+        "block": "Блокувати",
+        "unblock": "Розблокувати"
+      },
+      "room": {
+        "title": "Редагувати номера"
+      }
+    },
+    "user": {
+      "signin": "Вхід",
+      "signup": "Реєстрація",
+      "logout": "Вийти"
+    },
+    "shared": {
+      "formField": {
+        "updatePrice": "Оновити ціну",
+        "inputPrice": "Введіть ціну",
+        "updateName": "Оновити назву",
+        "inputName": "Введіть назву"
+      }
+    }
+  },
+  "elements": {
+    "button": {
+      "send": "Надіслати",
+      "add": "Додати",
+      "update": "Оновити",
+      "slideToDelete": "Зсунути для видалення",
+      "slideForOptions": "Зсунути для опцій",
+      "submit": "Зберегти",
+      "activate": "Активувати",
+      "close": "Закрити",
+      "delete": "Видалити"
+    },
+    "datePicker": {
+      "chooseMonth": "Виберіть місяць",
+      "chooseDate": "Виберіть дату",
+      "monthNames": "Січень, Лютий, Березень, Квітень, Травень, Червень, Липень, Серпень, Вересень, Жовтень, Листопад, Грудень"
+    }
+  },
+  "common": {
+    "logic": {
+      "true": "Так",
+      "false": "Ні"
+    },
+    "bookingSteps": {
+      "title": "Статус",
+      "null": "Всі",
+      "preorder": "Попередньо заброньовано",
+      "reserved": "Зарезервовано",
+      "paid": "Оплачено",
+      "cancelled": "Скасовано"
+    },
+    "bookingStepExprs": {
+      "title": "Статус",
+      "$eq": "Є",
+      "$ne": "Не є"
+    },
+    "sortOrders": {
+      "title": "Сортування",
+      "1": "Зростання",
+      "-1": "Спадання"
+    },
+    "sortFields": {
+      "title": "Сортувати по",
+      "bookingStep": "Статус",
+      "dates.from": "Дата з",
+      "dates.to": "Дата по",
+      "price": "Ціна"
+    },
+    "paymentMethods": {
+      "title": "Спосіб оплати",
+      "cash": "Готівка",
+      "card": "Карта"
+    }
+  },
+  "dif": {
+    "name": "Назва",
+    "room": "Номер",
+    "all": "Всі",
+    "date": "Дата",
+    "amount": "Сума",
+    "price": "Ціна",
+    "sure": "Ви впевнені?"
+  },
+  "errors": {
+    "form": {
+      "length": "Length should be from {{minLength}} to {{maxLength}} characters",
+      "required": "Please input "
+    },
+    "notFound": "Page not found - 404"
+  }
+}

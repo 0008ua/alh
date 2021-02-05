@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { EntityCollectionServiceBase, EntityCollectionServiceElementsFactory } from '@ngrx/data';
+import { TranslateService } from '@ngx-translate/core';
 import { FormFieldOptions, Room, RoomFormFields } from '../../../interface';
 
 @Injectable({
@@ -8,7 +9,10 @@ import { FormFieldOptions, Room, RoomFormFields } from '../../../interface';
 })
 
 export class RoomService extends EntityCollectionServiceBase<Room> {
-  constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
+  constructor(
+      serviceElementsFactory: EntityCollectionServiceElementsFactory,
+    private translate: TranslateService,
+  ) {
     super('Room', serviceElementsFactory);
   }
 
@@ -19,10 +23,10 @@ export class RoomService extends EntityCollectionServiceBase<Room> {
   private get formFieldsOptions() {
     return new Map<RoomFormFields, FormFieldOptions>([
       ['price', {
-        title: 'Update price',
-        subTitle: 'Price',
+        title: this.translate.instant('modules.shared.formField.updatePrice'),
+        subTitle: this.translate.instant('dif.price'),
         iconName: 'business-outline',
-        inputLable: 'input price',
+        inputLable: this.translate.instant('modules.shared.formField.inputPrice'),
         inputType: 'text',
         errors: new Map<string, string>([
           ['required', 'Required value'],
@@ -40,10 +44,10 @@ export class RoomService extends EntityCollectionServiceBase<Room> {
         },
       }],
       ['name', {
-        title: 'Update room',
-        subTitle: 'Name',
+        title: this.translate.instant('modules.shared.formField.updateName'),
+        subTitle: this.translate.instant('dif.name'),
         iconName: 'cash-outline',
-        inputLable: 'input room name',
+        inputLable: this.translate.instant('modules.shared.formField.inputName'),
         inputType: 'text',
         errors: new Map<string, string>([
           ['required', 'Required value'],

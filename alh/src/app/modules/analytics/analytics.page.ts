@@ -7,7 +7,7 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./analytics.page.scss'],
 })
 export class AnalyticsPage implements OnInit {
-  paneEnabled = false;
+  // paneEnabled = false;
   constructor(
     private menuController: MenuController,
   ) { }
@@ -15,11 +15,11 @@ export class AnalyticsPage implements OnInit {
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.paneEnabled = true;
+    // this.paneEnabled = true;
     this.menuController.enable(true, 'analytics-menu');
   }
 
   ionViewWillLeave() {
-    this.paneEnabled = false;
+    // this.paneEnabled = false;
   }
 }

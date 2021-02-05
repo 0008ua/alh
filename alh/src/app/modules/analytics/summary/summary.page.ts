@@ -10,16 +10,17 @@ import { getCompany } from 'src/app/store/reducers/user.reducer';
 import { combineLatest, of } from 'rxjs';
 import { mergeMap, skip } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.page.html',
   styleUrls: ['./summary.page.scss'],
 })
-export class SummaryPage implements OnInit, OnChanges {
-  date: string = this.sheduleService.convertDateToShort(new Date());
-  maxDate: string = this.sheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
-  dateRangeLimits: DateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.date));
+export class SummaryPage implements OnInit {
+  pickedMonth: string = this.sheduleService.convertDateToShort(new Date());
+  maxPickedMonth: string = this.sheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
+  dateRangeLimits: DateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.pickedMonth));
 
   bookings: Booking[];
   payments: Payment[];
@@ -29,14 +30,16 @@ export class SummaryPage implements OnInit, OnChanges {
     rooms?: any;
   } = {rooms: []};
 
+  updated = true;
+  monthNames: any;
+
   constructor(
     private sheduleService: SheduleService,
     private store: Store<State>,
     private route: ActivatedRoute,
+    private translate: TranslateService,
   ) { }
-  ngOnChanges() {
-    console.log('asdasd');
-  }
+
   ngOnInit() {
     const getCompany$ = this.store.select(getCompany);
     const getBookings$ = this.store.select(getBookings);
@@ -45,11 +48,7 @@ export class SummaryPage implements OnInit, OnChanges {
 
     getCompany$.pipe(
         mergeMap((company) => {
-          console.log('company summary', company);
-
           if (company) {
-            console.log('combineLatest');
-
             this.rooms = [...company.rooms];
             this.rooms.unshift({ _id: null, name: 'All' });
             this.room = this.rooms[0];
@@ -62,8 +61,6 @@ export class SummaryPage implements OnInit, OnChanges {
         .subscribe(
             ([bookings, payments]) => {
               if (bookings && payments) {
-                console.log('bookings summary', bookings);
-                console.log('payments summary', payments);
                 this.bookings = bookings;
                 this.payments = payments;
                 this.calcData();
@@ -76,22 +73,31 @@ export class SummaryPage implements OnInit, OnChanges {
     // ionViewWillEnter() emitted on parent component
     this.route.url
         .subscribe((_) => {
-          console.log('url');
           this.filter();
+          // reload ion-datetime translation
+          this.updated = false;
+          setTimeout(() => this.updated = true, 1);
+        });
+
+    this.translate.stream('elements.datePicker.monthNames')
+        .subscribe((monthNames) => {
+          // reload ion-datetime translation
+          this.updated = false;
+          this.monthNames = monthNames;
+          setTimeout(() => this.updated = true, 1);
         });
   }
 
   // ionViewWillEnter() {
-  //   this.filter();
+
   // }
 
   calcData() {
-    console.log('calc');
     this.calculatedData.rooms = [];
     let totalSoldAll = 0;
     let totalRoomDaysAll = 0;
     let totalPaymentsAll = 0;
-    const daysInMonth = fns.getDaysInMonth(this.sheduleService.convertISOToDate(this.date)) - 1;
+    const daysInMonth = fns.getDaysInMonth(this.sheduleService.convertISOToDate(this.pickedMonth)) - 1;
 
     this.rooms.forEach((room) => {
       if (!room._id) {
@@ -102,7 +108,6 @@ export class SummaryPage implements OnInit, OnChanges {
       this.calculatedData.rooms.push(room);
 
       const position = this.calculatedData.rooms.length - 1;
-      console.log('position', position);
       let totalSold = 0;
       let totalRoomDays = 0;
       let totalPayments = 0;
@@ -178,7 +183,6 @@ export class SummaryPage implements OnInit, OnChanges {
           daysInMonth,
           totalPayments,
         }};
-      console.log('this.calculatedData.rooms[position]', this.calculatedData.rooms[position]);
       totalSoldAll += totalSold;
       totalRoomDaysAll += totalRoomDays;
       totalPaymentsAll += totalPayments;
@@ -193,7 +197,6 @@ export class SummaryPage implements OnInit, OnChanges {
         daysInMonth,
         totalPayments: totalPaymentsAll,
       }};
-    console.log('this.calculatedData.rooms', this.calculatedData.rooms);
   }
 
   filter() {
@@ -204,7 +207,7 @@ export class SummaryPage implements OnInit, OnChanges {
   }
 
   createBookingQuery(): BookingQuery {
-    this.dateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.date));
+    this.dateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.pickedMonth));
     return <BookingQuery>{
       dateRangeLimits: this.dateRangeLimits,
       // room_id: this.room?._id,
@@ -220,7 +223,7 @@ export class SummaryPage implements OnInit, OnChanges {
   }
 
   createPaymentQuery(): PaymentQuery {
-    this.dateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.date));
+    this.dateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.pickedMonth));
     return <PaymentQuery>{
       dateRangeLimits: this.dateRangeLimits,
       // room_id: this.room?._id,

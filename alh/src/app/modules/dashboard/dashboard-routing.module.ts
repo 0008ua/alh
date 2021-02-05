@@ -13,7 +13,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'operator',
+        redirectTo: 'profile',
         pathMatch: 'full',
       },
       {

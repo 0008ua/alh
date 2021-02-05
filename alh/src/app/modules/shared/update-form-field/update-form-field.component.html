@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{data.title}}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">close</ion-button>
+      <ion-button (click)="dismiss()">{{'elements.button.close' | translate}}</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -21,10 +21,13 @@
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" [name]="data.iconName" slot="start"></ion-icon>
                   <ion-label position="floating">{{data.inputLable}}</ion-label>
-                  <ion-input [type]="data.inputType || 'text'" autocomplete autocorrect formControlName="formControlName"></ion-input>
+                  <ion-input [type]="data.inputType || 'text'" autocomplete autocorrect
+                    formControlName="formControlName"></ion-input>
                 </ion-item>
-                <ng-container *ngIf="updateFormField.get('formControlName').touched && updateFormField.get('formControlName').errors">
-                  <ion-text *ngFor="let error of errorMapping(updateFormField.get('formControlName').errors)" class="input-error" color="danger">
+                <ng-container
+                  *ngIf="updateFormField.get('formControlName').touched && updateFormField.get('formControlName').errors">
+                  <ion-text *ngFor="let error of errorMapping(updateFormField.get('formControlName').errors)"
+                    class="input-error" color="danger">
                     {{error}}
                   </ion-text>
                 </ng-container>

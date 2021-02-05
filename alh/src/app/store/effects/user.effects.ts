@@ -4,16 +4,23 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError, tap, mergeMap } from 'rxjs/operators';
 
-import {
-// UserActionTypes, GetUser, Authenticated, NotAuthenticated, AuthError, Redirection,
-// CompanyAuthenticated, Logout, Login, GetCompanyByUser, UpdateUser, UpdateUserFail, UpdateUserSuccess,
-} from '../actions/user.actions';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import * as fromUserActions from '../actions/user.actions';
 import { UserService } from '../../modules/user/user.service';
 
 @Injectable()
 export class UserEffects {
+  @Effect()
+  loadLang: Observable<Action> = this.actions$
+      .pipe(
+          ofType(fromUserActions.UserActionTypes.LoadLang),
+          // map((action: LoadAppNav) => action.payload),
+          switchMap((_) => this.translate.onLangChange),
+          map((event: LangChangeEvent) => new fromUserActions.LoadLangSuccess(event.lang)),
+          catchError((err) => of(new fromUserActions.LoadLangFail(err))),
+      );
+
   @Effect()
   getUser: Observable<Action | Action[]> = this.actions$.pipe(
       ofType(fromUserActions.UserActionTypes.GetUser),
@@ -117,5 +124,6 @@ export class UserEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
+    private translate: TranslateService,
   ) { }
 }

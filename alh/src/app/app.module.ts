@@ -2,19 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
-import { reducers, metaReducers } from './store/reducers';
-import { UserEffects } from './store/effects/user.effects';
-import { SheduleEffects } from './store/effects/shedule.effects';
 import { AppStoreModule } from './store/store.module';
 
 import { AppComponent } from './app.component';
@@ -23,6 +16,16 @@ import { environment } from '../environments/environment';
 import { HttpInterceptorService } from './modules/user/http-interceptor.service';
 import { HttpInterceptorRefreshTokenService } from './modules/user/http-interceptor.-refresh-token.service';
 import { CookieService } from 'ngx-cookie-service';
+// Translator
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SharedModule } from './modules/shared/shared.module';
+
+// AoT requires an exported function for factories
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,15 +36,14 @@ import { CookieService } from 'ngx-cookie-service';
     AppRoutingModule,
     HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    // StoreModule.forRoot(reducers, {
-    //   metaReducers,
-    //   runtimeChecks: {
-    //     strictStateImmutability: true,
-    //     strictActionImmutability: true,
-    //   },
-    // }),
-    // EffectsModule.forRoot([SheduleEffects, UserEffects]),
-    // StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient],
+      },
+    }),
     AppStoreModule,
   ],
   providers: [

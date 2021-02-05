@@ -1,9 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>shedule</ion-title>
-    <!-- <ion-buttons slot="end">
-      <ion-menu-button contentId="main-content"></ion-menu-button>
-    </ion-buttons> -->
+    <ion-title>{{'modules.shedule.title' | translate}}</ion-title>
+    <ion-buttons slot="end">
+          <ion-item color="primary" (click)="switchLanguage()" button lines="none">
+            <ion-icon name="earth-outline" slot="start"></ion-icon>
+            <ion-label>{{'language' | translate}}</ion-label>
+            <!-- <ion-text slot="end"><b>{{lang | uppercase}}</b></ion-text> -->
+          </ion-item>
+      <!-- <ion-menu-button contentId="main-content"></ion-menu-button> -->
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -23,10 +28,11 @@
         </ion-row> -->
         <ion-list>
 
-          <ion-item>
-            <ion-label>Choose period</ion-label>
-            <ion-datetime pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxPickedMonth"
-              placeholder="Select Month" [(ngModel)]="pickedMonth" (ionChange)="onMonthChange()"></ion-datetime>
+          <ion-item >
+            <ion-label>{{'elements.datePicker.chooseMonth' | translate}}</ion-label>
+            <ion-datetime *ngIf="updated" pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxPickedMonth"
+              placeholder="Select Month" [(ngModel)]="pickedMonth" (ionChange)="onMonthChange()"
+              monthNames="{{monthNames}}"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-range [min]="0" [step]="1" [max]="range.length - 1" color="secondary" snaps="true" dualKnobs="true"

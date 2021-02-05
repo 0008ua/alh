@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button >
-      <!-- <ion-back-button [defaultHref]="mode === 'new' ? '/shedule': '/shedule/discover' + booking?._id"> -->
+      <ion-back-button>
+        <!-- <ion-back-button [defaultHref]="mode === 'new' ? '/shedule': '/shedule/discover' + booking?._id"> -->
       </ion-back-button>
     </ion-buttons>
-    <ion-title>booking-form</ion-title>
+    <ion-title>{{'modules.shedule.bookingForm.title' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,99 +14,90 @@
     <ion-grid>
       <ion-row>
         <ion-col size-md="6" offset-md="3">
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title>{{room?.name}}</ion-card-title>
-              <ion-card-subtitle>
+          <!-- <ion-card>
+            <ion-card-header> -->
+          <ion-item lines="none">
+            <ion-label>
+              <h2>{{room?.name}}</h2>
+            </ion-label>
+          </ion-item>
+          <!-- <ion-card-subtitle>
                 <ion-text></ion-text>
-                <ion-text [color]="calculatedData?.balance >= 0 ? 'success': 'danger'">Balance:
-                  {{calculatedData?.balance}}</ion-text>
-
-
-
-                <!-- з {{bookingForm.get('dates').get('from').value | date: 'dd MMM'}} по
-                {{bookingForm.get('dates').get('to').value | date: 'dd MMM'}} -->
               </ion-card-subtitle>
-            </ion-card-header>
+            </ion-card-header> -->
 
-            <ion-card-content>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Price per night:</ion-text>
-                </ion-col>
-                <ion-col>
-                  <ion-text color="primary">{{room?.price}}</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Nights reserved:</ion-text>
-                </ion-col>
-                <ion-col>
-                  <ion-text color="primary">{{calculatedData?.days}}</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Status:</ion-text>
-                </ion-col>
-                <ion-col>
-                  <ion-text [ngClass]="'status-color_' + calculatedData?.bookingStep">{{bookingSteps.get(calculatedData?.bookingStep)}}</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Total price:</ion-text>
-                </ion-col>
-                <ion-col>
-                  <ion-text color="primary">{{calculatedData?.bookingPrice}}</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Discount:</ion-text>
-                </ion-col>
-                <ion-col>
-                  <ion-text color="primary">{{bookingForm?.get('discount').value}}</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Total paid:</ion-text>
-                </ion-col>
-                <ion-col>
-                  <ion-text color="primary">{{calculatedData?.totalPaid}}</ion-text>
-                </ion-col>
-              </ion-row>
-            </ion-card-content>
-          </ion-card>
+          <!-- <ion-card-content> -->
+          <ion-item-group>
+            <ion-item-divider lines="none">
+              <ion-toggle slot="start" color="primary" #summary></ion-toggle>
+              <ion-label lines="none">
+                <h3>{{'modules.shedule.bookingForm.balance' | translate}}</h3>
+              </ion-label>
+              <ion-text slot="end" [color]="calculatedData?.balance >= 0 ? 'success': 'danger'">
+                {{calculatedData?.balance}}</ion-text>
+            </ion-item-divider>
+            <ng-container *ngIf="summary.checked">
+              <ion-item lines="none">
+                <ion-label>
+                  <p>{{'modules.shedule.bookingForm.pricePerNight' | translate}}</p>
+                </ion-label>
+                <ion-text slot="end" color="primary">{{room?.price}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>
+                  <p>{{'modules.shedule.bookingForm.reservedNights' | translate}}</p>
+                </ion-label>
+                <ion-text slot="end" color="primary">{{calculatedData?.days}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>
+                  <p>{{'modules.shedule.bookingForm.bookingStep' | translate}}</p>
+                </ion-label>
+                <ion-text slot="end" [ngClass]="'status-color_' + calculatedData?.bookingStep">
+                  {{'common.bookingSteps.' + calculatedData?.bookingStep | translate}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>
+                  <p>{{'modules.shedule.bookingForm.bookingPrice' | translate}}</p>
+                </ion-label>
+                <ion-text slot="end" color="primary">{{calculatedData?.bookingPrice}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>
+                  <p>{{'modules.shedule.bookingForm.discount' | translate}}</p>
+                </ion-label>
+                <ion-text slot="end" color="primary">{{bookingForm?.get('discount').value}}</ion-text>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-label>
+                  <p>{{'modules.shedule.bookingForm.totalPaid' | translate}}</p>
+                </ion-label>
+                <ion-text slot="end" color="primary">{{calculatedData?.totalPaid}}</ion-text>
+              </ion-item>
+            </ng-container>
+          </ion-item-group>
 
-          <!-- <ion-item lines="none">
-                                              <ion-label class="date-label">
-
-                                                <ion-text class="date-label__item">
-                                                  From: {{bookingForm.get('dates').get('from').value | date: 'dd MMMM yyyy'}}
-                                                </ion-text>
-                                                <ion-text color="secondary" class="date-label__item">
-                                                  Available to: {{availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits' }}
-                                                </ion-text>
-                                              </ion-label>
-                                            </ion-item> -->
           <ion-list lines="none" class="date-label">
             <ion-item class="date-label__item">
-              <ion-label position="stacked">
-                From:
+              <ion-label position="stacked" color="primary">
+                {{'modules.shedule.bookingForm.from' | translate}}
               </ion-label>
-              {{bookingForm.get('dates').get('from').value | date: 'dd MMMM yyyy'}}
+              <!-- {{bookingForm.get('dates').get('from').value | date: 'dd MMMM yyyy'}} -->
+              <ion-datetime *ngIf="updated" pickerFormat="DD-MMMM-YYYY"
+                [value]="bookingForm.get('dates').get('from').value" monthNames="{{monthNames}}"
+                displayFormat="DD MMMM YYYY" placeholder="Select end date" disabled>
+              </ion-datetime>
             </ion-item>
             <ion-item class="date-label__item">
-              <ion-label position="stacked">
-                Available to:
+              <ion-label position="stacked" color="primary">
+                {{'modules.shedule.bookingForm.availableTo' | translate}}
               </ion-label>
-              <ion-text>
-                {{availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits' }}
+              <!-- {{availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits' }} -->
+              <ion-datetime *ngIf="updated" pickerFormat="DD-MMMM-YYYY"
+                [value]="availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits'" monthNames="{{monthNames}}"
+                displayFormat="DD MMMM YYYY" disabled>
+              </ion-datetime>
 
-              </ion-text>
             </ion-item>
           </ion-list>
 
@@ -114,10 +105,11 @@
 
             <ion-item class="date-label__item" formGroupName="dates">
               <ion-label position="stacked" color="primary">
-                To:
+                {{'modules.shedule.bookingForm.to' | translate}}
               </ion-label>
-              <ion-datetime pickerFormat="DD-MMMM-YYYY" [min]="fromPlusOneDay" [max]="availableTo"
-                displayFormat="DD MMMM YYYY" placeholder="Select end date" formControlName="to"></ion-datetime>
+              <ion-datetime *ngIf="updated" pickerFormat="DD-MMMM-YYYY" [min]="fromPlusOneDay" [max]="availableTo"
+                monthNames="{{monthNames}}" displayFormat="DD MMMM YYYY" placeholder="Select end date"
+                formControlName="to"></ion-datetime>
               <ion-text *ngIf="bookingForm.get('dates').get('to').errors" class="input-error" color="danger">
                 {{bookingForm.get('dates').get('to').errors | json}}
               </ion-text>
@@ -126,21 +118,15 @@
             <ion-item *ngIf="!user?.blocked" class="date-label__item">
               <ion-label>
                 <ion-button fill="outline" color="danger" (click)="presentAlert()">
-                  Cancel reservation
+                  {{'modules.shedule.bookingForm.cancelReservation' | translate}}
                 </ion-button>
               </ion-label>
             </ion-item>
-
-
           </ion-list>
-
-
-
-
           <ion-list>
             <ion-item>
               <ion-label position="floating" color="primary">
-                Guest name
+                {{'modules.shedule.bookingForm.guestName' | translate}}
               </ion-label>
 
               <ion-input type="text" autocomplete autocorrect formControlName="guestName"></ion-input>
@@ -150,7 +136,9 @@
             </ion-text>
 
             <ion-item>
-              <ion-label position="floating" color="primary">Guest phone</ion-label>
+              <ion-label position="floating" color="primary">
+                {{'modules.shedule.bookingForm.guestPhone' | translate}}
+              </ion-label>
               <ion-input type="text" autocomplete autocorrect formControlName="guestPhone"></ion-input>
             </ion-item>
             <ion-text *ngIf="bookingForm.get('guestPhone').errors" class="input-error" color="danger">
@@ -158,36 +146,19 @@
             </ion-text>
 
             <ion-item>
-              <ion-label position="floating" color="primary">Guest email</ion-label>
+              <ion-label position="floating" color="primary">
+                {{'modules.shedule.bookingForm.guestEmail' | translate}}
+              </ion-label>
               <ion-input type="email" autocomplete autocorrect formControlName="guestEmail"></ion-input>
             </ion-item>
             <ion-text *ngIf="bookingForm.get('guestEmail').errors" class="input-error" color="danger">
               {{bookingForm.get('guestEmail').errors | json}}
             </ion-text>
 
-            <!-- <ion-item>
-                  <ion-label position="floating">Price</ion-label>
-                  <ion-input type="text" autocomplete autocorrect formControlName="price"></ion-input>
-                </ion-item>
-                <ion-text *ngIf="bookingForm.get('price').errors" class="input-error" color="danger">
-                  {{bookingForm.get('price').errors | json}}
-                </ion-text> -->
-
-
-
-            <!-- <ion-item>
-                  <ion-label position="stacked" color="primary">Booking step</ion-label>
-                  <ion-select placeholder="Select One" interface="popover" formControlName="bookingStep">
-                    <ion-select-option *ngFor="let bookingStep of bookingSteps">{{bookingStep}}</ion-select-option>
-                  </ion-select>
-                </ion-item>
-                <ion-text *ngIf="bookingForm.get('bookingStep').errors" class="input-error" color="danger">
-                  {{bookingForm.get('bookingStep').errors | json}}
-                </ion-text> -->
-
-
             <ion-item>
-              <ion-label position="floating" color="primary">Discount</ion-label>
+              <ion-label position="floating" color="primary">
+                {{'modules.shedule.bookingForm.discount' | translate}}
+              </ion-label>
               <ion-input type="text" autocomplete autocorrect formControlName="discount"></ion-input>
             </ion-item>
             <ion-text *ngIf="bookingForm.get('discount').errors" class="input-error" color="danger">
@@ -197,9 +168,9 @@
 
           <ion-list lines="none">
             <ion-list-header>
-              <ion-label>Payments</ion-label>
+              <ion-label>{{'modules.shedule.bookingForm.payments' | translate}}</ion-label>
               <ion-button *ngIf="editPayment === null" (click)="addPaymentsArrayControlToBegin(); editPayments(0);">
-                Add</ion-button>
+                {{'elements.button.add' | translate}}</ion-button>
               <ion-button *ngIf="editPayment !== null" [disabled]="bookingForm.get('payments').status === 'INVALID'"
                 (click)="editPayments(null)">Ok</ion-button>
             </ion-list-header>
@@ -209,18 +180,19 @@
                 <ion-item-sliding *ngIf="editPayment === null || editPayment !== i">
                   <ion-item>
                     <ion-label>
-                      <h2>Amount: <ion-text color="secondary">{{getPaymentsArrayControlAt(i).get('amount').value}}
+                      <h2>{{'dif.amount' | translate}}: <ion-text color="secondary">
+                          {{getPaymentsArrayControlAt(i).get('amount').value}}
                         </ion-text>
                       </h2>
-                      <p>Payment date: <ion-text color="secondary">
+                      <p>{{'dif.date' | translate}} <ion-text color="secondary">
                           {{getPaymentsArrayControlAt(i).get('date').value | date: 'dd MMM' }}</ion-text>
                       </p>
-                      <p>Payment type: <ion-text color="secondary">
+                      <p>{{'common.paymentMethods.title' | translate}} <ion-text color="secondary">
                           {{getPaymentsArrayControlAt(i).get('paymentMethod').value}}</ion-text>
                       </p>
                     </ion-label>
                     <ion-note slot="end">
-                      slide for options
+                      {{'elements.button.slideForOptions' | translate}}
                     </ion-note>
                   </ion-item>
 
@@ -239,13 +211,14 @@
                 <ion-list *ngIf="editPayment === i">
 
                   <ion-item>
-                    <ion-label position="stacked" color="primary">Choose date</ion-label>
-                    <ion-datetime pickerFormat="DD-MMMM-YYYY" displayFormat="DD MMMM YYYY" placeholder="Select Month"
-                      formControlName="date"></ion-datetime>
+                    <ion-label position="stacked" color="primary">{{'elements.datePicker.chooseDate' | translate}}
+                    </ion-label>
+                    <ion-datetime *ngIf="updated" pickerFormat="DD-MMMM-YYYY" displayFormat="DD MMMM YYYY"
+                      placeholder="Select Month" formControlName="date" monthNames="{{monthNames}}"></ion-datetime>
                   </ion-item>
 
                   <ion-item>
-                    <ion-label position="floating" color="primary">Amount</ion-label>
+                    <ion-label position="floating" color="primary">{{'dif.amount' | translate}}</ion-label>
                     <ion-input type="text" autocomplete autocorrect formControlName="amount"></ion-input>
                   </ion-item>
                   <ion-text *ngIf="getPaymentsArrayControlAt(i).get('amount').errors" class="input-error"
@@ -254,10 +227,11 @@
                   </ion-text>
 
                   <ion-item>
-                    <ion-label position="stacked" color="primary">Payment method</ion-label>
+                    <ion-label position="stacked" color="primary">{{'common.paymentMethods.title' | translate}}
+                    </ion-label>
                     <ion-select placeholder="Select One" interface="popover" formControlName="paymentMethod">
-                      <ion-select-option *ngFor="let paymentMethod of paymentMethods | keyvalue" [value]="paymentMethod.key">
-                        <span>{{paymentMethod.value}}</span>
+                      <ion-select-option *ngFor="let paymentMethod of paymentMethods" [value]="paymentMethod">
+                        <span>{{'common.paymentMethods.' + paymentMethod | translate}}</span>
                       </ion-select-option>
                     </ion-select>
                   </ion-item>
@@ -275,8 +249,10 @@
               </ion-button>
             </ion-col>
             <ion-col>
-              <ion-button expand="block" [disabled]="bookingForm.status === 'INVALID' || this.isCancelled || user.blocked" (click)="onFormSubmit()">
-                Submit {{bookingForm.errors}}
+              <ion-button expand="block"
+                [disabled]="bookingForm.status === 'INVALID' || this.isCancelled || user.blocked"
+                (click)="onFormSubmit()">
+                {{'elements.button.submit' | translate}} {{bookingForm.errors}}
               </ion-button>
             </ion-col>
           </ion-row>

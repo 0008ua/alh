@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { BookingFormPageRoutingModule } from './booking-form-routing.module';
 
 import { BookingFormPage } from './booking-form.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,9 @@ import { BookingFormPage } from './booking-form.page';
     ReactiveFormsModule,
     IonicModule,
     BookingFormPageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
   declarations: [BookingFormPage],
 })

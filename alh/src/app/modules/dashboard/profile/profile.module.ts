@@ -9,6 +9,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { UpdateEmailComponent } from './update-email/update-email.component';
 import { UpdateActivationComponent } from './update-activation/update-activation.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -17,6 +18,9 @@ import { UpdateActivationComponent } from './update-activation/update-activation
     ReactiveFormsModule,
     IonicModule,
     ProfilePageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
   declarations: [
     ProfilePage,
