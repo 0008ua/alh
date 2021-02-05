@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { UserService } from '../../user.service';
@@ -11,6 +12,7 @@ import { UserService } from '../../user.service';
   styleUrls: ['./signup-form.component.scss'],
 })
 export class SignupFormComponent implements OnInit {
+  lang: string;
   signupForm: FormGroup;
   inputType: 'password' | 'text' = 'password';
   formSubmitSubject$ = new Subject();
@@ -19,9 +21,13 @@ export class SignupFormComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
+    public translate: TranslateService,
+
   ) { }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+
     this.signupForm = new FormGroup({
       companyName: new FormControl(
           '',
@@ -134,6 +140,11 @@ export class SignupFormComponent implements OnInit {
     if (this.signupFormDirective) {
       this.signupFormDirective.resetForm();
     }
+  }
+
+  switchLanguage() {
+    this.lang === 'en' ? this.lang = 'uk' : this.lang = 'en';
+    this.translate.use(this.lang);
   }
 }
 

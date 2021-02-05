@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>{{'modules.user.signin' | translate}}</ion-title>
+        <ion-buttons slot="end">
+          <ion-item color="primary" (click)="switchLanguage()" button lines="none">
+            <ion-icon name="earth-outline" slot="start"></ion-icon>
+            <ion-label>{{'language' | translate}}</ion-label>
+          </ion-item>
+        </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,9 +22,9 @@
               <img class="logo_login" src="/assets/shapes.svg">
 
               </div>
-              <ion-card-title class="ion-text-center">Login</ion-card-title>
+              <ion-card-title class="ion-text-center">{{'modules.user.signin' | translate}}</ion-card-title>
               <ion-card-subtitle class="ion-text-center">
-                <a button color="primary" routerLink="/user/login/signup">or Signup</a>
+                <a button color="primary" routerLink="/user/login/signup">{{'modules.user.orSignup' | translate}}</a>
               </ion-card-subtitle>
             </ion-card-header>
 
@@ -26,7 +32,7 @@
               <ion-list>
                 <ion-item>
                   <ion-icon class="ion-align-self-center" name="person-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Login</ion-label>
+                  <ion-label position="floating">{{'modules.user.login' | translate}}</ion-label>
                   <ion-input type="text" autocomplete autocorrect formControlName="login"></ion-input>
                 </ion-item>
                 <ion-text *ngIf="loginForm.get('login').touched && loginForm.get('login').errors" class="input-error"
@@ -35,7 +41,7 @@
                 </ion-text>
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="lock-closed-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Password</ion-label>
+                  <ion-label position="floating">{{'modules.user.password' | translate}}</ion-label>
                   <ion-input [type]="inputType" autocomplete autocorrect formControlName="password"></ion-input>
                   <ion-icon class="ion-align-self-center"
                     [name]="inputType === 'password' ? 'eye-outline' : 'eye-off-outline'" slot="end"
@@ -53,7 +59,7 @@
           <ion-row>
             <ion-col>
               <ion-button expand="block" [disabled]="loginForm.status === 'INVALID'" (click)="onLogin()">
-                Login
+                {{'modules.user.signin' | translate}}
               </ion-button>
             </ion-col>
           </ion-row>

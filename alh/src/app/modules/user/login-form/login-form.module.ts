@@ -8,6 +8,7 @@ import { LoginFormPageRoutingModule } from './login-form-routing.module';
 
 import { LoginFormPage } from './login-form.page';
 import { SignupFormComponent } from './signup-form/signup-form.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
     ReactiveFormsModule,
     IonicModule,
     LoginFormPageRoutingModule,
+    TranslateModule.forChild({
+      extend: true,
+    }),
   ],
   declarations: [LoginFormPage, SignupFormComponent],
 })

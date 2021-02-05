@@ -1,6 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Signup</ion-title>
+    <ion-title>{{'modules.user.signup' | translate}}</ion-title>
+        <ion-buttons slot="end">
+          <ion-item color="primary" (click)="switchLanguage()" button lines="none">
+            <ion-icon name="earth-outline" slot="start"></ion-icon>
+            <ion-label>{{'language' | translate}}</ion-label>
+          </ion-item>
+        </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -15,9 +21,9 @@
                           <img class="logo_login" src="/assets/shapes.svg">
 
                         </div>
-              <ion-card-title class="ion-text-center">Signup</ion-card-title>
+              <ion-card-title class="ion-text-center">{{'modules.user.signup' | translate}}</ion-card-title>
               <ion-card-subtitle class="ion-text-center">
-                <a button color="primary" routerLink="/user/login">or Login</a>
+                <a button color="primary" routerLink="/user/login">{{'modules.user.orSignin' | translate}}</a>
               </ion-card-subtitle>
             </ion-card-header>
 
@@ -25,7 +31,7 @@
               <ion-list>
                 <ion-item>
                   <ion-icon class="ion-align-self-center" name="podium-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Company name</ion-label>
+                  <ion-label position="floating">{{'modules.user.companyName' | translate}}</ion-label>
                   <ion-input type="text" autocomplete autocorrect formControlName="companyName"></ion-input>
                 </ion-item>
                 <ion-text
@@ -35,7 +41,7 @@
                 </ion-text>
                 <ion-item>
                   <ion-icon class="ion-align-self-center" name="person-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Login</ion-label>
+                  <ion-label position="floating">{{'modules.user.signin' | translate}}</ion-label>
                   <ion-input type="text" autocomplete autocorrect formControlName="login"></ion-input>
                 </ion-item>
                 <ion-text *ngIf="signupForm.get('login').touched && signupForm.get('login').errors" class="input-error"
@@ -44,7 +50,7 @@
                 </ion-text>
                 <ion-item>
                   <ion-icon class="ion-align-self-center" name="mail-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Email</ion-label>
+                  <ion-label position="floating">{{'modules.user.email' | translate}}</ion-label>
                   <ion-input type="email" autocomplete autocorrect formControlName="email"></ion-input>
                 </ion-item>
                 <ion-text *ngIf="signupForm.get('email').touched && signupForm.get('email').errors" class="input-error"
@@ -53,7 +59,7 @@
                 </ion-text>
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="lock-closed-outline" slot="start"></ion-icon>
-                  <ion-label position="floating">Password</ion-label>
+                  <ion-label position="floating">{{'modules.user.password' | translate}}</ion-label>
                   <ion-input [type]="inputType" autocomplete autocorrect formControlName="password"></ion-input>
                   <ion-icon class="ion-align-self-center"
                     [name]="inputType === 'password' ? 'eye-outline' : 'eye-off-outline'" slot="end"
@@ -66,7 +72,7 @@
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="reorder-two-outline" slot="start"></ion-icon>
 
-                  <ion-label position="floating">Password Confirm</ion-label>
+                  <ion-label position="floating">{{'modules.user.confirmPassword' | translate}}</ion-label>
                   <ion-input [type]="inputType" autocomplete autocorrect formControlName="passwordConfirm"></ion-input>
                   <ion-icon
                     *ngIf="signupForm.get('passwordConfirm').touched && signupForm.get('passwordConfirm').status === 'VALID'"
@@ -81,12 +87,11 @@
             </ion-card-content>
 
           </ion-card>
-
           <ion-row>
             <ion-col>
               <ion-button expand="block" [disabled]="signupForm.status === 'INVALID' || signupForm.status === 'PENDING'"
                 (click)="formSubmitSubject$.next()">
-                Signup
+                {{'modules.user.signup' | translate}}
               </ion-button>
             </ion-col>
           </ion-row>

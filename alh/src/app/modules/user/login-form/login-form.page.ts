@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { User } from 'src/app/interface';
 import { Login } from 'src/app/store/actions/user.actions';
 import { State } from 'src/app/store/reducers';
@@ -13,6 +14,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./login-form.page.scss'],
 })
 export class LoginFormPage implements OnInit {
+  lang: string;
   loginForm: FormGroup;
   inputType: 'password' | 'text' = 'password';
   @ViewChild('loginFormDirective', { static: false }) loginFormDirective: FormGroupDirective;
@@ -21,9 +23,13 @@ export class LoginFormPage implements OnInit {
     private userService: UserService,
     private router: Router,
     private store: Store<State>,
+    public translate: TranslateService,
+
   ) { }
 
   ngOnInit() {
+    this.lang = this.translate.currentLang;
+
     this.loginForm = new FormGroup({
       login: new FormControl(
           '',
@@ -77,5 +83,10 @@ export class LoginFormPage implements OnInit {
     if (this.loginFormDirective) {
       this.loginFormDirective.resetForm();
     }
+  }
+
+  switchLanguage() {
+    this.lang === 'en' ? this.lang = 'uk' : this.lang = 'en';
+    this.translate.use(this.lang);
   }
 }

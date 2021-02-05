@@ -58,7 +58,14 @@
     "user": {
       "signin": "Sign in",
       "signup": "Sign up",
-      "logout": "Logout"
+      "orSignup": "Or sign up",
+      "orSignin": "Or sign in",
+      "logout": "Logout",
+      "login": "Login",
+      "email": "Email",
+      "password": "Password",
+      "companyName": "Hotel name",
+      "confirmPassword": "Confirm password"
     },
     "shared": {
       "formField": {

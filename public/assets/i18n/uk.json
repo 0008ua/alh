@@ -58,7 +58,14 @@
     "user": {
       "signin": "Вхід",
       "signup": "Реєстрація",
-      "logout": "Вийти"
+      "orSignup": "Або реєстрація",
+      "orSignin": "Або вхід",
+      "logout": "Вийти",
+      "login": "Логін",
+      "email": "Email",
+      "password": "Пароль",
+      "companyName": "Назва готелю",
+      "confirmPassword": "Підтвердити пароль"
     },
     "shared": {
       "formField": {
