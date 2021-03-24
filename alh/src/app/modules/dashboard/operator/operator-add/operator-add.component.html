@@ -24,19 +24,24 @@
                   <ion-label position="floating">Login</ion-label>
                   <ion-input type="text" autocomplete autocorrect formControlName="login"></ion-input>
                 </ion-item>
-                <ion-text *ngIf="addOperatorForm.get('login').touched && addOperatorForm.get('login').errors"
-                  class="input-error" color="danger">
-                  {{addOperatorForm.get('login').errors | json}}
-                </ion-text>
+                <ng-container *ngIf="addOperatorForm.get('login').dirty && addOperatorForm.get('login').errors">
+                  <ion-text *ngFor="let error of addOperatorForm.get('login').errors | errorExtractor"
+                    class="input-error" color="danger">
+                    {{'errors.' + error | translate}}
+                  </ion-text>
+                </ng-container>
                 <ion-item>
                   <ion-icon class="ion-align-self-center" name="mail-outline" slot="start"></ion-icon>
                   <ion-label position="floating">Email</ion-label>
                   <ion-input type="email" autocomplete autocorrect formControlName="email"></ion-input>
                 </ion-item>
-                <ion-text *ngIf="addOperatorForm.get('email').touched && addOperatorForm.get('email').errors"
-                  class="input-error" color="danger">
-                  {{addOperatorForm.get('email').errors | json}}
-                </ion-text>
+                <ng-container *ngIf="addOperatorForm.get('email').dirty && addOperatorForm.get('email').errors">
+                  <ion-text *ngFor="let error of addOperatorForm.get('email').errors | errorExtractor"
+                    class="input-error" color="danger">
+                    {{'errors.' + error | translate}}
+                  </ion-text>
+                </ng-container>
+
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="lock-closed-outline" slot="start"></ion-icon>
                   <ion-label position="floating">Password</ion-label>
@@ -45,10 +50,13 @@
                     [name]="inputType === 'password' ? 'eye-outline' : 'eye-off-outline'" slot="end"
                     (click)=switchInputType()></ion-icon>
                 </ion-item>
-                <ion-text *ngIf="addOperatorForm.get('password').touched && addOperatorForm.get('password').errors"
-                  class="input-error" color="danger">
-                  {{addOperatorForm.get('password').errors | json}}
-                </ion-text>
+                <ng-container *ngIf="addOperatorForm.get('password').dirty && addOperatorForm.get('password').errors">
+                  <ion-text *ngFor="let error of addOperatorForm.get('password').errors | errorExtractor"
+                    class="input-error" color="danger">
+                    {{'errors.' + error | translate}}
+                  </ion-text>
+                </ng-container>
+
                 <ion-item lines="none">
                   <ion-icon class="ion-align-self-center" name="reorder-two-outline" slot="start"></ion-icon>
 
@@ -58,11 +66,14 @@
                     class="ion-align-self-center" [name]="'checkmark-done-outline'" color="primary" slot="end">
                   </ion-icon>
                 </ion-item>
-                <ion-text
-                  *ngIf="addOperatorForm.get('passwordConfirm').touched && addOperatorForm.get('passwordConfirm').errors"
-                  class="input-error" color="danger">
-                  {{addOperatorForm.get('passwordConfirm').errors | json}}
-                </ion-text>
+                <ng-container
+                  *ngIf="addOperatorForm.get('passwordConfirm').dirty && addOperatorForm.get('passwordConfirm').errors">
+                  <ion-text *ngFor="let error of addOperatorForm.get('passwordConfirm').errors | errorExtractor"
+                    class="input-error" color="danger">
+                    {{'errors.' + error | translate}}
+                  </ion-text>
+                </ng-container>
+
               </ion-list>
             </ion-card-content>
 

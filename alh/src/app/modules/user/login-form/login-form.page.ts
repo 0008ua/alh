@@ -36,7 +36,7 @@ export class LoginFormPage implements OnInit {
           {
             updateOn: 'change',
             validators: [
-              Validators.pattern('^[a-zA-Z0-9_\\-]{2,60}$'),
+              Validators.pattern('^[a-zA-Z0-9_-]+$'),
               Validators.minLength(2),
               Validators.maxLength(60),
               Validators.required,
@@ -47,7 +47,7 @@ export class LoginFormPage implements OnInit {
           {
             updateOn: 'change',
             validators: [
-              Validators.pattern('^[a-zA-Z0-9_\\-]{8,60}$'),
+              Validators.pattern('^[a-zA-Z0-9_-]+$'),
               Validators.minLength(8),
               Validators.maxLength(60),
               Validators.required,

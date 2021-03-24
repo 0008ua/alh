@@ -300,10 +300,10 @@ export class UserService {
               httpOptions,
           )),
           catchError((err) => {
-            return of({ notUnique: true });
+            return of({ notunique: true });
           }),
           map((result) => {
-            return result ? { notUnique: true } : null;
+            return result ? { notunique: true } : null;
           }));
     };
   }
@@ -325,10 +325,10 @@ export class UserService {
               httpOptions,
           )),
           catchError((err) => {
-            return of({ notUnique: true });
+            return of({ notunique: true });
           }),
           map((result) => {
-            return result ? { notUnique: true } : null;
+            return result ? { notunique: true } : null;
           }));
     };
   }
@@ -350,10 +350,10 @@ export class UserService {
               httpOptions,
           )),
           catchError((err) => {
-            return of({ notUnique: true });
+            return of({ notunique: true });
           }),
           map((result) => {
-            return result ? { notUnique: true } : null;
+            return result ? { notunique: true } : null;
           }),
       );
     };

@@ -70,7 +70,7 @@ export class BookingFormPage implements OnInit {
           {
             updateOn: 'change',
             validators: [ // from a-z, A-Z, 0-9, а-я, А-Я and single characters іІїЇєЄ_@#$%№  \'(js)   "   \\-(regex), minLength 2?, max 40
-              Validators.pattern('^[a-zA-Z0-9а-яА-ЯіІїЇєЄ_@#$%№\'"\\-]{2,40}$'),
+              Validators.pattern('^[a-zA-Z0-9а-яА-ЯіІїЇєЄ_@#$%№\'"\\-]+$'),
               Validators.minLength(2),
               Validators.maxLength(40),
               Validators.required,

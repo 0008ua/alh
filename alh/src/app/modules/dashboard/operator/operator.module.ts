@@ -10,6 +10,7 @@ import { OperatorPage } from './operator.page';
 import { OperatorAddComponent } from './operator-add/operator-add.component';
 import { SharedModule } from '../../shared/shared.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       extend: true,
     }),
+    PipesModule,
   ],
   declarations: [OperatorPage, OperatorAddComponent],
 })

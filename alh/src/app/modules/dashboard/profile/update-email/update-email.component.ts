@@ -36,7 +36,8 @@ export class UpdateEmailComponent implements OnInit {
                   startWith(this.updateEmailForm.status),
                   filter((status) => {
                     console.log('status', status);
-                    return status !== 'PENDING'}),
+                    return status !== 'PENDING';
+                  }),
                   take(1),
               ),
             ),

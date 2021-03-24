@@ -29,7 +29,7 @@ export class UpdateActivationComponent implements OnInit {
           {
             updateOn: 'change',
             validators: [
-              Validators.pattern('^[0-9]{2,10}$'),
+              Validators.pattern('^[0-9]+$'),
               Validators.minLength(2),
               Validators.maxLength(10),
               Validators.required,

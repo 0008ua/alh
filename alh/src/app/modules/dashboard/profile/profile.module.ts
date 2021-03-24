@@ -11,6 +11,7 @@ import { UpdateEmailComponent } from './update-email/update-email.component';
 import { UpdateActivationComponent } from './update-activation/update-activation.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
       extend: true,
     }),
     DirectivesModule,
+    PipesModule,
   ],
   declarations: [
     ProfilePage,

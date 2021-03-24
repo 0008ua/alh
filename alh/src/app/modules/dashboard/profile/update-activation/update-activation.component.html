@@ -25,10 +25,13 @@
                   <ion-label position="floating">{{'modules.dashboard.profile.code' | translate}}</ion-label>
                   <ion-input type="number" autocomplete autocorrect formControlName="code"></ion-input>
                 </ion-item>
-                <ion-text *ngIf="activateEmailCodeForm.get('code').touched && activateEmailCodeForm.get('code').errors"
-                  class="input-error" color="danger">
-                  {{activateEmailCodeForm.get('code').errors | json}}
-                </ion-text>
+                                      <ng-container *ngIf="activateEmailCodeForm.get('code').dirty && activateEmailCodeForm.get('code').errors">
+                                        <ion-text *ngFor="let error of activateEmailCodeForm.get('code').errors | errorExtractor" class="input-error"
+                                          color="danger">
+                                          {{'errors.' + error | translate}}
+                                        </ion-text>
+                                      </ng-container>
+      
               </ion-list>
             </ion-card-content>
           </ion-card>

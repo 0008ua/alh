@@ -23,10 +23,13 @@
                   <ion-label position="floating">Email</ion-label>
                   <ion-input type="email" autocomplete autocorrect formControlName="email"></ion-input>
                 </ion-item>
-                <ion-text *ngIf="updateEmailForm.get('email').dirty && updateEmailForm.get('email').errors"
-                  class="input-error" color="danger">
-                  {{updateEmailForm.get('email').errors | json}}
-                </ion-text>
+                <ng-container *ngIf="updateEmailForm.get('email').dirty && updateEmailForm.get('email').errors">
+                  <ion-text *ngFor="let error of updateEmailForm.get('email').errors | errorExtractor"
+                    class="input-error" color="danger">
+                    {{'errors.' + error | translate}}
+                  </ion-text>
+                </ng-container>
+
               </ion-list>
             </ion-card-content>
           </ion-card>

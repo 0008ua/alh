@@ -110,16 +110,21 @@
               <ion-datetime *ngIf="updated" pickerFormat="DD-MMMM-YYYY" [min]="fromPlusOneDay" [max]="availableTo"
                 monthNames="{{monthNames}}" displayFormat="DD MMMM YYYY" placeholder="Select end date"
                 formControlName="to"></ion-datetime>
-              <ion-text *ngIf="bookingForm.get('dates').get('to').errors" class="input-error" color="danger">
-                {{bookingForm.get('dates').get('to').errors | json}}
-              </ion-text>
+              <ng-container
+                *ngIf="bookingForm.get('dates').get('to').dirty && bookingForm.get('dates').get('to').errors">
+                <ion-text *ngFor="let error of bookingForm.get('dates').get('to').errors | errorExtractor"
+                  class="input-error" color="danger">
+                  {{'errors.' + error | translate}}
+                </ion-text>
+              </ng-container>
+
             </ion-item>
 
             <!-- <ion-item *appPermission="{component: constructor.name, item: 'btnCancelReservation'}" class="date-label__item"> -->
             <ion-item class="date-label__item">
               <ion-label>
                 <ion-button [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
-                 fill="outline" color="danger" (click)="presentAlert()">
+                  fill="outline" color="danger" (click)="presentAlert()">
                   {{'modules.shedule.bookingForm.cancelReservation' | translate}}
                 </ion-button>
               </ion-label>
@@ -133,9 +138,13 @@
 
               <ion-input type="text" autocomplete autocorrect formControlName="guestName"></ion-input>
             </ion-item>
-            <ion-text *ngIf="bookingForm.get('guestName').errors" class="input-error" color="danger">
-              {{bookingForm.get('guestName').errors | json}}
-            </ion-text>
+            <ng-container *ngIf="bookingForm.get('guestName').dirty && bookingForm.get('guestName').errors">
+              <ion-text *ngFor="let error of bookingForm.get('guestName').errors | errorExtractor" class="input-error"
+                color="danger">
+                {{'errors.' + error | translate}}
+              </ion-text>
+            </ng-container>
+
 
             <ion-item>
               <ion-label position="floating" color="primary">
@@ -143,9 +152,13 @@
               </ion-label>
               <ion-input type="text" autocomplete autocorrect formControlName="guestPhone"></ion-input>
             </ion-item>
-            <ion-text *ngIf="bookingForm.get('guestPhone').errors" class="input-error" color="danger">
-              {{bookingForm.get('guestPhone').errors | json}}
-            </ion-text>
+            <ng-container *ngIf="bookingForm.get('guestPhone').dirty && bookingForm.get('guestPhone').errors">
+              <ion-text *ngFor="let error of bookingForm.get('guestPhone').errors | errorExtractor" class="input-error"
+                color="danger">
+                {{'errors.' + error | translate}}
+              </ion-text>
+            </ng-container>
+
 
             <ion-item>
               <ion-label position="floating" color="primary">
@@ -153,9 +166,12 @@
               </ion-label>
               <ion-input type="email" autocomplete autocorrect formControlName="guestEmail"></ion-input>
             </ion-item>
-            <ion-text *ngIf="bookingForm.get('guestEmail').errors" class="input-error" color="danger">
-              {{bookingForm.get('guestEmail').errors | json}}
-            </ion-text>
+            <ng-container *ngIf="bookingForm.get('guestEmail').dirty && bookingForm.get('guestEmail').errors">
+              <ion-text *ngFor="let error of bookingForm.get('guestEmail').errors | errorExtractor" class="input-error"
+                color="danger">
+                {{'errors.' + error | translate}}
+              </ion-text>
+            </ng-container>
 
             <ion-item>
               <ion-label position="floating" color="primary">
@@ -163,9 +179,13 @@
               </ion-label>
               <ion-input type="text" autocomplete autocorrect formControlName="discount"></ion-input>
             </ion-item>
-            <ion-text *ngIf="bookingForm.get('discount').errors" class="input-error" color="danger">
-              {{bookingForm.get('discount').errors | json}}
-            </ion-text>
+            <ng-container *ngIf="bookingForm.get('discount').dirty && bookingForm.get('discount').errors">
+              <ion-text *ngFor="let error of bookingForm.get('discount').errors | errorExtractor" class="input-error"
+                color="danger">
+                {{'errors.' + error | translate}}
+              </ion-text>
+            </ng-container>
+
           </ion-list>
 
           <ion-list lines="none">
@@ -223,10 +243,14 @@
                     <ion-label position="floating" color="primary">{{'dif.amount' | translate}}</ion-label>
                     <ion-input type="text" autocomplete autocorrect formControlName="amount"></ion-input>
                   </ion-item>
-                  <ion-text *ngIf="getPaymentsArrayControlAt(i).get('amount').errors" class="input-error"
-                    color="danger">
-                    {{getPaymentsArrayControlAt(i).get('amount').errors | json}}
-                  </ion-text>
+                  <ng-container
+                    *ngIf="getPaymentsArrayControlAt(i).get('amount').dirty && getPaymentsArrayControlAt(i).get('amount').errors">
+                    <ion-text *ngFor="let error of getPaymentsArrayControlAt(i).get('amount').errors | errorExtractor"
+                      class="input-error" color="danger">
+                      {{'errors.' + error | translate}}
+                    </ion-text>
+                  </ng-container>
+
 
                   <ion-item>
                     <ion-label position="stacked" color="primary">{{'common.paymentMethods.title' | translate}}
@@ -237,9 +261,15 @@
                       </ion-select-option>
                     </ion-select>
                   </ion-item>
-                  <ion-text *ngIf="getPaymentsArrayControlAt(i).get('paymentMethod').errors" class="input-error"
-                    color="danger">{{getPaymentsArrayControlAt(i).get('paymentMethod').errors | json}}
-                  </ion-text>
+                  <ng-container
+                    *ngIf="getPaymentsArrayControlAt(i).get('paymentMethod').dirty && getPaymentsArrayControlAt(i).get('paymentMethod').errors">
+                    <ion-text
+                      *ngFor="let error of getPaymentsArrayControlAt(i).get('paymentMethod').errors | errorExtractor"
+                      class="input-error" color="danger">
+                      {{'errors.' + error | translate}}
+                    </ion-text>
+                  </ng-container>
+
                 </ion-list>
               </ng-container>
             </ng-container>
@@ -251,7 +281,8 @@
               </ion-button>
             </ion-col>
             <ion-col>
-              <ion-button expand="block" [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
+              <ion-button expand="block"
+                [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
                 [disabled]="bookingForm.status === 'INVALID' || this.isCancelled || user.blocked"
                 (click)="onFormSubmit()">
                 {{'elements.button.submit' | translate}} {{bookingForm.errors}}

@@ -45,19 +45,19 @@ export class UpdateFormFieldComponent implements OnInit {
         .subscribe((validationSuccessful) => this.onConfirm());
   }
 
-  errorMapping(errors) {
-    const errorsArr = [];
-    for (const key in errors) {
-      if (this.data.errors.has(key)) {
-        console.log('key', key);
+  // errorMapping(errors) {
+  //   const errorsArr = [];
+  //   for (const key in errors) {
+  //     if (this.data.errors.has(key)) {
+  //       console.log('key', key);
 
-        console.log('key', this.data.errors.get(key));
-        errorsArr.push(this.data.errors.get(key));
-      }
-    }
-    console.log('errorsArr', errorsArr);
-    return errorsArr.length ? errorsArr : ['Error: Wrong symbols or length'];
-  }
+  //       console.log('key', this.data.errors.get(key));
+  //       errorsArr.push(this.data.errors.get(key));
+  //     }
+  //   }
+  //   console.log('errorsArr', errorsArr);
+  //   return errorsArr.length ? errorsArr : ['Error: Wrong symbols or length'];
+  // }
 
   dismiss(data?: any): void {
     this.modalController.dismiss(data);

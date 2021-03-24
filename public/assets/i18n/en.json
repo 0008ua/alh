@@ -144,10 +144,13 @@
     "sure": "Are you sure?"
   },
   "errors": {
-    "form": {
-      "length": "Length should be from {{minLength}} to {{maxLength}} characters",
-      "required": "Please input "
-    },
-    "notFound": "Page not found - 404"
+    "minlength": "Too short",
+    "maxlength": "Too longg",
+    "required": "Required",
+    "pattern": "Some characters are not allowed or format is not correct",
+    "notunique": "Already exists",
+    "mismatch": "Mismatch",
+    "max": "Too much",
+    "min": "Not enough "
   }
 }

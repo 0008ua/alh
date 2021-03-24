@@ -144,10 +144,13 @@
     "sure": "Ви впевнені?"
   },
   "errors": {
-    "form": {
-      "length": "Length should be from {{minLength}} to {{maxLength}} characters",
-      "required": "Please input "
-    },
-    "notFound": "Page not found - 404"
+    "minlength": "Надто короткий",
+    "maxlength": "Надто довгий",
+    "required": "Обов'язкове поле",
+    "pattern": "Присутні недопустимі символи або невірне форматування",
+    "notunique": "Вже існує",
+    "mismatch": "Не збігається",
+    "max": "Забагато",
+    "min": "Замало"
   }
 }
