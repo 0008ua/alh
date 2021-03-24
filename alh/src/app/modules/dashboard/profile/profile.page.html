@@ -12,6 +12,9 @@
     <ion-row>
       <ion-col size-md="6" offset-md="3">
         <h2 class="ion-text-center">{{company.companyName}}</h2>
+        <p *appPermission="{component: constructor.name, item: 'msgNotActivated', condition: false}" class="ion-text-center">
+          <ion-text color="danger">{{'modules.dashboard.profile.activateWarning' | translate}}</ion-text>
+        </p>
         <ion-list>
           <ion-row>
             <ion-col class="ion-no-padding" size="4">
@@ -129,7 +132,27 @@
               </ion-item>
             </ion-col>
           </ion-row>
-
+          <ion-row *appPermission="{component: constructor.name, item: 'btnRemoveCompany'}">
+            <ion-col class="ion-no-padding">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-button color="danger" fill="outline" (click)="presentAlert(company.companyName)">{{'elements.button.delete' | translate}} {{'modules.dashboard.profile.company' | translate}}</ion-button>
+                <!-- <ion-label>
+                  <h4>{{'elements.button.delete' | translate}} {{'modules.dashboard.profile.company' | translate}}</h4>
+                </ion-label> -->
+              </ion-item>
+            </ion-col>
+            <!-- <ion-col class="ion-no-padding" size="8">
+              <ion-item class="ion-no-padding" lines="none">
+                <ion-label>
+                  <ion-text color="primary">
+                    <p>
+                      {{user.role}}
+                    </p>
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+            </ion-col> -->
+          </ion-row>
 
 
         </ion-list>

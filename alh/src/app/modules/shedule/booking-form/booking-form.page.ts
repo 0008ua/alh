@@ -33,6 +33,7 @@ export class BookingFormPage implements OnInit {
     totalPaid?: number;
     balance?: number;
     bookingStep?: string;
+    pricePerNight?: number;
   } = {};
   isCancelled = false;
 
@@ -145,7 +146,6 @@ export class BookingFormPage implements OnInit {
             this.mode = 'edit';
             return this.sheduleService.getBookingById(paramMap.get('bookingId')).pipe(
                 switchMap((booking) => {
-                  console.log('booking', booking);
                   this.isCancelled = booking.bookingStep === 'cancelled';
                   this.booking = this.sheduleService.convertBookingDatesIsoToShort(booking);
                   this.booking.payments.forEach((_) => this.addPaymentsArrayControl());
@@ -216,7 +216,9 @@ export class BookingFormPage implements OnInit {
         this.sheduleService.convertShortToDate(this.bookingForm.get('dates').get('to').value),
         this.sheduleService.convertShortToDate(this.bookingForm.get('dates').get('from').value),
     );
-    this.calculatedData.bookingPrice = this.room.price * this.calculatedData.days;
+    this.calculatedData.bookingPrice = this.booking?.price ? this.booking.price : this.room.price * this.calculatedData.days;
+    this.calculatedData.pricePerNight =
+      this.calculatedData.bookingPrice / this.calculatedData.days;
     let amount = 0;
     this.bookingForm.get('payments')['controls'].forEach((control) => {
       amount += control.get('amount').value;
@@ -334,7 +336,6 @@ export class BookingFormPage implements OnInit {
       formField: string,
       data?: { formState?: any, options?: { validators?: ValidatorFn[], updateOn?: UpdateOn } },
   ) {
-    console.log('data', data);
     this.bookingForm.addControl(formField, this.initControl(data.formState, data.options));
   }
 
@@ -354,7 +355,6 @@ export class BookingFormPage implements OnInit {
   onFormCancel() {
     this.resetForm();
     this.navController.back();
-    // this.router.navigate([this.mode === 'new' ? '/shedule' : '/shedule/discover/' + this.booking?._id]);
   }
 
   onFormSubmit() {
@@ -368,7 +368,6 @@ export class BookingFormPage implements OnInit {
     // prepare booking object to send to server
     // booking = this.sheduleService.convertBookingDatesIsoToNumber(booking);
     booking = this.sheduleService.convertBookingDatesIsoToShort(booking);
-    console.log('f booking', booking);
 
     this.sheduleService.upsertBooking(booking)
         .subscribe((result) => {

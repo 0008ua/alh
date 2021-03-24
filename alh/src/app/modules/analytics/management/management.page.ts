@@ -56,10 +56,13 @@ export class ManagementPage implements OnInit {
     this.store.select(getCompany)
         .subscribe(
             (company) => {
-              const all = this.translate.instant('dif.all');
-              this.rooms = [...company.rooms];
-              this.rooms.unshift({_id: null, name: all});
-              this.room = this.rooms[0];
+              console.log('company', company);
+              if (company) {
+                const all = this.translate.instant('dif.all');
+                this.rooms = [...company.rooms];
+                this.rooms.unshift({ _id: null, name: all });
+                this.room = this.rooms[0];
+              }
             },
             (err) => console.log('load rooms err', err),
         );
@@ -85,12 +88,14 @@ export class ManagementPage implements OnInit {
     // ionViewWillEnter() emitted on parent component
     this.route.url
         .subscribe((_) => {
-          this.filter();
-          // reload select translation
-          this.updated = false;
-          const all = this.translate.instant('dif.all');
-          this.rooms[0].name = all;
-          setTimeout(() => this.updated = true, 1);
+          if (this.room) {
+            this.filter();
+            // reload select translation
+            this.updated = false;
+            const all = this.translate.instant('dif.all');
+            this.rooms[0].name = all;
+            setTimeout(() => this.updated = true, 1);
+          }
         });
   }
 

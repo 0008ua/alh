@@ -44,7 +44,10 @@
         "blocked": "Blocked",
         "activated": "Activated",
         "activationText": "Please enter activation code from email",
-        "code": "Code"
+        "code": "Code",
+        "company": "company",
+        "deleteAttention": "This will remove all related data, including reservations!",
+        "activateWarning": "Please confirm your email to activate account. Additional features will be available."
       },
       "operator": {
         "title": "Edit users",
@@ -52,7 +55,8 @@
         "unblock": "Unblock"
       },
       "room": {
-        "title": "Edit rooms"
+        "title": "Edit rooms",
+        "deleteAttention": "This will remove all related reservations!"
       }
     },
     "user": {

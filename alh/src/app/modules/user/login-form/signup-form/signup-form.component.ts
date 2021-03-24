@@ -32,7 +32,7 @@ export class SignupFormComponent implements OnInit {
       companyName: new FormControl(
           '',
           {
-            updateOn: 'blur',
+            updateOn: 'change',
             validators: [
               Validators.pattern('^[a-zA-Z0-9 _\\-]{2,60}$'),
               Validators.minLength(2),
@@ -46,7 +46,7 @@ export class SignupFormComponent implements OnInit {
       login: new FormControl(
           '',
           {
-            updateOn: 'blur',
+            updateOn: 'change',
             validators: [
               Validators.pattern('^[a-zA-Z0-9_\\-]{2,60}$'),
               Validators.minLength(2),
@@ -82,7 +82,7 @@ export class SignupFormComponent implements OnInit {
       email: new FormControl(
           '',
           {
-            updateOn: 'blur',
+            updateOn: 'change',
             validators: [
               Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
               Validators.required,

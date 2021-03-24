@@ -142,7 +142,6 @@ const getAvailableDateTo = (req, res, next) => {
       },
     },
   ]).then((result) => {
-    console.log('result', result);
     return res.status(200).json(result.length ? result[0].to : null);
   })
     .catch((err) => next(new DbError({ message: 'Помилка завантаження вільної дати to' })));

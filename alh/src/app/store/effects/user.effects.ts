@@ -12,6 +12,14 @@ import { UserService } from '../../modules/user/user.service';
 @Injectable()
 export class UserEffects {
   @Effect()
+  removeCompany: Observable<Action | Action[]> = this.actions$.pipe(
+      ofType(fromUserActions.UserActionTypes.RemoveCompany),
+      switchMap((action) => this.userService.removeCompany()),
+      switchMap(() => [new fromUserActions.RemoveCompanySuccess(), new fromUserActions.LogoutOnFront()]),
+      catchError((err) => of(new fromUserActions.RemoveCompanyFail(err))),
+  );
+
+  @Effect()
   loadLang: Observable<Action> = this.actions$
       .pipe(
           ofType(fromUserActions.UserActionTypes.LoadLang),

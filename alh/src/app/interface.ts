@@ -63,6 +63,7 @@ export interface Booking {
   guestPhone: string;
   guestEmail: string;
   price: number;
+  // totalPrice: number;
   discount: number;
   bookingStep: BookingSteps;
   dates: {

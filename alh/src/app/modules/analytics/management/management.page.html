@@ -59,7 +59,8 @@
                         {{bookingStep.value}}
                       </ion-select-option>
                     </ion-select> -->
-                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="bookingStep" (ionChange)="filter()">
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="bookingStep"
+                      (ionChange)="filter()">
                       <ion-select-option *ngFor="let bookingStep of bookingSteps" [value]="bookingStep">
                         {{'common.bookingSteps.' + bookingStep | translate}}
                       </ion-select-option>
@@ -69,8 +70,8 @@
                 <ion-col>
                   <ion-item>
                     <ion-label>{{'common.bookingStepExprs.title' | translate}}</ion-label>
-                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="bookingStepExpr" [disabled]="!bookingStep"
-                      (ionChange)="filter()">
+                    <ion-select *ngIf="updated" placeholder="Select One" [(ngModel)]="bookingStepExpr"
+                      [disabled]="!bookingStep" (ionChange)="filter()">
                       <ion-select-option *ngFor="let bookingStepExpr of bookingStepExprs" [value]="bookingStepExpr">
                         {{'common.bookingStepExprs.' + bookingStepExpr | translate}}
                       </ion-select-option>
@@ -142,8 +143,14 @@
                     <ion-col class="ion-no-padding" size="3">
                       <ion-item class="ion-no-padding" lines="none">
                         <ion-label class="ion-text-center">
-                          <ion-button [ngClass]="'status-color_' + booking.bookingStep"
-                            (click)="viewBooking(booking._id)" fill="clear">{{'common.bookingSteps.' +
+                          <!-- <p *appPermission="{component: constructor.name, item: 'btnViewBooking', condition: false}"
+                            [ngClass]="'status-color_' + booking.bookingStep">
+                            {{'common.bookingSteps.' +
+                            booking.bookingStep |
+                            translate}}</p> -->
+                          <ion-button
+                            [ngClass]="'status-color_' + booking.bookingStep" (click)="viewBooking(booking._id)"
+                            fill="clear">{{'common.bookingSteps.' +
                             booking.bookingStep |
                             translate}}</ion-button>
                         </ion-label>

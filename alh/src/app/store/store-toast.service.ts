@@ -18,13 +18,13 @@ export class EntityToastService {
             ),
         )
         .subscribe((action) =>
-          this.presentToast(`${action.payload.entityName} action - ${action.payload.entityOp}`),
+          this.presentToast(`Success`), // `${action.payload.entityName} action - ${action.payload.entityOp}`),
         );
 
     actions$
         .pipe(ofType(EntityCacheAction.SAVE_ENTITIES_SUCCESS, EntityCacheAction.SAVE_ENTITIES_ERROR))
         .subscribe((action: any) =>
-          this.presentToast(`SaveEntities ${action.type} - url: ${action.payload.url}`),
+          this.presentToast(`Success`), // `SaveEntities ${action.type} - url: ${action.payload.url}`),
         );
 
     actions$
@@ -34,12 +34,20 @@ export class EntityToastService {
     actions$
         .pipe(ofType(UserActionTypes.UpdateUserFail))
         .subscribe((action: any) => this.presentToast(`Update error`));
+
+    actions$
+        .pipe(ofType(UserActionTypes.RemoveCompanyFail))
+        .subscribe((action: any) => this.presentToast(`Remove Company error`));
+
+    actions$
+        .pipe(ofType(UserActionTypes.RemoveCompanySuccess))
+        .subscribe((action: any) => this.presentToast(`Company successful removed`));
   }
 
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message,
-      duration: 2000,
+      duration: 1000,
     });
     toast.present();
   }

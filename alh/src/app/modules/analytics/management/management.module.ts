@@ -8,6 +8,7 @@ import { ManagementPageRoutingModule } from './management-routing.module';
 
 import { ManagementPage } from './management.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       extend: true,
     }),
+    DirectivesModule,
   ],
   declarations: [ManagementPage],
 })

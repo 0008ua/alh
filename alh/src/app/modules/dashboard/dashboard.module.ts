@@ -8,6 +8,8 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { DirectivesModule } from '../../directives/directives.module';
+
 
 @NgModule({
   imports: [
@@ -18,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       extend: true,
     }),
+    DirectivesModule,
   ],
   declarations: [DashboardPage],
 })

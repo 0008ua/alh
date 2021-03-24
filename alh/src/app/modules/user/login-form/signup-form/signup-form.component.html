@@ -34,7 +34,7 @@
                   <ion-input type="text" autocomplete autocorrect formControlName="companyName"></ion-input>
                 </ion-item>
                 <ion-text
-                  *ngIf="signupForm.get('companyName').touched && signupForm.get('companyName').errors && !signupForm.get('companyName').errors['unique']"
+                  *ngIf="signupForm.get('companyName').dirty && signupForm.get('companyName').errors"
                   class="input-error" color="danger">
                   {{signupForm.get('companyName').errors | json}}
                 </ion-text>
@@ -43,7 +43,7 @@
                   <ion-label position="floating">{{'modules.user.login' | translate}}</ion-label>
                   <ion-input type="text" autocomplete autocorrect formControlName="login"></ion-input>
                 </ion-item>
-                <ion-text *ngIf="signupForm.get('login').touched && signupForm.get('login').errors" class="input-error"
+                <ion-text *ngIf="signupForm.get('login').dirty && signupForm.get('login').errors" class="input-error"
                   color="danger">
                   {{signupForm.get('login').errors | json}}
                 </ion-text>
@@ -52,7 +52,7 @@
                   <ion-label position="floating">{{'modules.user.email' | translate}}</ion-label>
                   <ion-input type="email" autocomplete autocorrect formControlName="email"></ion-input>
                 </ion-item>
-                <ion-text *ngIf="signupForm.get('email').touched && signupForm.get('email').errors" class="input-error"
+                <ion-text *ngIf="signupForm.get('email').dirty && signupForm.get('email').errors" class="input-error"
                   color="danger">
                   {{signupForm.get('email').errors | json}}
                 </ion-text>
@@ -64,7 +64,7 @@
                     [name]="inputType === 'password' ? 'eye-outline' : 'eye-off-outline'" slot="end"
                     (click)=switchInputType()></ion-icon>
                 </ion-item>
-                <ion-text *ngIf="signupForm.get('password').touched && signupForm.get('password').errors"
+                <ion-text *ngIf="signupForm.get('password').dirty && signupForm.get('password').errors"
                   class="input-error" color="danger">
                   {{signupForm.get('password').errors | json}}
                 </ion-text>
@@ -74,11 +74,11 @@
                   <ion-label position="floating">{{'modules.user.confirmPassword' | translate}}</ion-label>
                   <ion-input [type]="inputType" autocomplete autocorrect formControlName="passwordConfirm"></ion-input>
                   <ion-icon
-                    *ngIf="signupForm.get('passwordConfirm').touched && signupForm.get('passwordConfirm').status === 'VALID'"
-                    class="ion-align-self-center" [name]="'checkmark-done-outline'" color="primary" slot="end">
+                    *ngIf="signupForm.get('passwordConfirm').dirty && signupForm.get('passwordConfirm').status === 'VALID'"
+                    class="ion-align-self-center" [name]="'checkmark-done-outline'" color="success" slot="end">
                   </ion-icon>
                 </ion-item>
-                <ion-text *ngIf="signupForm.get('passwordConfirm').touched && signupForm.get('passwordConfirm').errors"
+                <ion-text *ngIf="signupForm.get('passwordConfirm').dirty && signupForm.get('passwordConfirm').errors"
                   class="input-error" color="danger">
                   {{signupForm.get('passwordConfirm').errors | json}}
                 </ion-text>

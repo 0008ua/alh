@@ -10,6 +10,7 @@ import { ProfilePage } from './profile.page';
 import { UpdateEmailComponent } from './update-email/update-email.component';
 import { UpdateActivationComponent } from './update-activation/update-activation.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       extend: true,
     }),
+    DirectivesModule,
   ],
   declarations: [
     ProfilePage,

@@ -30,10 +30,13 @@ export class UpdateEmailComponent implements OnInit {
     this.formSubmitSubject$
         .pipe(
             tap(() => this.updateEmailForm.markAsDirty()),
+            tap(() => console.log('tap')),
             switchMap(() =>
               this.updateEmailForm.statusChanges.pipe(
                   startWith(this.updateEmailForm.status),
-                  filter((status) => status !== 'PENDING'),
+                  filter((status) => {
+                    console.log('status', status);
+                    return status !== 'PENDING'}),
                   take(1),
               ),
             ),
@@ -43,7 +46,6 @@ export class UpdateEmailComponent implements OnInit {
   }
 
   dismiss(data?: any): void {
-    console.log('data form', data);
     this.modalController.dismiss(data);
   }
 

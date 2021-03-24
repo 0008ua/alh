@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
     // this.lang = 'en';
     // for automatic lang detection
     const browserLang = translate.getBrowserLang();
-    console.log('browserLang', browserLang);
     this.lang = browserLang.match(/uk|ru/) ? 'uk' : 'en';
     translate.use(this.lang);
 

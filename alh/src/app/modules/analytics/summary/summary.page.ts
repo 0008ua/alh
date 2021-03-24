@@ -11,6 +11,7 @@ import { combineLatest, of } from 'rxjs';
 import { mergeMap, skip } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-summary',
@@ -33,11 +34,13 @@ export class SummaryPage implements OnInit {
   updated = true;
   monthNames: any;
 
+  action = true;
   constructor(
     private sheduleService: SheduleService,
     private store: Store<State>,
     private route: ActivatedRoute,
     private translate: TranslateService,
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
@@ -90,6 +93,10 @@ export class SummaryPage implements OnInit {
 
   // ionViewWillEnter() {
 
+  // }
+
+  // emitAction() {
+  //   this.userService.emitAction(true);
   // }
 
   calcData() {

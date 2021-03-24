@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { from, throwError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { from, Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { ActivateUser, UpdateUser } from 'src/app/store/actions/user.actions';
+import { ActivateUser, RemoveCompany, UpdateUser } from 'src/app/store/actions/user.actions';
 
 import { Company, User } from '../../../interface';
 import { State } from '../../../store/reducers';
@@ -25,6 +26,8 @@ export class ProfilePage implements OnInit {
     private store: Store<State>,
     public modalController: ModalController,
     public userService: UserService,
+    public alertController: AlertController,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -49,6 +52,32 @@ export class ProfilePage implements OnInit {
     return await modal.onWillDismiss();
   }
 
+  async presentAlert(name: string) {
+    const alert = await this.alertController.create({
+      // cssClass: 'my-custom-class',
+      header: this.translate.instant('elements.button.delete') + ' ' +
+      this.translate.instant('modules.dashboard.profile.company') + ': ' + name,
+      subHeader: this.translate.instant('modules.dashboard.profile.deleteAttention'),
+      message: this.translate.instant('dif.sure'),
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+        // cssClass: 'color_warning',
+        handler: (_) => {
+        },
+      }, {
+        text: 'Okay',
+        handler: () => this.removeCompany(),
+        cssClass: 'color_danger',
+      }],
+    });
+    await alert.present();
+  }
+
+  removeCompany() {
+    this.store.dispatch(new RemoveCompany());
+  }
+
   activate() {
     this.userService.sendActivationCode(this.user._id).pipe(
         catchError((err) => throwError(err)),
@@ -68,8 +97,6 @@ export class ProfilePage implements OnInit {
   async updateEmail() {
     const { data } = await this.presentModal(UpdateEmailComponent);
     if (data) {
-      console.log('data', data);
-
       this.store.dispatch(new UpdateUser({
         _id: this.user._id,
         email: data.email,

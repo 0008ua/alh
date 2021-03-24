@@ -53,19 +53,19 @@ export class RoomPage implements OnInit {
   async presentAlert(_id: string, name: string) {
     const alert = await this.alertController.create({
       // cssClass: 'my-custom-class',
-      header: this.translate.instant('elements.button.delete'),
-      subHeader: this.translate.instant('dif.room') + ': ' + name,
+      header: this.translate.instant('elements.button.delete') + ' ' + this.translate.instant('dif.room') + ': ' + name,
+      subHeader: this.translate.instant('modules.dashboard.room.deleteAttention'),
       message: this.translate.instant('dif.sure'),
       buttons: [{
         text: 'Cancel',
         role: 'cancel',
-        // cssClass: 'secondary',
+        // cssClass: 'color_warning',
         handler: (blah) => {
-          console.log('Confirm Cancel: blah');
         },
       }, {
         text: 'Okay',
         handler: () => this.remove(_id),
+        cssClass: 'color_danger',
       }],
     });
     await alert.present();

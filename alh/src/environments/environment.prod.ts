@@ -35,4 +35,10 @@ export const environment = {
   bookingStepExprsMap: new Map<any, string>(bookingStepExprs),
   sortOrdersMap: new Map<any, string>(sortOrders),
   sortFieldsMap: new Map<any, string>(sortFields),
+  permissions: {
+    profileRemoveCompany: {
+      roles: ['admin', 'manager'],
+      activated: false,
+    },
+  },
 };

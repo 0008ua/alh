@@ -10,6 +10,12 @@ const midleware = (req, res, next) => {
   next();
 };
 
+router.delete('/remove-company',
+  passport.authenticate('jwt', { session: false }),
+  authorization('admin'),
+  attachCompanyLiteMiddleware,
+  userController.removeCompany);
+
 router.get('/get-company-by-user',
   passport.authenticate('jwt', { session: false }),
   attachCompanyLiteMiddleware,

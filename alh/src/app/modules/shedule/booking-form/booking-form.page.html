@@ -41,7 +41,7 @@
                 <ion-label>
                   <p>{{'modules.shedule.bookingForm.pricePerNight' | translate}}</p>
                 </ion-label>
-                <ion-text slot="end" color="primary">{{room?.price}}</ion-text>
+                <ion-text slot="end" color="primary">{{calculatedData?.pricePerNight}}</ion-text>
               </ion-item>
               <ion-item lines="none">
                 <ion-label>
@@ -93,11 +93,11 @@
                 {{'modules.shedule.bookingForm.availableTo' | translate}}
               </ion-label>
               <!-- {{availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits' }} -->
-              <ion-datetime *ngIf="updated" pickerFormat="DD-MMMM-YYYY"
-                [value]="availableTo? (availableTo | date: 'dd MMMM yyyy') : 'No limits'" monthNames="{{monthNames}}"
+              <ion-datetime *ngIf="updated && availableTo" pickerFormat="DD-MMMM-YYYY"
+                [value]="availableTo? (availableTo | date: 'dd MMMM yyyy') : 0" monthNames="{{monthNames}}"
                 displayFormat="DD MMMM YYYY" disabled>
               </ion-datetime>
-
+              <ion-spinner *ngIf="!(updated && availableTo)" name="dots"></ion-spinner>
             </ion-item>
           </ion-list>
 
@@ -115,9 +115,11 @@
               </ion-text>
             </ion-item>
 
-            <ion-item *ngIf="!user?.blocked" class="date-label__item">
+            <!-- <ion-item *appPermission="{component: constructor.name, item: 'btnCancelReservation'}" class="date-label__item"> -->
+            <ion-item class="date-label__item">
               <ion-label>
-                <ion-button fill="outline" color="danger" (click)="presentAlert()">
+                <ion-button [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
+                 fill="outline" color="danger" (click)="presentAlert()">
                   {{'modules.shedule.bookingForm.cancelReservation' | translate}}
                 </ion-button>
               </ion-label>
@@ -249,7 +251,7 @@
               </ion-button>
             </ion-col>
             <ion-col>
-              <ion-button expand="block"
+              <ion-button expand="block" [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
                 [disabled]="bookingForm.status === 'INVALID' || this.isCancelled || user.blocked"
                 (click)="onFormSubmit()">
                 {{'elements.button.submit' | translate}} {{bookingForm.errors}}

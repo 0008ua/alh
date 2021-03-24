@@ -8,6 +8,7 @@ import { BookingFormPageRoutingModule } from './booking-form-routing.module';
 
 import { BookingFormPage } from './booking-form.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       extend: true,
     }),
+    DirectivesModule,
   ],
   declarations: [BookingFormPage],
 })

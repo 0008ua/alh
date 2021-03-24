@@ -36,6 +36,12 @@ export function reducer(state = initialState, action: UserActions): UserState {
     case UserActionTypes.GetCompanyByUser:
       return { ...state };
 
+    case UserActionTypes.RemoveCompanySuccess:
+      return { ...state };
+
+    case UserActionTypes.RemoveCompanyFail:
+      return { ...state };
+
     case UserActionTypes.CompanyAuthenticated:
       return { ...state, company: action.payload.company, loading: false };
 

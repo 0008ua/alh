@@ -1,6 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{'modules.analytics.summary.title' | translate}}</ion-title>
+    <ion-title>{{'modules.analytics.summary.title' | translate}}
+      <!-- <h2 *appPermission="{a:1}">{{action}}</h2>
+      <ion-button (click)="emitAction()">{{action}}</ion-button> -->
+    </ion-title>
+
     <ion-buttons slot="end">
       <ion-menu-button menu="analytics-menu"></ion-menu-button>
     </ion-buttons>

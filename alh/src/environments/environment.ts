@@ -38,6 +38,52 @@ export const environment = {
   bookingStepExprsMap: new Map<any, string>(bookingStepExprs),
   sortOrdersMap: new Map<any, string>(sortOrders),
   sortFieldsMap: new Map<any, string>(sortFields),
+  permissions: {
+    BookingFormPage: {
+      btnCancelReservation: {
+        roles: ['admin', 'manager'],
+        activated: true,
+        notBlocked: true,
+      },
+      btnSaveForm: {
+        roles: ['admin', 'manager'],
+        activated: true,
+        notBlocked: true,
+      },
+    },
+    ProfilePage: {
+      btnRemoveCompany: {
+        roles: ['admin'],
+        activated: false,
+        notBlocked: false,
+      },
+      msgNotActivated: {
+        roles: ['admin', 'manager'],
+        activated: true,
+        notBlocked: false,
+      },
+    },
+    // ManagementPage: {
+    //   btnViewBooking: {
+    //     roles: ['admin', 'manager'],
+    //     activated: false,
+    //     notBlocked: false,
+    //   },
+    // },
+    DashboardPage: {
+      menuOperator: {
+        roles: ['admin'],
+        activated: true,
+        notBlocked: true,
+      },
+      menuRoom: {
+        roles: ['admin', 'manager'],
+        activated: true,
+        notBlocked: true,
+      },
+    },
+
+  },
 };
 
 /*

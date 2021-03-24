@@ -9,7 +9,7 @@ const {
   normalizeUserObject,
   updateUserVersion,
 } = require('../helpers');
-const { CompanyModel, UserModel, RoomSchema } = require('../models');
+const { CompanyModel, UserModel, RoomSchema, BookingModel } = require('../models');
 
 
 const add = (req, res, next) => {
@@ -75,11 +75,16 @@ const remove = (req, res, next) => {
       .catch((err) => next(err));
     break;
   case 'room':
-    CompanyModel.updateOne(
-      { _id: company_id },
-      { $pull: { 'rooms': {_id} } },
-      { upsert: false },
-    )
+    BookingModel.deleteMany({room_id: _id})
+      .then((_) => {
+        console.log('delete', _);
+        return CompanyModel.updateOne(
+          { _id: company_id },
+          { $pull: { 'rooms': { _id } } },
+          { upsert: false },
+        );
+      })
+
       .then((_) => res.status(200).json(_id))
       .catch((err) => next(err));
     break;

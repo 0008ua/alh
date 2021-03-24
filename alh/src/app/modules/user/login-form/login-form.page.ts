@@ -72,11 +72,6 @@ export class LoginFormPage implements OnInit {
 
     this.store.dispatch(new Login({user}));
     this.resetForm();
-    // this.userService.login(user)
-    //     .subscribe(
-    //         (_) => this.resetForm(),
-    //         (err) => console.log('login Error', err),
-    //     );
   }
 
   resetForm() {

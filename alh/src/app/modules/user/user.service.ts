@@ -9,15 +9,15 @@ const { Storage, Device } = Plugins;
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
 
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, from, Observable, of } from 'rxjs';
+import { catchError, delay, map, switchMap, tap, timeout } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
 import { Company, CompanySignup, User } from '../../interface';
 import { State } from '../../store/reducers';
 import { Login, LoginSuccess, Logout, Redirection } from '../../store/actions/user.actions';
-import { redirectionUrl } from '../../store/reducers/user.reducer';
+import { getUser, redirectionUrl } from '../../store/reducers/user.reducer';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -25,6 +25,9 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
   host = environment.host;
+  permissions = environment.permissions;
+  user: User;
+  // private action$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(
     private http: HttpClient,
@@ -39,6 +42,47 @@ export class UserService {
             this.store.dispatch(new Redirection({redirectionUrl: null}));
           }
         });
+  }
+
+  // emitAction(action: boolean) {
+  //   this.action$.next(action);
+  // }
+
+  // getAction() {
+  //   return this.action$.asObservable();
+  // }
+
+  /*   condition
+  if true than return calculated permission(true, false),
+  if false than return calculated !permission(true, false),
+   */
+  displayGuard({component, item, condition = true}: { component: string; item: string, condition?: boolean }): Observable<boolean> {
+    return this.store.select(getUser).pipe(
+        map((user) => {
+          if (
+            (item in this.permissions[component]) &&
+            (this.permissions[component][item].roles.indexOf(user.role) >= 0) &&
+            (user.activated || !this.permissions[component][item].activated) &&
+            (!user.blocked || !this.permissions[component][item].notBlocked)
+          ) {
+            return true && condition;
+          } else {
+            return !condition;
+          }
+        }),
+    );
+  }
+
+  removeCompany(): Observable<null> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.delete<null>(
+        this.host + 'api/user/remove-company/',
+        httpOptions,
+    );
   }
 
   deviceInfo() {
@@ -181,7 +225,7 @@ export class UserService {
     );
   }
 
-  
+
   createCompanyUser(user: User): Observable<void> {
     return this.getToken()
         .pipe(
@@ -227,7 +271,7 @@ export class UserService {
     return new FormControl(
         formState,
         {
-          updateOn: 'blur',
+          updateOn: 'change',
           validators: [
             Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
             Validators.required,
@@ -239,7 +283,6 @@ export class UserService {
   }
 
   /* async validators */
-
   checkCompanyNameUnique(): AsyncValidatorFn {
     return (abstractControl: AbstractControl): Observable < ValidationErrors | null > => {
       const companyName = abstractControl.value;
@@ -250,19 +293,18 @@ export class UserService {
         params: new HttpParams()
             .set('companyName', companyName),
       };
-      return this.http.get< string | null >(
-          this.host + 'api/user/is-company-name-unique',
-          httpOptions,
-      )
-          .pipe(
-              tap((companyName) => console.log('companyName', companyName)),
-              catchError((err) => {
-                return of(err);
-              }),
-              map((result) => {
-                return result ? { notUnique: true } : null;
-              }),
-          );
+      return of(null).pipe(
+          delay(800),
+          switchMap((_) => this.http.get<null>(
+              this.host + 'api/user/is-company-name-unique',
+              httpOptions,
+          )),
+          catchError((err) => {
+            return of({ notUnique: true });
+          }),
+          map((result) => {
+            return result ? { notUnique: true } : null;
+          }));
     };
   }
 
@@ -276,18 +318,18 @@ export class UserService {
         params: new HttpParams()
             .set('login', login),
       };
-      return this.http.get<string | null>(
-          this.host + 'api/user/is-login-unique',
-          httpOptions,
-      )
-          .pipe(
-              catchError((err) => {
-                return of(err);
-              }),
-              map((result) => {
-                return result ? { notUnique: true } : null;
-              }),
-          );
+      return of(null).pipe(
+          delay(800),
+          switchMap((_) => this.http.get<null>(
+              this.host + 'api/user/is-login-unique',
+              httpOptions,
+          )),
+          catchError((err) => {
+            return of({ notUnique: true });
+          }),
+          map((result) => {
+            return result ? { notUnique: true } : null;
+          }));
     };
   }
 
@@ -301,18 +343,19 @@ export class UserService {
         params: new HttpParams()
             .set('email', email),
       };
-      return this.http.get<string | null>(
-          this.host + 'api/user/is-email-unique',
-          httpOptions,
-      )
-          .pipe(
-              catchError((err) => {
-                return of(err);
-              }),
-              map((result) => {
-                return result ? { notUnique: true } : null;
-              }),
-          );
+      return of(null).pipe(
+          delay(800),
+          switchMap((_) => this.http.get<null>(
+              this.host + 'api/user/is-email-unique',
+              httpOptions,
+          )),
+          catchError((err) => {
+            return of({ notUnique: true });
+          }),
+          map((result) => {
+            return result ? { notUnique: true } : null;
+          }),
+      );
     };
   }
 

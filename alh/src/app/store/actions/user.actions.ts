@@ -16,6 +16,10 @@ export enum UserActionTypes {
   Redirection = '[User] Redirection',
   AuthError = '[User] Error',
 
+  RemoveCompany = '[User] Remove Company',
+  RemoveCompanySuccess = '[User] Remove Company Success',
+  RemoveCompanyFail = '[User] Remove Company Fail',
+
   UpdateUser = '[User] Update user',
   UpdateUserSuccess = '[User] Update user success',
   UpdateUserFail = '[User] Update user fail',
@@ -77,6 +81,19 @@ export class AuthError implements Action {
   readonly type = UserActionTypes.AuthError;
 }
 
+export class RemoveCompany implements Action {
+  readonly type = UserActionTypes.RemoveCompany;
+}
+
+export class RemoveCompanySuccess implements Action {
+  readonly type = UserActionTypes.RemoveCompanySuccess;
+}
+
+export class RemoveCompanyFail implements Action {
+  readonly type = UserActionTypes.RemoveCompanyFail;
+  constructor(public payload?: any) { }
+}
+
 export class Login implements Action {
   readonly type = UserActionTypes.Login;
   constructor(public payload: { user: User }) { }
@@ -125,6 +142,9 @@ export type UserActions
   | NotAuthenticated
   | Redirection
   | AuthError
+  | RemoveCompany
+  | RemoveCompanySuccess
+  | RemoveCompanyFail
   | Logout
   | LogoutOnFront
   | Login

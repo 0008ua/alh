@@ -1,8 +1,8 @@
 {
   "name": "A Little Hotel - Manage your hotel",
   "short_name": "A Little Hotel",
-  "theme_color": "#1976d2",
-  "background_color": "white",
+  "theme_color": "#fff",
+  "background_color": "#fff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

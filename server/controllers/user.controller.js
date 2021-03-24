@@ -6,7 +6,32 @@ const { ClientError, DbError, ServerError } = require('../errors');
 const { isCompanyNameUniqueHelper, createUserHelper, isLoginUniqueHelper,
   isEmailUniqueHelper, checkDbResOkOne,
   normalizeUserObject, createJWT, updateUserVersion } = require('../helpers');
-const { CompanyModel, UserModel } = require('../models');
+const { CompanyModel, UserModel, BookingModel } = require('../models');
+
+const removeCompany = (req, res, next) => {
+  const company = req.company;
+  const rooms = company.rooms.map((room) => new Types.ObjectId(room._id));
+  const users = company.users.map((user_id) => new Types.ObjectId(user_id));
+  console.log('rooms', rooms);
+  console.log('users', users);
+  // return res.status(200).json(null);
+  BookingModel.deleteMany({ room_id: { $in: rooms}})
+    .then((_) => UserModel.deleteMany({ _id: { $in: users }}))
+    .then((_) => CompanyModel.deleteOne({ _id: company._id }))
+    .then((_) => {
+      req.logout();
+      const cookieOptions = {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'Strict',
+        path: '/api/user/auth',
+      };
+      res.clearCookie('RT', cookieOptions);
+      console.log('ok');
+      return res.status(200).json(null);
+    })
+    .catch((err) => next(err));
+};
 
 // self update User
 const updateUser = (req, res, next) => {
@@ -299,6 +324,7 @@ const refreshToken = (req, res, next) => {
 
 
 module.exports.userController = {
+  removeCompany,
   getCompanyByUser,
   getCompanyUsers,
   login,

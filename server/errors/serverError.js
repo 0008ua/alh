@@ -1,26 +1,13 @@
+const CustomError = require('./customError');
 /**
- * Server errors 500..
- *
- * @export
- * @class ServerError
- * @extends {Error}
- * @param {object|null} err
- * @param {string|null} err.message
- * @param {number|null} err.status
- * @param {number|string|null} err.code
+ * Client errors 400..
  */
-module.exports = class ServerError extends Error {
+module.exports = class ServerError extends CustomError {
   constructor(err) {
-    super();
-    if (err instanceof ServerError) {
-      return err;
-    }
-    this.message = err && err.message ? 'Internal Server Error. ' + err.message : 'Internal Server Error';
+    super(err);
     this.status = err && err.status ? err.status : 500;
-    this.code = err && err.code ? err.code : 0;
-    this.name = 'ServerError';
   }
-}
+};
 
 //    messages
 // bc (Bestcrypt errors) - 500 Internal Server Error

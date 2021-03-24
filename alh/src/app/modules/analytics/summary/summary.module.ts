@@ -8,6 +8,7 @@ import { SummaryPageRoutingModule } from './summary-routing.module';
 
 import { SummaryPage } from './summary.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule.forChild({
       extend: true,
     }),
+    DirectivesModule,
   ],
   declarations: [SummaryPage],
 })
