@@ -123,7 +123,7 @@
             <!-- <ion-item *appPermission="{component: constructor.name, item: 'btnCancelReservation'}" class="date-label__item"> -->
             <ion-item class="date-label__item">
               <ion-label>
-                <ion-button [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
+                <ion-button [appPermissionDisabled]="{component: 'BookingFormPage', item: 'btnCancelReservation'}"
                   fill="outline" color="danger" (click)="presentAlert()">
                   {{'modules.shedule.bookingForm.cancelReservation' | translate}}
                 </ion-button>
@@ -282,7 +282,7 @@
             </ion-col>
             <ion-col>
               <ion-button expand="block"
-                [appPermissionDisabled]="{component: constructor.name, item: 'btnCancelReservation'}"
+                [appPermissionDisabled]="{component: 'BookingFormPage', item: 'btnCancelReservation'}"
                 [disabled]="bookingForm.status === 'INVALID' || this.isCancelled || user.blocked"
                 (click)="onFormSubmit()">
                 {{'elements.button.submit' | translate}} {{bookingForm.errors}}

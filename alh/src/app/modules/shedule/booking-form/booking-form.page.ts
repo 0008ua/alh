@@ -39,7 +39,6 @@ export class BookingFormPage implements OnInit {
 
   updated = true;
   monthNames: any;
-  // oneDay = environment.constants.oneDay;
   bookingSteps = fromInterface.bookingSteps;
   paymentMethods = fromInterface.paymentMethods;
   editPayment: null | number = null;
