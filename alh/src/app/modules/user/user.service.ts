@@ -379,7 +379,6 @@ export class UserService {
     }
   }
 
-
   // companyUsers entity
   getCompanyUsers(users_id: string[]): Observable<User[]> {
     return from(Storage.get({ key: 'token' }))

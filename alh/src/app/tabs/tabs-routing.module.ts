@@ -21,6 +21,7 @@ const routes: Routes = [
         loadChildren: () => import('../modules/shedule/shedule.module').then((m) => m.ShedulePageModule),
         canLoad: [AuthGuard],
         canActivate: [AuthGuard],
+
       },
       {
         path: 'user',

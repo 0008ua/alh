@@ -7,7 +7,7 @@ import { getBookings, getPayments } from 'src/app/store/reducers/shedule.reducer
 import { Booking, BookingQuery, DateRangeLimits, Payment, PaymentQuery, Room } from 'src/app/interface';
 import { GetBookings, GetPayments } from 'src/app/store/actions/shedule.actions';
 import { getCompany } from 'src/app/store/reducers/user.reducer';
-import { combineLatest, of } from 'rxjs';
+import { combineLatest, of, zip } from 'rxjs';
 import { mergeMap, skip } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -51,6 +51,7 @@ export class SummaryPage implements OnInit {
 
     getCompany$.pipe(
         mergeMap((company) => {
+          console.log('company', company);
           if (company) {
             this.rooms = [...company.rooms];
             this.rooms.unshift({ _id: null, name: 'All' });
