@@ -59,10 +59,6 @@ export class UserService {
   displayGuard({component, item, condition = true}: { component: string; item: string, condition?: boolean }): Observable<boolean> {
     return this.store.select(getUser).pipe(
         map((user) => {
-          console.log('this.permissions', this.permissions);
-          console.log('item', item);
-          console.log('component', component);
-          console.log('this.permissions[component]', this.permissions[component]);
           if (
             (item in this.permissions[component]) &&
             (this.permissions[component][item].roles.indexOf(user.role) >= 0) &&
