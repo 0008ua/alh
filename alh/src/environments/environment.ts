@@ -30,6 +30,7 @@ export const sortFields = [
 ] as const;
 
 export const environment = {
+  appVersion: require('../../package.json').version + '-dev',
   host: '/',
   // host: 'https://10.0.2.2:8084/',
   production: false,

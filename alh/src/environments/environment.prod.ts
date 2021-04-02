@@ -23,11 +23,14 @@ export const sortFields = [
   ['dates.to', 'Date to'],
   ['price', 'Price'],
 ] as const;
+
 export const paymentMethods = [
   ['cash', 'Cash'],
   ['card', 'Card'],
 ] as const;
+
 export const environment = {
+  appVersion: require('../../package.json').version,
   host: '/',
   production: true,
   paymentMethodsMap: new Map<any, string>(paymentMethods),

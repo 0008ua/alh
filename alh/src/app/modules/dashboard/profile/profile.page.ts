@@ -12,6 +12,7 @@ import { getCompany, getUser } from '../../../store/reducers/user.reducer';
 import { UserService } from '../../user/user.service';
 import { UpdateActivationComponent } from './update-activation/update-activation.component';
 import { UpdateEmailComponent } from './update-email/update-email.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ import { UpdateEmailComponent } from './update-email/update-email.component';
 export class ProfilePage implements OnInit {
   user: User | null = null;
   company: Company;
+  environment = environment;
 
   constructor(
     private store: Store<State>,
