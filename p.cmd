@@ -1,4 +1,4 @@
 rd public /s /q
 if exist public rd /s /q public
 cd alh
-ionic build --aot --prod
+npm --no-git-tag-version version patch & ionic build --aot --prod
