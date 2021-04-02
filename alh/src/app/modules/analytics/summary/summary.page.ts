@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ScheduleService } from '../../schedule/schedule.service';
 import * as fns from 'date-fns';
 import { Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { getBookings, getPayments } from 'src/app/store/reducers/schedule.reduce
 import { Booking, BookingQuery, DateRangeLimits, Payment, PaymentQuery, Room } from 'src/app/interface';
 import { GetBookings, GetPayments } from 'src/app/store/actions/schedule.actions';
 import { getCompany } from 'src/app/store/reducers/user.reducer';
-import { combineLatest, of, zip } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { mergeMap, skip } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';

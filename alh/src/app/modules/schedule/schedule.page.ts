@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as fns from 'date-fns';
@@ -8,7 +8,7 @@ import { GetBookings } from 'src/app/store/actions/schedule.actions';
 import { GetUser } from 'src/app/store/actions/user.actions';
 import { State } from 'src/app/store/reducers';
 import { getBookings } from 'src/app/store/reducers/schedule.reducer';
-import { getCompany, getLang } from 'src/app/store/reducers/user.reducer';
+import { getCompany } from 'src/app/store/reducers/user.reducer';
 
 import { Knobs, Room, DateRangeLimits, Booking } from '../../interface';
 import { ScheduleService } from '../schedule/schedule.service';
