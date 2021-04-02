@@ -3,13 +3,13 @@ import { Booking, BookingQuery, Room, User } from 'src/app/interface';
 import { Store } from '@ngrx/store';
 import * as fns from 'date-fns';
 import * as fromInterface from 'src/app/interface';
-import { SheduleService } from '../../shedule/shedule.service';
+import { ScheduleService } from '../../schedule/schedule.service';
 import { State } from 'src/app/store/reducers';
-// import { GetRoomsByDateRange } from 'src/app/store/actions/shedule.actions';
+// import { GetRoomsByDateRange } from 'src/app/store/actions/schedule.actions';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { getBookings } from 'src/app/store/reducers/shedule.reducer';
-import { GetBookings } from 'src/app/store/actions/shedule.actions';
+import { getBookings } from 'src/app/store/reducers/schedule.reducer';
+import { GetBookings } from 'src/app/store/actions/schedule.actions';
 import { getCompany, getUser } from 'src/app/store/reducers/user.reducer';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,14 +37,14 @@ export class ManagementPage implements OnInit {
   sortOrders = fromInterface.sortOrders;
   sortOrder = 1;
 
-  date = this.sheduleService.convertDateToShort(new Date());
-  maxDate = this.sheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
+  date = this.scheduleService.convertDateToShort(new Date());
+  maxDate = this.scheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
 
   updated = true;
   monthNames: any;
 
   constructor(
-    private sheduleService: SheduleService,
+    private scheduleService: ScheduleService,
     public store: Store<State>,
     private router: Router,
     private route: ActivatedRoute,
@@ -130,7 +130,7 @@ export class ManagementPage implements OnInit {
 
   createBookingQuery(): BookingQuery {
     return <BookingQuery>{
-      dateRangeLimits: this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.date)),
+      dateRangeLimits: this.scheduleService.createDateRangeLimits(this.scheduleService.convertISOToDate(this.date)),
       room_id: this.room._id,
       bookingStep: this.bookingStep? {
         val: this.bookingStep,
@@ -182,11 +182,11 @@ export class ManagementPage implements OnInit {
 
   viewBooking(booking_id: string) {
     // discover
-    this.router.navigate(['/', 'shedule', 'edit', booking_id]);
+    this.router.navigate(['/', 'schedule', 'edit', booking_id]);
   }
 
   delete(booking_id: string) {
-    this.sheduleService.deleteBooking(booking_id)
+    this.scheduleService.deleteBooking(booking_id)
         .subscribe(
             (_) => _,
             (err) => console.log('err delete', err),
@@ -194,6 +194,6 @@ export class ManagementPage implements OnInit {
   }
 
   update(booking_id: string) {
-    this.router.navigateByUrl('/shedule/edit/' + booking_id);
+    this.router.navigateByUrl('/schedule/edit/' + booking_id);
   }
 }

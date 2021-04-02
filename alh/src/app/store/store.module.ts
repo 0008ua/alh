@@ -9,7 +9,7 @@ import { reducers, metaReducers } from './reducers';
 import { OperatorDataService } from './operator-data.service';
 import { entityMetadata } from './entity-metadata';
 import { EntityToastService } from './store-toast.service';
-import { SheduleEffects } from './effects/shedule.effects';
+import { ScheduleEffects } from './effects/schedule.effects';
 import { UserEffects } from './effects/user.effects';
 import { environment } from 'src/environments/environment';
 
@@ -38,7 +38,7 @@ export const defaultDataServiceConfig: DefaultDataServiceConfig = {
       },
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([SheduleEffects, UserEffects]),
+    EffectsModule.forRoot([ScheduleEffects, UserEffects]),
     EntityDataModule.forRoot({ entityMetadata }),
   ],
   providers: [

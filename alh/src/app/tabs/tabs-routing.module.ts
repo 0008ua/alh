@@ -11,14 +11,14 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'shedule',
+        redirectTo: 'schedule',
         pathMatch: 'full',
         canLoad: [AuthGuard],
         canActivate: [AuthGuard],
       },
       {
-        path: 'shedule',
-        loadChildren: () => import('../modules/shedule/shedule.module').then((m) => m.ShedulePageModule),
+        path: 'schedule',
+        loadChildren: () => import('../modules/schedule/schedule.module').then((m) => m.SchedulePageModule),
         canLoad: [AuthGuard],
         canActivate: [AuthGuard],
 

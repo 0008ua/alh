@@ -1,8 +1,8 @@
 {
   "language": "Перейти на Українську",
   "modules": {
-    "shedule": {
-      "title": "Shedule",
+    "schedule": {
+      "title": "Schedule",
       "bookingForm": {
         "title": "Booking",
         "balance": "Balance",

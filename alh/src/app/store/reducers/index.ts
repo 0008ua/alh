@@ -1,16 +1,16 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { environment } from '../../../environments/environment';
-import * as fromShedule from './shedule.reducer';
+import * as fromSchedule from './schedule.reducer';
 import * as fromUser from './user.reducer';
 
 export interface State {
-  shedule: fromShedule.SheduleState;
+  schedule: fromSchedule.ScheduleState;
   user: fromUser.UserState;
 }
 
 export const reducers: ActionReducerMap<State> = {
-  shedule: fromShedule.reducer,
+  schedule: fromSchedule.reducer,
   user: fromUser.reducer,
 };
 

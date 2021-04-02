@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{'modules.schedule.title' | translate}}</ion-title>
+    <ion-buttons slot="end">
+          <ion-item color="primary" (click)="switchLanguage()" button lines="none">
+            <ion-icon name="earth-outline" slot="start"></ion-icon>
+            <ion-label>{{'language' | translate}}</ion-label>
+          </ion-item>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <!-- <ion-row>
+          <ion-col class="status-background-color_preorder ion-text-center">
+            Preorder
+          </ion-col>
+          <ion-col class="status-background-color_reserved ion-text-center">
+            Reserved
+          </ion-col>
+          <ion-col class="status-background-color_paid ion-text-center">
+            Paid
+          </ion-col>
+        </ion-row> -->
+        <ion-list>
+
+          <ion-item >
+            <ion-label>{{'elements.datePicker.chooseMonth' | translate}}</ion-label>
+            <ion-datetime *ngIf="updated" pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxPickedMonth"
+              placeholder="Select Month" [(ngModel)]="pickedMonth" (ionChange)="onMonthChange()"
+              monthNames="{{monthNames}}"></ion-datetime>
+          </ion-item>
+          <ion-item>
+            <ion-range [min]="0" [step]="1" [max]="range.length - 1" color="secondary" snaps="true" dualKnobs="true"
+              [(ngModel)]="knobs" (ionChange)="onRangeChange($event)">
+              <ion-label class="ion-text-end" slot="start">
+                <ion-text>{{range[0] | date: 'dd MMM'}}</ion-text>
+                <ion-text color="secondary">
+                  <h2 color="secondary">
+                    {{range[knobs.lower] | date: 'dd MMM'}}
+                  </h2>
+                </ion-text>
+              </ion-label>
+              <ion-label class="ion-text-start" slot="end">
+                <ion-text>{{range[range.length - 1] | date: 'dd MMM'}}</ion-text>
+                <ion-text color="secondary">
+                  <h2 color="secondary">
+                    {{range[knobs.upper ]| date: 'dd MMM'}}
+                  </h2>
+                </ion-text>
+              </ion-label>
+            </ion-range>
+          </ion-item>
+          <ion-item>
+            <ion-grid>
+              <ion-row class="schedule-header">
+                <ion-col class="ion-no-padding schedule-header__range" size="2">
+                  {{selectedRange[0] | date: "dd.MM"}} - {{selectedRange[selectedRange.length - 1] | date: "dd.MM"}}
+                </ion-col>
+                <ion-col class="ion-no-padding ion-text-center schedule-header__date" size="1"
+                  *ngFor="let date of selectedRange">
+                  {{date | date: "dd "}}
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+          <ion-item *ngFor="let room of rooms">
+            <ion-grid>
+              <ion-row class="schedule-body">
+                <ion-col class="ion-no-padding ion-text-center schedule-body__room-name" size="2">
+                  {{room.name}}
+                </ion-col>
+                <ion-col class="ion-no-padding" size="1" *ngFor="let date of selectedRange">
+                  <app-schedule-item [bookings]="getBookings(room._id, date) | async" [date]="date" [room_id]="room._id">
+                  </app-schedule-item>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

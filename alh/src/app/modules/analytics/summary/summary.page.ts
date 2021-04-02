@@ -1,11 +1,11 @@
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { SheduleService } from '../../shedule/shedule.service';
+import { ScheduleService } from '../../schedule/schedule.service';
 import * as fns from 'date-fns';
 import { Store } from '@ngrx/store';
 import { State } from 'src/app/store/reducers';
-import { getBookings, getPayments } from 'src/app/store/reducers/shedule.reducer';
+import { getBookings, getPayments } from 'src/app/store/reducers/schedule.reducer';
 import { Booking, BookingQuery, DateRangeLimits, Payment, PaymentQuery, Room } from 'src/app/interface';
-import { GetBookings, GetPayments } from 'src/app/store/actions/shedule.actions';
+import { GetBookings, GetPayments } from 'src/app/store/actions/schedule.actions';
 import { getCompany } from 'src/app/store/reducers/user.reducer';
 import { combineLatest, of, zip } from 'rxjs';
 import { mergeMap, skip } from 'rxjs/operators';
@@ -19,9 +19,9 @@ import { UserService } from '../../user/user.service';
   styleUrls: ['./summary.page.scss'],
 })
 export class SummaryPage implements OnInit {
-  pickedMonth: string = this.sheduleService.convertDateToShort(new Date());
-  maxPickedMonth: string = this.sheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
-  dateRangeLimits: DateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.pickedMonth));
+  pickedMonth: string = this.scheduleService.convertDateToShort(new Date());
+  maxPickedMonth: string = this.scheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
+  dateRangeLimits: DateRangeLimits = this.scheduleService.createDateRangeLimits(this.scheduleService.convertISOToDate(this.pickedMonth));
 
   bookings: Booking[];
   payments: Payment[];
@@ -36,7 +36,7 @@ export class SummaryPage implements OnInit {
 
   action = true;
   constructor(
-    private sheduleService: SheduleService,
+    private scheduleService: ScheduleService,
     private store: Store<State>,
     private route: ActivatedRoute,
     private translate: TranslateService,
@@ -51,7 +51,6 @@ export class SummaryPage implements OnInit {
 
     getCompany$.pipe(
         mergeMap((company) => {
-          console.log('company', company);
           if (company) {
             this.rooms = [...company.rooms];
             this.rooms.unshift({ _id: null, name: 'All' });
@@ -105,7 +104,7 @@ export class SummaryPage implements OnInit {
     let totalSoldAll = 0;
     let totalRoomDaysAll = 0;
     let totalPaymentsAll = 0;
-    const daysInMonth = fns.getDaysInMonth(this.sheduleService.convertISOToDate(this.pickedMonth)) - 1;
+    const daysInMonth = fns.getDaysInMonth(this.scheduleService.convertISOToDate(this.pickedMonth)) - 1;
 
     this.rooms.forEach((room) => {
       if (!room._id) {
@@ -132,8 +131,8 @@ export class SummaryPage implements OnInit {
           return;
         }
         const bookingTotalDays = fns.differenceInCalendarDays(
-            this.sheduleService.convertISOToDate(booking.dates.to),
-            this.sheduleService.convertISOToDate(booking.dates.from),
+            this.scheduleService.convertISOToDate(booking.dates.to),
+            this.scheduleService.convertISOToDate(booking.dates.from),
         );
         const bookingPricePerDay = (booking.price - booking.discount) / bookingTotalDays;
 
@@ -142,41 +141,41 @@ export class SummaryPage implements OnInit {
         let bookingDaysInCurrentMonth = 0;
 
         if (fns.isEqual(
-            this.sheduleService.convertISOToDate(booking.dates.from),
-            this.sheduleService.convertISOToDate(this.dateRangeLimits.upper),
+            this.scheduleService.convertISOToDate(booking.dates.from),
+            this.scheduleService.convertISOToDate(this.dateRangeLimits.upper),
         )) {
           bookingDaysInCurrentMonth = 1;
         } else if (fns.isEqual(
-            this.sheduleService.convertISOToDate(booking.dates.to),
-            this.sheduleService.convertISOToDate(this.dateRangeLimits.lower),
+            this.scheduleService.convertISOToDate(booking.dates.to),
+            this.scheduleService.convertISOToDate(this.dateRangeLimits.lower),
         )) {
           bookingDaysInCurrentMonth = 0;
         } else {
           if (fns.isAfter(
-              this.sheduleService.convertISOToDate(booking.dates.from),
-              this.sheduleService.convertISOToDate(this.dateRangeLimits.lower),
+              this.scheduleService.convertISOToDate(booking.dates.from),
+              this.scheduleService.convertISOToDate(this.dateRangeLimits.lower),
           ) || fns.isEqual(
-              this.sheduleService.convertISOToDate(booking.dates.from),
-              this.sheduleService.convertISOToDate(this.dateRangeLimits.lower),
+              this.scheduleService.convertISOToDate(booking.dates.from),
+              this.scheduleService.convertISOToDate(this.dateRangeLimits.lower),
           )) {
             startDate = booking.dates.from;
           } else {
             startDate = this.dateRangeLimits.lower;
           }
           if (fns.isBefore(
-              this.sheduleService.convertISOToDate(booking.dates.to),
-              this.sheduleService.convertISOToDate(this.dateRangeLimits.upper),
+              this.scheduleService.convertISOToDate(booking.dates.to),
+              this.scheduleService.convertISOToDate(this.dateRangeLimits.upper),
           ) || fns.isEqual(
-              this.sheduleService.convertISOToDate(booking.dates.to),
-              this.sheduleService.convertISOToDate(this.dateRangeLimits.upper),
+              this.scheduleService.convertISOToDate(booking.dates.to),
+              this.scheduleService.convertISOToDate(this.dateRangeLimits.upper),
           )) {
             endDate = booking.dates.to;
           } else {
             endDate = this.dateRangeLimits.upper;
           }
           bookingDaysInCurrentMonth = fns.differenceInCalendarDays(
-              this.sheduleService.convertISOToDate(endDate),
-              this.sheduleService.convertISOToDate(startDate),
+              this.scheduleService.convertISOToDate(endDate),
+              this.scheduleService.convertISOToDate(startDate),
           );
           totalSold += bookingDaysInCurrentMonth * bookingPricePerDay;
           totalRoomDays += bookingDaysInCurrentMonth;
@@ -215,7 +214,7 @@ export class SummaryPage implements OnInit {
   }
 
   createBookingQuery(): BookingQuery {
-    this.dateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.pickedMonth));
+    this.dateRangeLimits = this.scheduleService.createDateRangeLimits(this.scheduleService.convertISOToDate(this.pickedMonth));
     return <BookingQuery>{
       dateRangeLimits: this.dateRangeLimits,
       // room_id: this.room?._id,
@@ -231,7 +230,7 @@ export class SummaryPage implements OnInit {
   }
 
   createPaymentQuery(): PaymentQuery {
-    this.dateRangeLimits = this.sheduleService.createDateRangeLimits(this.sheduleService.convertISOToDate(this.pickedMonth));
+    this.dateRangeLimits = this.scheduleService.createDateRangeLimits(this.scheduleService.convertISOToDate(this.pickedMonth));
     return <PaymentQuery>{
       dateRangeLimits: this.dateRangeLimits,
       // room_id: this.room?._id,

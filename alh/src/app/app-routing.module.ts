@@ -4,12 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   // {
   //   path: '',
-  //   redirectTo: '/tabs/shedule',
+  //   redirectTo: '/tabs/scchedule',
   //   pathMatch: 'full',
   // },
   // {
-  //   path: 'shedule',
-  //   loadChildren: () => import('./shedule/shedule.module').then( (m) => m.ShedulePageModule),
+  //   path: 'schedule',
+  //   loadChildren: () => import('./schedule/schedule.module').then( (m) => m.SchedulePageModule),
   // },
   // {
   //   path: 'user',
