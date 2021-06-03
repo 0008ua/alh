@@ -13,19 +13,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size-md="6" offset-md="3">
-        <!-- <ion-row>
-          <ion-col class="status-background-color_preorder ion-text-center">
-            Preorder
-          </ion-col>
-          <ion-col class="status-background-color_reserved ion-text-center">
-            Reserved
-          </ion-col>
-          <ion-col class="status-background-color_paid ion-text-center">
-            Paid
-          </ion-col>
-        </ion-row> -->
         <ion-list>
-
           <ion-item >
             <ion-label>{{'elements.datePicker.chooseMonth' | translate}}</ion-label>
             <ion-datetime *ngIf="updated" pickerFormat="MMMM-YYYY" displayFormat="MMMM YYYY" [max]="maxPickedMonth"

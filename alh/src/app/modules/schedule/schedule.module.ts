@@ -10,6 +10,7 @@ import { SchedulePage } from './schedule.page';
 import { ScheduleItemComponent } from './schedule-item/schedule-item.component';
 import { TranslateModule } from '@ngx-translate/core';
 
+
 @NgModule({
   imports: [
     CommonModule,

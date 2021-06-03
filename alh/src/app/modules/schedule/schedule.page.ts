@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnInit, ViewChild } from '@angular/core';
+import { IonRange } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import * as fns from 'date-fns';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { GetBookings } from 'src/app/store/actions/schedule.actions';
 import { GetUser } from 'src/app/store/actions/user.actions';
 import { State } from 'src/app/store/reducers';
@@ -19,6 +20,16 @@ import { ScheduleService } from '../schedule/schedule.service';
   styleUrls: ['./schedule.page.scss'],
 })
 export class SchedulePage implements OnInit {
+  // @ViewChild('ionRange', { static: false })
+  // public ionRange: any;
+  // mouseDown$: ReplaySubject<MouseEvent>;
+  // mouseMove$: ReplaySubject<MouseEvent>;
+  // mouseUp$: Subject<MouseEvent>;
+
+  // rangeChange$: BehaviorSubject<any>
+  // stream$: Observable<any>;
+
+
   pickedMonth = this.scheduleService.convertDateToShort(new Date());
   maxPickedMonth = this.scheduleService.convertDateToShort(fns.add(new Date(), { years: 1 }));
   range: string[] = [];
@@ -28,6 +39,7 @@ export class SchedulePage implements OnInit {
   lang: string;
   updated = true;
   monthNames: any;
+
 
   daysInSelectedArray = 10;
   knobs: Knobs = {
@@ -47,6 +59,25 @@ export class SchedulePage implements OnInit {
 
   ) { }
 
+  // @HostListener('mousedown', ['$event'])
+  // onMouseDown(e: MouseEvent) {
+  //   if (e.target === this.ionRange.el) {
+  //     this.mouseDown$.next(e);
+  //   }
+  // }
+
+  // @HostListener('mousemove', ['$event'])
+  // onMove(e: MouseEvent) {
+  //   if (e.target === this.ionRange.el) {
+  //     this.mouseMove$.next(e);
+  //   }
+  // }
+
+  // @HostListener('mouseup', ['$event'])
+  // onMouseUp(e: MouseEvent) {
+  //   this.mouseUp$.next(e);
+  // }
+
   ngOnInit() {
     const date = new Date();
     this.createRange(date);
@@ -54,7 +85,7 @@ export class SchedulePage implements OnInit {
 
     this.translate.stream('elements.datePicker.monthNames')
         .subscribe((monthNames) => {
-          // reload ion-datetime translation
+        // reload ion-datetime translation
           this.updated = false;
           this.monthNames = monthNames;
           setTimeout(() => this.updated = true, 1);
@@ -82,19 +113,70 @@ export class SchedulePage implements OnInit {
 
     this.store.dispatch(new GetBookings({
       dateRangeLimits: this.createRangeLimits(),
-      // room_id: '5fe1c0b762da9e35244e4db4',
       bookingStep: {
         expr: '$ne',
         val: 'cancelled',
       },
-      // sort: {field: 'dates.from', order: 1},
-      // skip: 1,
-      // limit: 10,
     }));
 
     // reload ion-datetime translation
     this.updated = false;
     setTimeout(() => this.updated = true, 1);
+
+    // this.mouseDown$ = new ReplaySubject(1);
+    // this.mouseMove$ = new ReplaySubject(1);
+    // this.mouseUp$ = new Subject();
+    // this.rangeChange$ = new BehaviorSubject({ lower: 1, upper: 10 });
+    // this.stream$ = this.mouseDown$;
+
+    // this.stream$.pipe(
+    //     tap((x) => console.log('x', x.target)),
+    //     switchMap((e) => this.mouseMove$),
+    // )
+    //     .subscribe((e) => {
+
+    //       if (this.knobChangedProgrammatically) {
+    //         this.knobChangedProgrammatically = false;
+    //         return;
+    //       }
+    //       if (this.knobs.lower !== this.selectedRangeKnobs.lower) {
+    //         if (this.knobs.lower < 0) {
+    //           this.knobs = {
+    //             lower: 0,
+    //             upper: this.daysInSelectedArray - 1,
+    //           };
+    //         } else if (this.knobs.lower > this.rangeKnobs.upper - this.daysInSelectedArray - 1) {
+    //           this.knobs = {
+    //             lower: this.rangeKnobs.upper - this.daysInSelectedArray + 1,
+    //             upper: this.rangeKnobs.upper,
+    //           };
+    //         } else {
+    //           this.knobs = {
+    //             lower: this.knobs.lower,
+    //             upper: this.knobs.lower + this.daysInSelectedArray - 1,
+    //           };
+    //         }
+    //       } else {
+    //         if (this.knobs.upper > this.rangeKnobs.upper) {
+    //           this.knobs = {
+    //             lower: this.rangeKnobs.upper - this.daysInSelectedArray - 1,
+    //             upper: this.rangeKnobs.upper,
+    //           };
+    //         } else if (this.knobs.upper < this.daysInSelectedArray) {
+    //           this.knobs = {
+    //             lower: 0,
+    //             upper: this.daysInSelectedArray - 1,
+    //           };
+    //         } else {
+    //           this.knobs = {
+    //             lower: this.knobs.upper - this.daysInSelectedArray + 1,
+    //             upper: this.knobs.upper,
+    //           };
+    //         }
+    //       }
+    //       this.createSelectedRange(this.knobs);
+    //       this.knobChangedProgrammatically = true;
+    //     });
   }
 
   getBookings(room_id: string, date: string): Observable<Booking[]> {
@@ -104,7 +186,7 @@ export class SchedulePage implements OnInit {
               .filter((booking: Booking) => {
                 return booking.room_id === room_id;
               })
-              // ?.bookings
+          // ?.bookings
               .map((booking: Booking) => {
                 if (fns.isEqual(new Date(date), new Date(booking.dates.from))) {
                   return { ...booking, info: 'start' };
@@ -112,7 +194,7 @@ export class SchedulePage implements OnInit {
                   return { ...booking, info: 'end' };
                 } else if (
                   fns.isAfter(new Date(date), new Date(booking.dates.from)) &&
-                  fns.isBefore(new Date(date), new Date(booking.dates.to))
+              fns.isBefore(new Date(date), new Date(booking.dates.to))
                 ) {
                   return { ...booking, info: 'ahead' };
                 } else {
@@ -148,16 +230,15 @@ export class SchedulePage implements OnInit {
     }));
   }
 
-  onRangeChange(e) {
+  onRangeChange(e: CustomEvent) {
     /*  check initiator of changes
       by user or by this method
       changing one of knobs initiates change another */
+    // this.rangeChange$.next(e);
     if (this.knobChangedProgrammatically) {
       this.knobChangedProgrammatically = false;
       return;
     }
-    // const lower = this.range[this.knobs.lower];
-    // const upper = this.range[this.knobs.upper];
 
     if (this.knobs.lower !== this.selectedRangeKnobs.lower) {
       if (this.knobs.lower < 0) {
