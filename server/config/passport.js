@@ -73,7 +73,6 @@ refreshTokenFromCookieOptions.jwtFromRequest = (req) => {
   let token = null;
   if (req && req.cookies) {
     token = req.cookies['RT'];
-    console.log('refresh token passport', token);
   }
   return token;
 };
